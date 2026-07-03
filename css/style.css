@@ -1331,3 +1331,42 @@ a.pave-title:focus{
 .journey-visual img{
   border-radius:inherit;
 }
+
+/* ===================================================================
+   Page d'accueil — header réduit + logo d'angle
+   =================================================================== */
+
+.navbar--compact{
+  top:8px;
+  margin:8px auto 0;
+  max-width:820px;
+  padding:6px 18px;
+}
+
+.navbar--compact .nav-link{
+  padding:8px 14px;
+  font-size:12px;
+}
+
+.corner-logo{
+  position:fixed;
+  top:20px;
+  right:32px;
+  height:150px;
+  width:auto;
+  z-index:90;
+}
+
+@media (max-width:1300px){
+  .corner-logo{
+    height:90px;
+    top:14px;
+    right:16px;
+  }
+}
+
+@media (max-width:900px){
+  .corner-logo{
+    display:none;
+  }
+}
