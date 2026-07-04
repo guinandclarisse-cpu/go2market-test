@@ -390,13 +390,17 @@ img{max-width:100%;}
 }
 
 /* ---------- Back link ----------
-   Positionné en haut à gauche du conteneur d'en-tête (.hero / .page-hero / .page-header),
-   qui est lui-même la référence de positionnement (voir position:relative ci-dessous). */
+   Élément frère de .navbar (pas un enfant de .page-header/.page-hero, qui sont
+   animés et créeraient un containing block pour le position:fixed ci-dessous).
+   Fixé au même niveau que la barre de menu et le logo d'angle (voir .corner-logo),
+   à gauche de la barre de menu. Repasse dans le flux normal sur mobile, une fois
+   la navbar empilée sur plusieurs lignes et le logo d'angle masqué. */
 .back-link{
   display:inline-flex;
-  position:absolute;
-  top:8px;
-  left:24px;
+  position:fixed;
+  top:20px;
+  left:32px;
+  z-index:90;
   align-items:center;
   gap:8px;
   color:var(--color-gray);
@@ -406,6 +410,21 @@ img{max-width:100%;}
   font-weight:500;
   letter-spacing:0.03em;
   transition:color 0.2s ease;
+}
+
+@media (max-width:1300px){
+  .back-link{
+    top:14px;
+    left:16px;
+  }
+}
+
+@media (max-width:900px){
+  .back-link{
+    position:static;
+    display:inline-flex;
+    margin:16px 0 0 24px;
+  }
 }
 
 .back-link:hover,
