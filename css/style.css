@@ -31,15 +31,80 @@
   --shadow:0 10px 28px rgba(5,5,5,0.22);
   --shadow-hover:0 18px 38px rgba(5,5,5,0.32);
 
-  /* Espacements */
-  --spacing-section:100px;
-  --spacing-title-text:40px;
-  --spacing-cards:30px;
+  /* Espacements — voir "Guide des espacements" (palier Desktop ≥1600px) */
+  --gap-header-hero:48px;        /* Header → Hero */
+  --hero-pb:64px;                 /* Hero : padding-bottom (texte → cartes) */
+  --gap-title-sub:24px;           /* Titre → sous-titre */
+  --gap-sub-text:20px;            /* Sous-titre → texte */
+  --gap-text-button:32px;         /* Texte → bouton */
+  --spacing-section:96px;         /* Section → section */
+  --spacing-section-tight:72px;   /* Sections très liées */
+  --gap-title-intro:24px;         /* Titre de section → introduction */
+  --spacing-title-text:40px;      /* Introduction → contenu */
+  --card-title-gap:16px;          /* Carte : titre → texte */
+  --card-button-gap:24px;         /* Carte : texte → bouton */
+  --spacing-cards:32px;           /* Entre deux cartes */
   --card-padding:30px;
 
   /* Typographie */
   --font-heading:'Montserrat', sans-serif;
   --font-body:'Inter', sans-serif;
+}
+
+/* ---------- Paliers responsive des espacements (Guide des espacements) ---------- */
+@media (min-width:1280px) and (max-width:1599px){
+  /* Portable : 2560 / 1920 / 1600px restent au palier Desktop ci-dessus ; 1440 / 1366 / 1280px passent ici */
+  :root{
+    --gap-header-hero:40px;
+    --hero-pb:56px;
+    --gap-title-sub:20px;
+    --gap-sub-text:16px;
+    --gap-text-button:28px;
+    --spacing-section:80px;
+    --spacing-section-tight:60px;
+    --gap-title-intro:20px;
+    --spacing-title-text:32px;
+    --card-title-gap:12px;
+    --card-button-gap:20px;
+    --spacing-cards:28px;
+    --card-padding:26px;
+  }
+}
+
+@media (min-width:768px) and (max-width:1279px){
+  :root{
+    --gap-header-hero:36px;
+    --hero-pb:48px;
+    --gap-title-sub:16px;
+    --gap-sub-text:14px;
+    --gap-text-button:24px;
+    --spacing-section:64px;
+    --spacing-section-tight:48px;
+    --gap-title-intro:16px;
+    --spacing-title-text:28px;
+    --card-title-gap:12px;
+    --card-button-gap:16px;
+    --spacing-cards:24px;
+    --card-padding:24px;
+  }
+}
+
+@media (max-width:767px){
+  :root{
+    --gap-header-hero:32px;
+    --hero-pb:40px;
+    --gap-title-sub:16px;
+    --gap-sub-text:12px;
+    --gap-text-button:20px;
+    --spacing-section:56px;
+    --spacing-section-tight:44px;
+    --gap-title-intro:16px;
+    --spacing-title-text:24px;
+    --card-title-gap:12px;
+    --card-button-gap:16px;
+    --spacing-cards:20px;
+    --card-padding:20px;
+  }
 }
 
 *{box-sizing:border-box;}
@@ -291,7 +356,7 @@ img{max-width:100%;}
   font-size:13px;
   font-weight:500;
   letter-spacing:0.03em;
-  margin-bottom:var(--spacing-title-text);
+  margin-bottom:var(--gap-title-intro);
   transition:color 0.2s ease;
 }
 
@@ -319,14 +384,14 @@ img{max-width:100%;}
 .hero,
 .page-hero{
   max-width:900px;
-  margin:120px auto 80px;
-  padding:0 24px;
+  margin:0 auto;
+  padding:var(--gap-header-hero) 24px var(--hero-pb);
   text-align:center;
 }
 
 .hero h1,
 .page-hero h1{
-  margin:0;
+  margin:0 0 var(--gap-title-sub);
 }
 
 .hero-logo{
@@ -353,7 +418,7 @@ img{max-width:100%;}
   font-style:normal;
   font-size:18px;
   color:var(--color-primary);
-  margin:var(--spacing-title-text) 0 32px;
+  margin:0 0 var(--gap-sub-text);
 }
 
 .hero p.hero-tagline--home,
@@ -381,8 +446,8 @@ img{max-width:100%;}
 /* ---------- .page-header (formation.html / formation-initiation-ia.html) ---------- */
 .page-header{
   max-width:900px;
-  margin:120px auto 24px;
-  padding:0 24px;
+  margin:0 auto;
+  padding:var(--gap-header-hero) 24px var(--spacing-title-text);
   text-align:center;
 }
 
@@ -393,7 +458,7 @@ img{max-width:100%;}
   color:var(--title-color);
   letter-spacing:0.01em;
   line-height:1.3;
-  margin-bottom:24px;
+  margin-bottom:var(--gap-title-intro);
 }
 
 .page-header .intro{
@@ -412,7 +477,7 @@ img{max-width:100%;}
 }
 
 .page-header-link{
-  margin-top:20px;
+  margin-top:var(--gap-text-button);
   padding-top:0;
   border-top:none;
 }
@@ -430,7 +495,7 @@ img{max-width:100%;}
   background:var(--color-gray-light);
   padding:8px 20px;
   border-radius:var(--radius-pill);
-  margin-bottom:var(--spacing-title-text);
+  margin-bottom:var(--gap-title-intro);
 }
 
 
@@ -522,7 +587,7 @@ img{max-width:100%;}
   text-decoration:none;
   padding:10px 18px;
   border-radius:var(--radius-pill);
-  margin:0 0 18px;
+  margin:0 0 var(--card-title-gap);
   transition:background 0.2s ease, transform 0.2s ease;
 }
 
@@ -554,7 +619,7 @@ a.pave-title:focus{
   color:var(--color-primary);
   text-decoration:none;
   margin-top:auto;
-  padding-top:16px;
+  padding-top:var(--card-button-gap);
   border-top:1px solid rgba(13,45,58,0.08);
 }
 
@@ -622,7 +687,7 @@ a.pave-title:focus{
   color:var(--title-color);
   letter-spacing:0.01em;
   line-height:1.3;
-  margin:0 0 var(--spacing-title-text);
+  margin:0 0 var(--gap-title-intro);
 }
 
 .diag-intro p,
@@ -638,7 +703,7 @@ a.pave-title:focus{
 
 .cards{
   max-width:1400px;
-  margin:64px auto var(--spacing-section);
+  margin:var(--spacing-title-text) auto var(--spacing-section);
   padding:0 24px;
   display:grid;
   grid-template-columns:repeat(3, 1fr);
@@ -700,7 +765,7 @@ a.pave-title:focus{
 .steps-grid{
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  gap:24px;
+  gap:var(--spacing-cards);
 }
 
 @media (max-width:1100px){
@@ -891,7 +956,7 @@ a.pave-title:focus{
   font-weight:600;
   font-size:28px;
   color:var(--title-color);
-  margin:0 0 var(--spacing-title-text);
+  margin:0 0 var(--gap-title-intro);
 }
 
 .callout p{
@@ -921,7 +986,7 @@ a.pave-title:focus{
   font-weight:700;
   font-size:32px;
   color:var(--color-white);
-  margin:0 0 var(--spacing-title-text);
+  margin:0 0 var(--gap-title-intro);
 }
 
 .final-cta p{
@@ -931,7 +996,7 @@ a.pave-title:focus{
   line-height:1.8;
   color:var(--color-white);
   max-width:640px;
-  margin:0 auto 32px;
+  margin:0 auto var(--gap-text-button);
 }
 
 /* ===================================================================
@@ -1141,7 +1206,7 @@ a.pave-title:focus{
   font-size:28px;
   color:var(--title-color);
   text-align:center;
-  margin:0 0 32px;
+  margin:0 0 var(--gap-title-intro);
 }
 
 /* ===================================================================
@@ -1160,7 +1225,7 @@ a.pave-title:focus{
   font-size:26px;
   color:var(--title-color);
   letter-spacing:0.01em;
-  margin:0 0 28px;
+  margin:0 0 var(--gap-title-intro);
   padding-bottom:16px;
   border-bottom:1px solid rgba(255,255,255,0.15);
 }
@@ -1177,14 +1242,14 @@ a.pave-title:focus{
   font-weight:700;
   font-size:28px;
   color:var(--title-color);
-  margin:0 0 var(--spacing-title-text);
+  margin:0 0 var(--gap-title-intro);
 }
 
 .audience-section > p{
   font-size:16px;
   line-height:1.8;
   max-width:700px;
-  margin:0 auto 40px;
+  margin:0 auto var(--spacing-title-text);
 }
 
 /* ===================================================================
@@ -1368,5 +1433,47 @@ a.pave-title:focus{
 @media (max-width:900px){
   .corner-logo{
     display:none;
+  }
+}
+
+/* ===================================================================
+   Tailles de police fluides (1280px – 1600px)
+   Les espacements suivent désormais les paliers du Guide des espacements
+   (ci-dessus) ; ce bloc n'ajuste plus que les tailles de police.
+   Au-delà de 1600px : rendu inchangé. En-deçà de 1280px : paliers tablette/mobile.
+   =================================================================== */
+
+@media (min-width:1280px) and (max-width:1600px){
+  .hero-title-text{
+    font-size:calc(42px + (100vw - 1280px) * 0.04375);
+  }
+
+  .hero-tagline{
+    font-size:calc(15px + (100vw - 1280px) * 0.009375);
+  }
+
+  .hero p.hero-tagline--home,
+  .page-hero p.hero-tagline--home,
+  .page-header p.hero-tagline--home{
+    font-size:calc(20px + (100vw - 1280px) * 0.01875);
+  }
+
+  .hero p{
+    font-size:calc(15px + (100vw - 1280px) * 0.00625);
+  }
+
+  .page-header h1{
+    font-size:calc(36px + (100vw - 1280px) * 0.01875);
+  }
+
+  .cta-button{
+    padding:calc(12px + (100vw - 1280px) * 0.0125) calc(26px + (100vw - 1280px) * 0.025);
+    font-size:calc(13px + (100vw - 1280px) * 0.003125);
+  }
+
+  .card-title,
+  .pave-title{
+    padding:calc(8px + (100vw - 1280px) * 0.00625) calc(14px + (100vw - 1280px) * 0.0125);
+    font-size:calc(12px + (100vw - 1280px) * 0.003125);
   }
 }

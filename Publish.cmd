@@ -1,12 +1,21 @@
 @echo off
-echo ===========================================
-echo Publication du site G2M
-echo ===========================================
+title Publication G2M
+
+echo.
+echo ===== Publication du site =====
+echo.
 
 git add .
-git commit -m "Mise a jour automatique"
+
+set /p MSG=Description de la modification :
+
+git commit -m "%MSG%"
+
 git push
 
 echo.
-echo Publication terminee.
+echo =========================================
+echo Publication terminee !
+echo Le site sera mis a jour sous 30 a 60 s.
+echo =========================================
 pause
