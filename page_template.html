@@ -1,0 +1,163 @@
+<!--
+  MODÈLE DE PAGE — G2M
+  Basé sur diagnostic.html (page la plus complète du site en termes de composants).
+  Voir design_system.md (charte graphique) et coding_rules.md (règles de codage)
+  avant toute modification.
+
+  Pour créer une nouvelle page :
+  1. Dupliquer ce fichier et le renommer (ex. nouvelle-page.html).
+  2. Adapter <title> et le contenu de <main>.
+  3. NE PAS modifier le <head>, le logo d'angle, la <nav> ou le <footer> :
+     ils doivent rester strictement identiques sur toutes les pages du site.
+  4. Utiliser uniquement les classes déjà présentes dans css/style.css
+     (aucun style inline, aucune nouvelle classe sans mise à jour de design_system.md).
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G2M — Titre de la nouvelle page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- LOGO D'ANGLE — identique sur toutes les pages, ne pas modifier — cliquable, renvoie vers l'accueil -->
+<a href="index.html"><img class="corner-logo" src="images/Logo_G2M.png" alt="G2M"></a>
+
+<!-- NAVBAR — identique sur toutes les pages, ne pas modifier (sauf mise à jour globale du menu) -->
+<nav class="navbar navbar--compact">
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">QUI SOMMES-NOUS</a>
+      <div class="dropdown">
+        <a href="a-propos.html">A propos de G2M</a>
+        <a href="partenaires.html">Nos partenaires</a>
+        <a href="certifications.html">Nos certifications</a>
+        <a href="#">Notre Approche</a>
+        <a href="#">Nous rejoindre</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">SERVICES IA</a>
+      <div class="dropdown">
+        <a href="formation.html">Formation</a>
+        <a href="diagnostic.html">Diagnostic</a>
+        <a href="developpement.html">Développement</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">SECTEURS</a>
+      <div class="dropdown">
+        <a href="#">Secteur 1</a>
+        <a href="#">Secteur 2</a>
+        <a href="#">Secteur 3</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">RÉALISATION</a>
+      <div class="dropdown">
+        <a href="#">Réalisation 1</a>
+        <a href="#">Réalisation 2</a>
+        <a href="#">Réalisation 3</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">RESSOURCES</a>
+      <div class="dropdown">
+        <a href="#">Ressources 1</a>
+        <a href="#">Ressources 2</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#contact">NOUS CONTACTER</a>
+    </li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- EN-TÊTE DE PAGE (hero interne) — un seul h1 par page -->
+  <header class="page-header">
+    <h1>Titre principal de la page</h1>
+    <p class="hero-tagline hero-tagline--home">Accroche courte de la page</p>
+    <p class="intro">
+      <span>Première phrase d'introduction de la page.</span>
+      <span>Deuxième phrase, si besoin d'une accroche sur deux lignes.</span>
+    </p>
+  </header>
+
+  <!-- SECTION INTRODUCTION (panneau mis en avant, fond dégradé) -->
+  <div class="method-intro">
+    <h2>Titre de section</h2>
+    <p>Texte d'introduction de la section, une à trois phrases.</p>
+  </div>
+
+  <!-- SECTION BLOCS / CARTES -->
+  <section class="cards">
+    <article class="card">
+      <span class="badge">Étiquette</span>
+      <p class="card-subtitle"><strong>Titre du bloc 1.</strong></p>
+      <p class="card-text">Texte du bloc 1.</p>
+    </article>
+
+    <article class="card">
+      <span class="badge">Étiquette</span>
+      <p class="card-subtitle"><strong>Titre du bloc 2.</strong></p>
+      <p class="card-text">Texte du bloc 2.</p>
+    </article>
+
+    <article class="card">
+      <span class="badge">Étiquette</span>
+      <p class="card-subtitle"><strong>Titre du bloc 3.</strong></p>
+      <p class="card-text">Texte du bloc 3.</p>
+    </article>
+  </section>
+
+  <!-- SECTION IMAGE + TEXTE (étape illustrée) -->
+  <section class="steps">
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-content step-content--dark">
+          <span class="step-eyebrow">Étape 1</span>
+          <h3>Titre de l'étape</h3>
+          <h4>Sous-titre de l'étape</h4>
+          <ul class="g2m-list">
+            <li>Premier point</li>
+            <li>Deuxième point</li>
+            <li>Troisième point</li>
+          </ul>
+        </div>
+        <div class="step-visual step-visual--filled">
+          <img src="images/placeholder.png" alt="Description de l'image">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION APPEL À L'ACTION -->
+  <section class="final-cta">
+    <h2>Titre d'appel à l'action</h2>
+    <p>Texte court pour inciter au contact ou à l'action.</p>
+    <a class="cta-button" href="index.html#contact">Nous contacter</a>
+  </section>
+
+</main>
+
+<!-- FOOTER — identique sur toutes les pages, ne pas modifier -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <img class="footer-logo" src="images/Logo_G2M.png" alt="G2M AI">
+    <div class="footer-info">
+      <p class="footer-brand-line"><strong>G2M AI</strong> <span class="tagline">— Conseil, intégration et accompagnement en Intelligence Artificielle</span></p>
+      <p class="footer-meta">Pierrelatte • Lyon &nbsp;&nbsp;|&nbsp;&nbsp; Tél. <strong>04 75 78 26 62</strong> &nbsp;&nbsp;|&nbsp;&nbsp; SIREN <strong>913 016 390</strong> &nbsp;&nbsp;|&nbsp;&nbsp; © 2026 G2M SAS – Tous droits réservés</p>
+      <a class="footer-legal" href="mentions-legales.html">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
