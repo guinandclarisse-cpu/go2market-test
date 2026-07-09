@@ -565,6 +565,27 @@ img{max-width:100%;}
   margin-bottom:var(--gap-title-intro);
 }
 
+/* ---------- Indicateur de défilement (invite à découvrir la suite du contenu) ---------- */
+.scroll-indicator{
+  display:block;
+  width:22px;
+  height:22px;
+  margin:40px auto 0;
+  background-color:var(--color-primary);
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  opacity:0.7;
+  animation:scrollIndicatorBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollIndicatorBounce{
+  0%, 100%{transform:translateY(0); opacity:0.6;}
+  50%{transform:translateY(8px); opacity:1;}
+}
 
 /* ===================================================================
    Cartes — composant unifié
