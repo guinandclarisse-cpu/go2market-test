@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>G2M — Nous contacter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a href="index.html"><img class="corner-logo" src="images/Logo_G2M.png" alt="G2M"></a>
+
+<nav class="navbar navbar--compact">
+  <ul class="nav-menu">
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">QUI SOMMES-NOUS</a>
+      <div class="dropdown">
+        <a href="a-propos.html">A propos de G2M</a>
+        <a href="partenaires.html">Nos partenaires</a>
+        <a href="certifications.html">Nos certifications</a>
+        <a href="#">Notre Approche</a>
+        <a href="#">Nous rejoindre</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">SERVICES IA</a>
+      <div class="dropdown">
+        <a href="formation.html">Formation</a>
+        <a href="diagnostic.html">Diagnostic</a>
+        <a href="developpement.html">Développement</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">RÉALISATION</a>
+      <div class="dropdown">
+        <a href="cas-usages.html">Cas d'usages</a>
+        <a href="references.html">Références</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" tabindex="0">EXPERTISES</a>
+      <div class="dropdown">
+        <a href="expertise-data-ia.html">Data &amp; IA</a>
+        <a href="expertise-developpement.html">R&D</a>
+        <a href="expertise-technique.html">Expertise Technique</a>
+        <a href="expertise-metier-ia.html">Expertise Métier &amp; IA</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="contact.html">NOUS CONTACTER</a>
+    </li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <h1>Parlons de votre projet IA</h1>
+  <p class="hero-tagline hero-tagline--home">Échangeons sur vos enjeux</p>
+  <p class="intro">
+    <span>Voyons ensemble comment G2M peut accompagner votre entreprise dans sa transformation Data &amp; IA.</span>
+  </p>
+  <span class="scroll-indicator" aria-hidden="true"></span>
+</header>
+
+<section class="contact-section">
+  <form class="contact-form" id="contact-form" action="https://formsubmit.co/guinandjean@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="Nouveau message depuis le site G2M">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="contact-name">Nom complet *</label>
+        <input type="text" id="contact-name" name="name" required>
+      </div>
+      <div class="form-field">
+        <label for="contact-email">Email *</label>
+        <input type="email" id="contact-email" name="email" required>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-field">
+        <label for="contact-company">Entreprise</label>
+        <input type="text" id="contact-company" name="company">
+      </div>
+      <div class="form-field">
+        <label for="contact-phone">Téléphone</label>
+        <input type="tel" id="contact-phone" name="phone">
+      </div>
+    </div>
+
+    <div class="form-field form-field--full">
+      <label for="contact-message">Votre message *</label>
+      <textarea id="contact-message" name="message" rows="5" required></textarea>
+    </div>
+
+    <p class="form-note">* Champs obligatoires</p>
+    <button type="submit" class="cta-button">Envoyer le message</button>
+  </form>
+
+  <div class="contact-confirmation" id="contact-confirmation" hidden>
+    <p>Votre message a bien été envoyé. Merci, nous vous répondrons rapidement.</p>
+    <p class="contact-confirmation-note">Retour à l'accueil dans quelques secondes...</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var form = document.getElementById('contact-form');
+  var confirmation = document.getElementById('contact-confirmation');
+  if(!form) return;
+
+  form.addEventListener('submit', function(event){
+    event.preventDefault();
+    var data = new FormData(form);
+
+    fetch('https://formsubmit.co/ajax/guinandjean@gmail.com', {
+      method: 'POST',
+      headers: {'Accept': 'application/json'},
+      body: data
+    }).then(function(response){
+      if(!response.ok){ throw new Error('Envoi impossible'); }
+      return response.json();
+    }).then(function(){
+      form.hidden = true;
+      confirmation.hidden = false;
+      setTimeout(function(){
+        window.location.href = 'index.html';
+      }, 4000);
+    }).catch(function(){
+      form.submit();
+    });
+  });
+})();
+</script>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <img class="footer-logo" src="images/Logo_G2M.png" alt="G2M AI">
+    <div class="footer-info">
+      <p class="footer-brand-line"><strong>G2M AI</strong> <span class="tagline">— Conseil, intégration et accompagnement en Intelligence Artificielle</span></p>
+      <p class="footer-meta">Pierrelatte • Lyon &nbsp;&nbsp;|&nbsp;&nbsp; Tél. <strong>04 75 78 26 62</strong> &nbsp;&nbsp;|&nbsp;&nbsp; SIREN <strong>913 016 390</strong> &nbsp;&nbsp;|&nbsp;&nbsp; © 2026 G2M SAS – Tous droits réservés</p>
+      <a class="footer-legal" href="mentions-legales.html">Mentions légales</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
