@@ -6,7 +6,7 @@
 :root{
   /* Palette V2 — premium IA / Data */
   --color-primary:#56B6E8;
-  --color-primary-hover:#2D8FFF;
+  --color-primary-hover:#1A85BD;
   --color-secondary:var(--color-primary);
   --color-dark:#05080D;
   --color-black:#02040A;
@@ -19,7 +19,7 @@
 
   /* Triplets RGB (halos, verre, ombres teintées) */
   --color-primary-rgb:86,182,232;
-  --color-primary-hover-rgb:45,143,255;
+  --color-primary-hover-rgb:26,133,189;
   --color-secondary-rgb:var(--color-primary-rgb);
   --color-dark-rgb:5,8,13;
   --color-black-rgb:2,4,10;
@@ -29,7 +29,7 @@
 
   /* Alias sémantiques */
   --text-on-dark:var(--color-gray-light);
-  --title-color:#FFFFFF;
+  --title-color:var(--color-primary);
   --title-accent-color:var(--color-primary);
 
   --gradient-brand:linear-gradient(135deg, var(--color-dark) 0%, var(--color-surface) 55%, var(--color-primary-hover) 100%);
@@ -248,7 +248,6 @@ img{max-width:100%;}
 .paves .pave,
 .journey-grid .journey-card,
 .modules .module,
-.audience-grid .audience-card,
 .steps-grid .step-card{
   animation:fadeInUp 0.6s ease both;
 }
@@ -259,7 +258,6 @@ img{max-width:100%;}
 .paves .pave:nth-child(2),
 .journey-grid .journey-card:nth-child(2),
 .modules .module:nth-child(2),
-.audience-grid .audience-card:nth-child(2),
 .steps-grid .step-card:nth-child(2){animation-delay:0.08s;}
 
 .section-preview .card:nth-child(3),
@@ -268,12 +266,10 @@ img{max-width:100%;}
 .paves .pave:nth-child(3),
 .journey-grid .journey-card:nth-child(3),
 .modules .module:nth-child(3),
-.audience-grid .audience-card:nth-child(3),
 .steps-grid .step-card:nth-child(3){animation-delay:0.16s;}
 
 .section-preview .card:nth-child(4),
 .cards .card:nth-child(4),
-.audience-grid .audience-card:nth-child(4),
 .steps-grid .step-card:nth-child(4){animation-delay:0.24s;}
 
 /* ===================================================================
@@ -487,7 +483,7 @@ img{max-width:100%;}
 .page-header p.hero-tagline--home{
   font-size:26px;
   font-weight:600;
-  color:#0078D4;
+  color:var(--color-primary);
 }
 
 .hero p{
@@ -706,6 +702,12 @@ img{max-width:100%;}
   box-shadow:var(--shadow-hover);
 }
 
+/* Programme de formation — cartes de modules teintées d'un bleu ciel plus visible (scopé à formation-initiation-ia.html) */
+.module{
+  background:rgba(var(--color-primary-rgb),0.26);
+  border-color:rgba(var(--color-primary-rgb),0.32);
+}
+
 /* Formation — cartes d'offres avec fond dégradé bleu plus contrasté (scopé à formation.html) */
 .paves--tinted .pave{
   background:linear-gradient(165deg, rgba(var(--color-primary-rgb),0.34) 0%, rgba(var(--color-primary-hover-rgb),0.20) 45%, rgba(var(--color-surface-rgb),0.97) 100%);
@@ -838,6 +840,54 @@ a.pave-title:focus{
   font-size:14px;
   letter-spacing:0.03em;
   text-transform:uppercase;
+  margin:0;
+}
+
+.audience-card{
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  transition:opacity 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Apparition au scroll, de gauche à droite, avec léger décalage entre les
+   4 cartes — déclenchée par js/section-reveal.js (ajoute .uc-inview dès que
+   la section entre dans l'écran). Utilise `transition` (et non `animation`)
+   afin que le survol puisse ensuite reprendre la main sur `transform` sans
+   être bloqué par le fill-mode de l'animation d'entrée. */
+.audience-section.uc-reveal-section .audience-card{
+  opacity:0;
+  transform:translateY(18px);
+}
+
+.audience-section.uc-reveal-section.uc-inview .audience-card{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.audience-section.uc-reveal-section.uc-inview .audience-card:nth-child(2){transition-delay:0.08s;}
+.audience-section.uc-reveal-section.uc-inview .audience-card:nth-child(3){transition-delay:0.16s;}
+.audience-section.uc-reveal-section.uc-inview .audience-card:nth-child(4){transition-delay:0.24s;}
+
+@media (prefers-reduced-motion: reduce){
+  .audience-section.uc-reveal-section .audience-card{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* Survol : légère élévation + fond plus bleu/lumineux + lueur discrète.
+   La bordure elle-même est confiée au tracé progressif (.trace-border).
+   transition-delay est remis à 0 pour ne pas hériter du décalage d'entrée. */
+@media (hover:hover) and (pointer:fine){
+  .audience-section.uc-reveal-section.uc-inview .audience-card:hover,
+  .audience-card:hover{
+    transition-delay:0s;
+    transform:translateY(-5px);
+    border-color:rgba(var(--color-primary-rgb),0.12);
+    background:linear-gradient(165deg, rgba(var(--color-primary-rgb),0.20) 0%, rgba(var(--color-surface-rgb),0.97) 100%);
+    box-shadow:var(--shadow-hover);
+  }
 }
 
 .audience-section > p{
@@ -1321,6 +1371,26 @@ a.pave-title:focus{
   font-size:15px;
   line-height:1.7;
   color:var(--text-on-dark);
+  padding-left:24px;
+}
+
+/* Coche de validation (au lieu des flèches), même bleu ciel que l'identité du site. */
+.outcomes-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0.25em;
+  width:14px;
+  height:14px;
+  border-radius:0;
+  background-color:var(--color-primary);
+  border:none;
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
 }
 
 .step-visual{
@@ -1360,10 +1430,6 @@ a.pave-title:focus{
   margin:var(--spacing-section) auto 0;
   padding:56px 40px;
   text-align:center;
-  background:linear-gradient(165deg, rgba(var(--color-surface-soft-rgb),0.96) 0%, rgba(var(--color-surface-rgb),0.98) 100%);
-  border:1px solid rgba(var(--color-primary-rgb),0.12);
-  border-radius:var(--radius-xl);
-  box-shadow:var(--shadow);
 }
 
 .callout h2{
@@ -1394,11 +1460,801 @@ a.pave-title:focus{
   border-color:rgba(var(--color-primary-rgb),0.26);
 }
 
+/* ===================================================================
+   Diagnostic — nouvelle intro (maquette "Diagnostic IA-Data.html")
+   diagnostic.html — remplace l'ancien haut de page jusqu'au bloc
+   ".callout" conservé ("Le diagnostic : la continuité naturelle...").
+   Palette et typographie dédiées (Poppins/Inter, teal #2a93a8 / marine
+   #0a1c2b), indépendantes du reste de la charte : reproduction fidèle
+   de la maquette fournie.
+   =================================================================== */
+.diag2-dot-bg{
+  background-image:radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1.4px);
+  background-size:22px 22px;
+}
+
+.diag2-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 16px;
+  border-radius:999px;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:12px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  background:rgba(58,168,193,0.15);
+  color:#6fc7dc;
+  border:1px solid rgba(111,199,220,0.4);
+}
+
+.diag2-chip--flat{
+  background:#d7dee3;
+  color:#10222f;
+  border:none;
+}
+
+/* ---- Section 1 : Hero ---- */
+.diag2-hero{
+  position:relative;
+  padding:var(--gap-header-hero) 6% 0 6%;
+}
+
+.diag2-hero-inner{
+  position:relative;
+  max-width:1320px;
+  margin:0 auto;
+  padding-top:0;
+  padding-bottom:72px;
+  animation:fadeInUp 0.7s ease both;
+}
+
+.diag2-hero-title{
+  width:100%;
+  margin:0 auto var(--gap-title-intro);
+  max-width:900px;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(26px, 3.6vw, 42px);
+  letter-spacing:0.01em;
+  line-height:1.3;
+  color:var(--title-accent-color);
+  text-align:center;
+}
+
+.diag2-hero-body{
+  display:flex;
+  justify-content:center;
+  gap:32px;
+}
+
+.diag2-hero-text{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.8;
+  color:#f2f8fa;
+  max-width:900px;
+  margin:0 auto;
+  text-align:justify;
+}
+
+.diag2-hero-text p{
+  margin:0 0 16px;
+}
+
+.diag2-hero-text p:last-child{
+  margin-bottom:0;
+}
+
+.diag2-hero-strip{
+  padding:44px 6% 0;
+}
+
+.diag2-hero-strip-inner{
+  max-width:1320px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+
+.diag2-hero-point{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+  background:rgba(var(--color-primary-rgb),0.08);
+  border:1px solid rgba(var(--color-primary-rgb),0.14);
+  border-radius:var(--radius-lg);
+  padding:14px 20px;
+}
+
+.diag2-hero-point-icon{
+  color:#4fb6cc;
+  font-size:20px;
+  line-height:1.4;
+  flex-shrink:0;
+}
+
+.diag2-hero-point p{
+  margin:0;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.7;
+  color:#dbe9ee;
+}
+
+/* ---- Section 2 : Trois niveaux ---- */
+.diag2-levels{
+  position:relative;
+  padding:56px 6% 32px 6%;
+}
+
+.diag2-levels-inner{
+  max-width:1320px;
+  margin:0 auto;
+}
+
+.diag2-levels-intro{
+  margin:0 0 56px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.8;
+  color:#eaf2f6;
+  text-align:center;
+}
+
+.diag2-levels-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:28px;
+}
+
+.diag2-level-card{
+  background:linear-gradient(160deg, #14344d, #0f2536);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:18px;
+  padding:32px;
+  display:flex;
+  flex-direction:column;
+  height:100%;
+}
+
+.diag2-levels-grid .diag2-level-card{
+  background:rgba(var(--color-primary-rgb),0.35);
+}
+
+.diag2-level-card .diag2-chip{
+  align-self:flex-start;
+}
+
+.diag2-level-title{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:19px;
+  line-height:1.35;
+  margin:22px 0 12px;
+  color:#ffffff;
+  text-align:left;
+}
+
+.diag2-level-desc{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.7;
+  color:#c9dae1;
+  margin:0 0 20px;
+}
+
+.diag2-level-footer{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.7;
+  color:#9db3bf;
+  margin-top:auto;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,0.12);
+}
+
+/* ---- Section 3 : Axe Innovation ---- */
+.diag2-innovation{
+  padding:0 6% 64px 6%;
+}
+
+.diag2-innovation-card{
+  max-width:1320px;
+  margin:0 auto;
+  background:rgba(var(--color-primary-rgb),0.35);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:18px;
+  padding:36px 44px;
+}
+
+.diag2-innovation-title{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:19px;
+  line-height:1.35;
+  margin:20px 0 10px;
+  color:#ffffff;
+}
+
+.diag2-innovation-desc{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.7;
+  color:#c9dae1;
+  margin:0 0 14px;
+  max-width:1120px;
+  text-align:justify;
+}
+
+.diag2-innovation-row{
+  display:flex;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:32px;
+}
+
+.diag2-innovation-text-col{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  flex:1;
+  min-width:260px;
+}
+
+.diag2-innovation-note{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  line-height:1.7;
+  color:#c9dae1;
+  margin:0;
+  text-align:justify;
+}
+
+.diag2-innovation-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:14px;
+  color:#ffffff;
+  text-decoration:none;
+  margin-top:18px;
+  transition:color 0.2s ease;
+}
+
+.diag2-innovation-link:hover{
+  color:#3aa8c1;
+}
+
+.diag2-innovation-badge{
+  width:220px;
+  border-radius:14px;
+  background:#fdb913;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  padding:8px;
+}
+
+.diag2-bpi-logo{
+  font-family:'Poppins', sans-serif;
+  font-weight:800;
+  font-size:30px;
+  letter-spacing:-0.01em;
+  white-space:nowrap;
+}
+
+.diag2-bpi-logo .diag2-bpi-grey{
+  color:#706f6f;
+}
+
+.diag2-bpi-logo .diag2-bpi-white{
+  color:#ffffff;
+}
+
+.diag2-bpi-i{
+  position:relative;
+}
+
+.diag2-bpi-dot{
+  position:absolute;
+  left:50%;
+  bottom:-12px;
+  transform:translateX(-50%);
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#ffffff;
+  display:block;
+}
+
+/* ---- Section 4 : Titre méthodologie ---- */
+.diag2-method-title{
+  background:#0a1c2b;
+  padding:0 6% 0 6%;
+}
+
+.diag2-method-title-inner{
+  max-width:1320px;
+  margin:0 auto;
+  padding:56px 40px 8px;
+  text-align:center;
+}
+
+.diag2-method-title h2{
+  margin:0;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(20px, 2.4vw, 30px);
+  letter-spacing:0.01em;
+  line-height:1.3;
+  color:var(--color-white);
+}
+
+/* ---- Section 5 : Étapes méthodologie ---- */
+.diag2-steps{
+  background:#0a1c2b;
+  padding:0 6% 100px 6%;
+}
+
+.diag2-steps-inner{
+  max-width:1320px;
+  margin:0 auto;
+}
+
+.diag2-steps-intro{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.8;
+  color:#c9dae1;
+  margin:0 0 28px;
+  max-width:1050px;
+}
+
+.diag2-steps-card{
+  max-width:680px;
+  margin:0 auto;
+  overflow:hidden;
+  background:#cbd4d9;
+  border-radius:18px;
+  padding:40px 44px 0;
+  color:#10222f;
+}
+
+.diag2-steps-list{
+  display:flex;
+  flex-direction:column;
+  padding-bottom:40px;
+}
+
+.diag2-step{
+  position:relative;
+  padding:22px 0;
+}
+
+.diag2-step + .diag2-step{
+  border-top:2px solid transparent;
+}
+
+.diag2-step + .diag2-step::before{
+  content:"";
+  position:absolute;
+  top:-2px;
+  left:0;
+  width:0%;
+  height:2px;
+  background:var(--color-primary);
+}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(2)::before{animation:diag2LineDraw 0.9s ease-out 0.9s forwards;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(3)::before{animation:diag2LineDraw 0.9s ease-out 3.15s forwards;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(4)::before{animation:diag2LineDraw 0.9s ease-out 5.6s forwards;}
+
+@keyframes diag2LineDraw{
+  from{width:0%;}
+  to{width:100%;}
+}
+
+@keyframes diag2StepFadeUp{
+  from{opacity:0; transform:translateY(24px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+.diag2-step-head,
+.diag2-step-item{
+  opacity:0;
+  transform:translateY(24px);
+}
+
+.diag2-steps-list.is-inview .diag2-step-head{
+  animation:diag2StepFadeUp 0.8s ease-out forwards;
+}
+
+.diag2-steps-list.is-inview .diag2-step-item{
+  animation:diag2StepFadeUp 0.6s ease-out forwards;
+}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(1) .diag2-step-head{animation-delay:0s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(2) .diag2-step-head{animation-delay:2.05s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(3) .diag2-step-head{animation-delay:4.3s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(4) .diag2-step-head{animation-delay:6.75s;}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(1) .diag2-step-item:nth-child(1){animation-delay:0.3s;}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(2) .diag2-step-item:nth-child(1){animation-delay:2.35s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(2) .diag2-step-item:nth-child(2){animation-delay:2.55s;}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(3) .diag2-step-item:nth-child(1){animation-delay:4.6s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(3) .diag2-step-item:nth-child(2){animation-delay:4.8s;}
+.diag2-steps-list.is-inview .diag2-step:nth-child(3) .diag2-step-item:nth-child(3){animation-delay:5s;}
+
+.diag2-steps-list.is-inview .diag2-step:nth-child(4) .diag2-step-item:nth-child(1){animation-delay:7.05s;}
+
+@media (prefers-reduced-motion:reduce){
+  .diag2-step-head,
+  .diag2-step-item{
+    opacity:1;
+    transform:none;
+    animation:none;
+  }
+  .diag2-step + .diag2-step::before{
+    width:100%;
+    animation:none;
+  }
+}
+
+.diag2-step-head{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.diag2-step-num{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(38px, 4vw, 52px);
+  color:#10222f;
+  line-height:1;
+}
+
+.diag2-step-label{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:19px;
+  line-height:1.35;
+}
+
+.diag2-step-items{
+  margin:16px 0 0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:13px;
+  line-height:1.5;
+  color:#2c3a42;
+}
+
+.diag2-step-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.diag2-step-item-icon{
+  flex-shrink:0;
+  width:20px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#3aa8c1;
+  font-size:16px;
+  font-weight:700;
+  margin-top:1px;
+}
+
+.diag2-steps-bar{
+  background:rgba(var(--color-primary-rgb),0.75);
+  margin:0 -44px;
+  border-radius:0 0 18px 18px;
+  padding:18px 44px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  text-align:center;
+}
+
+.diag2-steps-bar > span:first-child{
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:14px;
+  letter-spacing:0.03em;
+  color:#ffffff;
+}
+
+.diag2-steps-bar > span:last-child{
+  color:#ffffff;
+  font-size:15px;
+}
+
+.diag2-steps-bar-chevrons span{
+  font-size:15px;
+}
+
+.diag2-steps-bar-chevrons span{
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+
+.diag2-steps-bar-chevrons span.is-visible{
+  opacity:1;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .diag2-steps-bar-chevrons span{
+    opacity:1;
+    transition:none;
+  }
+}
+
+/* ---- Responsive ---- */
+@media (max-width:900px){
+  .diag2-levels-grid{grid-template-columns:1fr; gap:20px;}
+  .diag2-innovation-row{flex-direction:column;}
+  .diag2-innovation-badge{width:100%; max-width:220px; margin:0 auto;}
+}
+
+@media (max-width:600px){
+  .diag2-hero{padding:var(--gap-header-hero) 6% 0;}
+  .diag2-hero-strip{padding:32px 6%;}
+  .diag2-levels-intro{margin-bottom:36px;}
+  .diag2-level-card{padding:24px;}
+  .diag2-innovation-card{padding:28px 24px;}
+  .diag2-method-title-inner{padding:40px 20px 4px;}
+  .diag2-method-title h2{font-size:26px;}
+  .diag2-steps-card{padding:28px 24px 0;}
+  .diag2-steps-bar{margin:0 -24px; padding:16px 24px;}
+  .diag2-step-head{flex-wrap:wrap; row-gap:6px;}
+}
+
+/* ===================================================================
+   Conditions d'éligibilité (conditions-eligibilite.html)
+   Page de destination du CTA "Découvrir les conditions d'éligibilité"
+   (bloc Axe Innovation, diagnostic.html) — même famille visuelle/
+   typographique que les sections diag2- (fond bleu nuit, Montserrat/
+   Inter harmonisés, badges et listes à puce partagés).
+   =================================================================== */
+.elig-section{
+  padding:0 6% 56px 6%;
+}
+
+.elig-section-inner{
+  max-width:1320px;
+  margin:0 auto;
+}
+
+.elig-hero{
+  padding:90px 6% 48px 6%;
+}
+
+.elig-hero-inner{
+  max-width:1320px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.elig-hero-inner .diag2-chip{
+  margin-bottom:24px;
+}
+
+.elig-title{
+  margin:24px 0 0;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(28px, 4vw, 44px);
+  line-height:1.3;
+  color:var(--title-color);
+}
+
+.elig-h2{
+  margin:0 0 18px;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:26px;
+  color:var(--title-color);
+  text-align:center;
+}
+
+.elig-intro{
+  margin:0 0 32px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.6;
+  color:#c9dae1;
+  max-width:980px;
+}
+
+.elig-divider{
+  height:1px;
+  background:rgba(255,255,255,0.14);
+  margin:56px 0;
+}
+
+.elig-grid{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:28px;
+  margin-bottom:32px;
+}
+
+.elig-grid .diag2-level-card{
+  background:linear-gradient(160deg, rgba(var(--color-primary-rgb),0.45), rgba(var(--color-primary-rgb),0.18));
+  border-color:rgba(var(--color-primary-rgb),0.55);
+}
+
+.elig-card-list{
+  margin-top:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:16px;
+  line-height:1.5;
+  color:#dbe9ee;
+}
+
+.elig-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.elig-item-icon{
+  color:#3aa8c1;
+  font-size:16px;
+  font-weight:700;
+  flex-shrink:0;
+}
+
+.elig-points{
+  padding-top:26px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:16px;
+  line-height:1.6;
+  color:#c9dae1;
+}
+
+.elig-points .elig-item{
+  align-items:flex-start;
+  gap:12px;
+}
+
+.elig-points .elig-item-icon{
+  color:#4fb6cc;
+  font-size:18px;
+  font-weight:400;
+}
+
+.elig-why-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.elig-why-item{
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+
+.elig-why-item-icon{
+  color:#4fb6cc;
+  font-size:20px;
+  flex-shrink:0;
+}
+
+.elig-why-item p{
+  margin:0;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.5;
+  color:#dbe9ee;
+}
+
+.elig-price-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:36px;
+  align-items:start;
+  text-align:center;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.elig-price-num{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:46px;
+  color:#ffffff;
+  line-height:1;
+}
+
+.elig-price-col--muted .elig-price-num{
+  color:#9db3bf;
+}
+
+.elig-price-col p{
+  margin:14px 0 0;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:21px;
+  line-height:1.5;
+  color:#c9dae1;
+}
+
+.elig-price-col--muted p{
+  color:#9db3bf;
+}
+
+.elig-price-col--muted{
+  border-left:2px solid #3aa8c1;
+  padding-left:36px;
+}
+
+.elig-price-badge{
+  width:220px;
+  border-radius:16px;
+  background:#fdb913;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+  margin:40px auto 0;
+}
+
+@media (max-width:900px){
+  .elig-grid{grid-template-columns:1fr;}
+  .elig-price-grid{grid-template-columns:1fr; gap:32px;}
+  .elig-price-col--muted{border-left:none; border-top:2px solid #3aa8c1; padding-left:0; padding-top:24px;}
+}
+
+@media (max-width:600px){
+  .elig-hero{padding:64px 6% 36px;}
+  .elig-section{padding:0 6% 40px 6%;}
+  .elig-divider{margin:40px 0;}
+  .elig-title{font-size:28px;}
+}
+
 /* ---------- CTA finale ---------- */
 .final-cta,
 .bottom-cta{
-  max-width:820px;
-  margin:var(--spacing-section) auto 0;
+  max-width:none;
+  margin:var(--spacing-section) 0 0;
   padding:80px 24px;
   text-align:center;
   background:
@@ -1410,6 +2266,8 @@ a.pave-title:focus{
 }
 
 .bottom-cta{padding:56px 24px; margin-bottom:var(--spacing-section);}
+
+.bottom-cta--tall{padding:130px 24px;}
 
 .final-cta h2{
   font-family:var(--font-heading);
@@ -1502,10 +2360,6 @@ a.pave-title:focus{
   grid-template-columns:1.3fr 1fr;
   gap:40px;
   align-items:center;
-  background:linear-gradient(135deg, rgba(var(--color-primary-rgb),0.12), rgba(var(--color-primary-hover-rgb),0.06)), rgba(var(--color-surface-rgb),0.82);
-  border:1px solid rgba(var(--color-primary-rgb),0.14);
-  border-radius:var(--radius-xl);
-  box-shadow:0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 .bottom-block-text{
@@ -1576,84 +2430,119 @@ a.pave-title:focus{
   font-size:12px;
 }
 
+/* ---------- Carrousel de logos clients (formation.html) ---------- */
+/* Bandeau clair plein largeur, entre le bloc OPCO/Qualiopi et
+   ".method-intro" — piste à plat (10 logos + 10 dupliqués, un seul niveau
+   flex) animée en translateX(0 → -50%) pour une boucle infinie sans saut
+   visible. Le `gap` est porté par .logo-carousel-track uniquement : comme
+   les deux moitiés sont strictement identiques, l'espacement reste rigoureu-
+   sement égal partout, y compris à la jonction de la boucle. */
+.logo-carousel{
+  width:100%;
+  margin:var(--spacing-section) 0;
+  padding:28px 0;
+  background:var(--color-white);
+  overflow:hidden;
+}
+
+.logo-carousel-track{
+  display:flex;
+  align-items:center;
+  gap:64px;
+  width:max-content;
+  animation:logo-carousel-scroll 50s linear infinite;
+}
+
+.logo-carousel-item{
+  flex:0 0 auto;
+  width:180px;
+  height:90px;
+  padding:16px;
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.logo-carousel--diag .logo-carousel-item{
+  padding:6px;
+}
+
+.logo-carousel--diag .logo-carousel-item--wse{
+  padding:0;
+}
+
+.logo-carousel-item img{
+  display:block;
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  min-width:0;
+  min-height:0;
+  object-fit:contain;
+}
+
+@keyframes logo-carousel-scroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+@media (max-width:1024px){
+  .logo-carousel-track{
+    gap:48px;
+  }
+  .logo-carousel-item{
+    width:150px;
+    height:78px;
+    padding:14px;
+  }
+}
+
+@media (max-width:767px){
+  .logo-carousel{
+    padding:20px 0;
+  }
+  .logo-carousel-track{
+    gap:36px;
+  }
+  .logo-carousel-item{
+    width:120px;
+    height:64px;
+    padding:12px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .logo-carousel-track{
+    animation-play-state:paused;
+  }
+}
+
 /* ---------- Logos partenaires / certifications ---------- */
 
-/* Intro (partenaires.html) : bandeau à deux colonnes (grand titre à gauche,
-   texte à droite) reprenant la même organisation que .cert-hero sur la page
-   Certifications. Composant dédié, indépendant de .page-header (partagé par
-   d'autres pages). */
-.partners-hero{
-  background:linear-gradient(90deg, var(--color-dark) 0%, var(--color-surface) 100%);
-  border-bottom:1px solid rgba(var(--color-primary-rgb),0.22);
-  padding:72px 24px;
-}
-
-.partners-hero-inner{
-  max-width:1200px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1.05fr 0.95fr;
-  gap:24px;
-  align-items:start;
-}
-
-.partners-hero-title{
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(28px, 3.1vw, 38px);
-  line-height:1.3;
-  color:var(--color-white);
-  margin:0;
-  text-wrap:balance;
-}
-
-.partners-hero-highlight{
-  color:var(--title-accent-color);
-}
-
-.partners-hero-eyebrow{
-  display:block;
-  font-family:var(--font-body);
-  font-weight:600;
-  font-size:13px;
-  letter-spacing:0.08em;
-  text-transform:uppercase;
-  color:var(--color-gray);
-  margin:0 0 var(--gap-title-intro);
-}
-
-.partners-hero-text{
-  font-family:var(--font-body);
-  font-weight:400;
-  font-size:17px;
-  line-height:1.8;
-  color:var(--text-on-dark);
-  margin:0;
-}
-
-.partners-hero-text span{
-  display:block;
-  margin-bottom:6px;
-}
-
-@media (min-width:900px) and (max-width:1299px){
-  .partners-hero-title-block{padding-left:110px;}
-}
-
-@media (min-width:1300px){
-  .partners-hero-title-block{padding-left:90px;}
-}
-
-@media (max-width:900px){
-  .partners-hero-inner{grid-template-columns:1fr; gap:24px;}
+/* Intro (partenaires.html, certifications.html) : reprend désormais le
+   composant générique .page-header (partagé par formation/diagnostic/
+   développement), avec un texte justifié via .intro--justify. */
+.page-header .intro.intro--justify{
+  text-align:justify;
+  text-align-last:left;
 }
 
 /* Trois niveaux (partenaires.html) : titre + sous-titre + logos centrés,
    scopé à cette page (.partners-network n'est utilisé nulle part ailleurs). */
 .partners-network{
   max-width:1100px;
-  margin:var(--spacing-section) auto 0;
+  margin:120px auto 0;
   padding:0 24px var(--spacing-section);
+}
+
+@media (max-width:900px){
+  .partners-network{margin-top:90px;}
+}
+
+@media (max-width:600px){
+  .partners-network{margin-top:64px;}
 }
 
 .partners-tier{
@@ -1669,7 +2558,7 @@ a.pave-title:focus{
   font-family:var(--font-heading);
   font-weight:700;
   font-size:28px;
-  color:var(--title-color);
+  color:var(--color-white);
   text-align:center;
   margin:0 0 6px;
 }
@@ -1680,7 +2569,7 @@ a.pave-title:focus{
   font-size:14px;
   letter-spacing:0.04em;
   text-transform:uppercase;
-  color:var(--color-gray);
+  color:var(--color-primary);
   text-align:center;
   margin:0 0 32px;
 }
@@ -1768,13 +2657,6 @@ a.pave-title:focus{
   flex:1;
   text-align:center;
   box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.04);
-  transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-
-.journey-frame:hover{
-  transform:translateY(-6px);
-  border-color:rgba(var(--color-primary-rgb),0.30);
-  box-shadow:var(--shadow-hover);
 }
 
 .journey-frame .step-eyebrow{
@@ -1823,6 +2705,65 @@ a.pave-title:focus{
   padding:24px;
 }
 
+.journey-visual--filled{
+  border-style:solid;
+  border-color:rgba(255,255,255,0.15);
+  padding:0;
+  box-shadow:var(--shadow-sm);
+}
+
+.journey-visual-media{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:inherit;
+}
+
+.journey-visual-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* ---- Animation de tracé progressif de la bordure (carte "Étape 1") ----
+   Technique CSS pure (anneau en conic-gradient + double masque) : le tracé
+   épouse exactement le border-radius réel de l'encadré, sans passer par un
+   viewBox SVG qui déformerait le contour sur des cartes non carrées. ---- */
+
+@property --trace-progress{
+  syntax:'<number>';
+  inherits:false;
+  initial-value:0;
+}
+
+.trace-border{
+  position:relative;
+}
+
+.trace-border::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border-radius:calc(var(--radius) + 1px);
+  padding:3px;
+  background:conic-gradient(var(--color-primary) calc(var(--trace-progress) * 3.6deg), transparent calc(var(--trace-progress) * 3.6deg));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  filter:drop-shadow(0 0 4px rgba(var(--color-primary-rgb),0.55)) drop-shadow(0 0 10px rgba(var(--color-primary-rgb),0.3));
+  pointer-events:none;
+  --trace-progress:0;
+  transition:--trace-progress 0.9s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .journey-card:hover .trace-border::before,
+  .audience-card.trace-border:hover::before{
+    --trace-progress:100;
+  }
+}
+
 .visual-label{
   font-family:var(--font-body);
   font-weight:500;
@@ -1850,6 +2791,25 @@ a.pave-title:focus{
   max-width:700px;
   margin:var(--spacing-section) auto 0;
   padding:0 24px;
+}
+
+/* Séparation plus marquée entre "Pour qui est cette formation ?" et la
+   section suivante, resserrée sur tablette/mobile pour éviter un vide
+   excessif. */
+.audience-section + .outcomes-section{
+  margin-top:200px;
+}
+
+@media (max-width:1279px){
+  .audience-section + .outcomes-section{
+    margin-top:130px;
+  }
+}
+
+@media (max-width:767px){
+  .audience-section + .outcomes-section{
+    margin-top:90px;
+  }
 }
 
 .outcomes-section h2{
@@ -1908,39 +2868,108 @@ a.pave-title:focus{
   margin:0 auto var(--spacing-title-text);
 }
 
+/* Présentation du formateur, entre les modules (J1/J2) et
+   "Pour qui est cette formation ?" — posée directement sur le fond de la
+   page (pas d'encadré), séparée par un espacement généreux
+   (--spacing-section) des deux côtés. */
+.trainer-section{
+  max-width:1100px;
+  margin:var(--spacing-section) auto 0;
+  padding:56px 40px;
+  text-align:center;
+}
+
+.trainer-logo-wrap{
+  display:flex;
+  justify-content:center;
+  margin-bottom:28px;
+}
+
+.trainer-logo{
+  background:var(--color-white);
+  border-radius:var(--radius-lg);
+  padding:20px 28px;
+  height:96px;
+  width:auto;
+  max-width:280px;
+  object-fit:contain;
+  box-shadow:var(--shadow-sm);
+}
+
+.trainer-name{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:22px;
+  color:var(--title-color);
+  margin:0 0 32px;
+}
+
+.trainer-bio{
+  max-width:700px;
+  margin:0 auto;
+}
+
+.trainer-bio p{
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.8;
+  text-align:justify;
+  color:var(--text-on-dark);
+  margin:0 0 20px;
+}
+
+.trainer-bio p:last-child{
+  margin-bottom:0;
+}
+
+@media (max-width:767px){
+  .trainer-section{
+    margin-top:64px;
+    padding:40px 24px;
+  }
+
+  .trainer-logo{
+    height:72px;
+    padding:16px 20px;
+  }
+
+  .trainer-name{
+    font-size:19px;
+    margin-bottom:24px;
+  }
+}
+
 /* ===================================================================
    A propos — en-tête large, valeurs, chiffres-clés, équipe (a-propos.html)
    =================================================================== */
 
 .page-header--wide{
   max-width:none;
-  background:
-    radial-gradient(ellipse 480px 280px at 15% -10%, rgba(255,255,255,0.16), transparent 60%),
-    radial-gradient(ellipse 750px 650px at 100% 102%, rgba(var(--color-primary-rgb),0.62), transparent 75%),
-    radial-gradient(ellipse 500px 900px at 105% 78%, rgba(var(--color-primary-rgb),0.28), transparent 70%),
-    linear-gradient(90deg, var(--color-dark) 0%, var(--color-dark) 70%, #232830 100%);
-  border-top:1px solid rgba(var(--color-primary-rgb),0.22);
-  border-bottom:1px solid rgba(var(--color-primary-rgb),0.22);
 }
 
-/* Dégage tout le bloc (titre → flèche) du logo d'angle fixe (position:fixed,
-   voir design_system.md) : on pousse uniquement le padding-top, ce qui
-   déplace l'ensemble du contenu comme un seul bloc sans toucher aux
-   espacements internes entre ses éléments. Paliers alignés sur les tailles
-   du logo (150px puis 90px, caché sous 900px). */
-@media (min-width:1301px){
-  .page-header--wide{padding-top:130px;}
-}
-
-@media (min-width:901px) and (max-width:1300px){
-  .page-header--wide{padding-top:76px;}
+/* Aligné sur la même hauteur que .page-header (formation/développement/
+   diagnostic) : le titre démarre au même niveau sur toutes les pages. */
+.page-header--wide{
+  padding-top:var(--gap-header-hero);
 }
 
 .page-header--wide .intro{
-  max-width:680px;
+  max-width:950px;
   margin-left:auto;
   margin-right:auto;
-  text-align:center;
+  text-align:justify;
+}
+
+@media (max-width:1400px){
+  .page-header--wide .intro{
+    max-width:900px;
+  }
+}
+
+@media (max-width:900px){
+  .page-header--wide .intro{
+    max-width:680px;
+  }
 }
 
 .page-header--wide h1{
@@ -1966,8 +2995,49 @@ a.pave-title:focus{
   color:var(--color-white);
 }
 
+.method-intro--sm-title{
+  margin-top:170px;
+}
+
+@media (max-width:900px){
+  .method-intro--sm-title{margin-top:130px;}
+}
+
+@media (max-width:600px){
+  .method-intro--sm-title{margin-top:90px;}
+}
+
 .method-intro--sm-title h2{
   font-size:clamp(22px, 2.8vw, 34px);
+  color:var(--color-white);
+}
+
+.method-intro h2.method-intro-title--sm{
+  font-size:clamp(19px, 2.5vw, 26px);
+  color:var(--color-white);
+}
+
+.method-intro--no-frame{
+  background:none;
+  border:none;
+  box-shadow:none;
+  padding-bottom:22px;
+}
+
+.journey--tight{
+  margin-top:28px;
+}
+
+.method-intro--after-paves{
+  margin-top:120px;
+}
+
+@media (max-width:900px){
+  .method-intro--after-paves{margin-top:90px;}
+}
+
+@media (max-width:600px){
+  .method-intro--after-paves{margin-top:64px;}
 }
 
 .method-intro.method-intro--sm-title p{
@@ -1980,10 +3050,43 @@ a.pave-title:focus{
 
 .audience-section--accent-intro h2{
   margin-bottom:8px;
+  color:var(--color-white);
+}
+
+.audience-section--accent-intro{
+  margin-top:170px;
+}
+
+@media (max-width:900px){
+  .audience-section--accent-intro{margin-top:130px;}
+}
+
+@media (max-width:600px){
+  .audience-section--accent-intro{margin-top:90px;}
+}
+
+.team-group-title.team-group-title--committee{
+  margin-top:170px;
+}
+
+@media (max-width:900px){
+  .team-group-title.team-group-title--committee{margin-top:130px;}
+}
+
+@media (max-width:600px){
+  .team-group-title.team-group-title--committee{margin-top:90px;}
+}
+
+/* Les icônes des cartes "valeurs" débordent volontairement au-dessus de la
+   carte (cf. .value-icon-frame, margin-top négatif) ; on descend donc tout
+   le bloc .cards--light pour que ce débordement reste cantonné à sa propre
+   carte, sans empiéter sur le bloc titre/texte du dessus. */
+.cards--light{
+  margin-top:20px;
 }
 
 .cards--light .card{
-  background:rgba(var(--color-primary-rgb),0.62);
+  background:rgba(var(--color-primary-rgb),0.42);
   border-color:rgba(var(--color-primary-rgb),0.18);
 }
 
@@ -2010,7 +3113,7 @@ a.pave-title:focus{
   position:relative;
   width:140px;
   height:140px;
-  margin:calc(-1 * (var(--card-padding) + 70px)) auto 20px;
+  margin:calc(-1 * (var(--card-padding) + 40px)) auto 20px;
 }
 
 .value-icon-frame::before{
@@ -2032,17 +3135,48 @@ a.pave-title:focus{
   --ring-angle:360deg;
 }
 
+/* Les 3 logos (Engagement / Compétences / Sens du résultat) partagent
+   exactement le même cercle (140x140, fond #F7F7F7 identique au fond propre
+   des fichiers sources) et le même padding de base : object-fit:contain
+   garantit qu'aucun pictogramme n'est jamais rogné ni déformé, et la marge
+   intérieure commune leur donne la même importance visuelle, quelle que
+   soit la résolution ou le cadrage d'origine de chaque fichier. */
 .value-icon{
   display:block;
   width:140px;
   height:140px;
   border-radius:50%;
-  object-fit:cover;
+  box-sizing:border-box;
+  padding:16px;
+  background-color:#F7F7F7;
+  object-fit:contain;
+  object-position:center;
   margin:0;
   position:relative;
   z-index:1;
   box-shadow:var(--shadow-sm);
   transition:box-shadow 0.3s ease;
+}
+
+/* Recentrage horizontal propre à chaque pictogramme : dans ces 3 fichiers,
+   le dessin n'est pas centré dans son propre canevas, et la largeur de
+   l'image correspond exactement à la largeur utile du cercle une fois
+   réduite par le padding (aspect ratio proche de 1:1 pour Compétences,
+   nettement plus large que haut pour les deux autres) — object-position
+   seul n'a donc aucune marge à exploiter sur cet axe. On corrige à la place
+   en répartissant le padding gauche/droite de façon asymétrique (même
+   somme = même largeur utile pour le pictogramme), ce qui déplace le
+   contenu sans jamais changer la taille du cercle ni celle du dessin. */
+.value-icon[src*="valeur-engagement"]{
+  padding:16px 13px 16px 19px;
+}
+
+.value-icon[src*="valeur-competences"]{
+  padding:16px 14px 16px 18px;
+}
+
+.value-icon[src*="valeur-sens-du-resultat"]{
+  padding:16px 14px 16px 18px;
 }
 
 .card:hover .value-icon{
@@ -2083,13 +3217,17 @@ a.pave-title:focus{
 /* Scopé via la combinaison de classes : n'affecte pas .card--full de diagnostic.html,
    qui n'a pas .card--border-draw */
 .card--full.card--border-draw{
-  background:#212C40;
+  background:linear-gradient(135deg, rgba(var(--color-primary-rgb),0.12), rgba(var(--color-primary-hover-rgb),0.06)), rgba(var(--color-surface-rgb),0.82);
+  align-items:stretch;
+}
+
+.card--full.card--border-draw + .card--full.card--border-draw{
+  margin-top:32px;
 }
 
 .card--full.card--border-draw .card-subtitle{
   font-size:21px;
   color:#FFFFFF;
-  text-shadow:0 0 18px rgba(255,255,255,0.55), 0 0 4px rgba(255,255,255,0.8);
 }
 
 .card--full.card--border-draw .journey-subtitle{
@@ -2115,32 +3253,64 @@ a.pave-title:focus{
   margin-top:16px;
 }
 
-.card--full.card--border-draw img:not(.card-logo){
-  border-radius:var(--radius-lg);
+/* Wrapper sans hauteur intrinsèque propre (l'image y est détachée du flux via
+   position:absolute) : dans le flex row, sa taille de référence avant stretch
+   est donc nulle, ce qui laisse .card--full-content (le texte) seul maître de
+   la hauteur de la ligne. align-self:stretch étire ensuite ce wrapper à cette
+   hauteur, et l'image la remplit en object-fit:cover. Résultat : la hauteur
+   de l'encadré suit le texte, jamais l'inverse. */
+.card--full.card--border-draw .card--full-media{
+  position:relative;
   width:100%;
   max-width:320px;
-  height:auto;
+  align-self:stretch;
   flex:none;
+  border-radius:var(--radius-lg);
+  overflow:hidden;
   box-shadow:var(--shadow-sm);
 }
 
+.card--full.card--border-draw .card--full-media img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
 @media (max-width:700px){
-  .card--full.card--border-draw img:not(.card-logo){max-width:100%;}
+  .card--full.card--border-draw .card--full-media{max-width:100%; aspect-ratio:4/3;}
 }
 
 .stats-row{
   max-width:none;
-  margin:var(--spacing-section) 0 0;
-  padding:64px 24px;
+  margin:170px 0 0;
+  padding:100px 24px;
   display:grid;
   grid-template-columns:repeat(4, 1fr);
   gap:var(--spacing-cards);
   text-align:center;
-  background:rgba(255,255,255,0.35);
+  background:var(--color-white);
   border:1px solid rgba(var(--color-primary-rgb),0.14);
   border-radius:0;
   --card-border-draw-radius:0px;
   box-shadow:0 24px 80px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.stats-row > div{
+  min-width:0;
+  width:100%;
+  box-sizing:border-box;
+}
+
+@media (max-width:900px){
+  .stats-row{margin-top:130px;}
+}
+
+@media (max-width:600px){
+  .stats-row{margin-top:90px;}
 }
 
 @media (max-width:700px){
@@ -2154,17 +3324,18 @@ a.pave-title:focus{
 .stat-number{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:clamp(44px, 5.2vw, 68px);
-  color:var(--color-primary);
-  margin:0 0 8px;
+  font-size:clamp(34px, 4vw, 52px);
+  color:#27516A;
+  line-height:1;
+  margin:0 0 2px;
 }
 
 .stat-label{
   font-family:var(--font-body);
   font-weight:600;
-  font-size:14px;
+  font-size:12px;
   line-height:1.5;
-  color:var(--color-white);
+  color:var(--color-dark);
   margin:0;
 }
 
@@ -2183,7 +3354,7 @@ a.pave-title:focus{
   display:flex;
   flex-direction:column;
   gap:16px;
-  background:linear-gradient(165deg, rgba(var(--color-primary-rgb),0.62) 0%, rgba(var(--color-primary-hover-rgb),0.34) 45%, rgba(var(--color-surface-rgb),0.97) 100%);
+  background:linear-gradient(165deg, rgba(var(--color-primary-rgb),0.62) 0%, rgba(var(--color-primary-rgb),0.34) 45%, rgba(var(--color-surface-rgb),0.97) 100%);
   border:1px solid rgba(var(--color-primary-rgb),0.40);
   border-radius:var(--radius);
   padding:var(--card-padding);
@@ -2310,20 +3481,16 @@ a.pave-title:focus{
    =================================================================== */
 
 .intro-banner{
-  max-width:1400px;
-  margin:var(--spacing-section) auto 0;
-  padding:48px 32px;
+  max-width:900px;
+  margin:0 auto 0;
+  padding:0 24px;
   display:flex;
   align-items:center;
-  gap:56px;
-  background:linear-gradient(90deg, var(--color-dark) 0%, #2B2F37 50%, var(--color-primary) 100%);
-  border-radius:var(--radius-xl);
-  box-shadow:var(--shadow);
+  justify-content:center;
 }
 
 .intro-banner-text{
-  flex:1 1 55%;
-  text-align:left;
+  text-align:justify;
 }
 
 .intro-banner-text p{
@@ -2339,23 +3506,10 @@ a.pave-title:focus{
   margin-bottom:0;
 }
 
-.intro-banner-photo{
-  flex:1 1 40%;
-  width:100%;
-  max-width:460px;
-  height:auto;
-  border-radius:var(--radius-xl);
-  box-shadow:var(--shadow);
-  object-fit:cover;
-}
-
 @media (max-width:900px){
   .intro-banner{
     flex-direction:column;
     gap:28px;
-  }
-  .intro-banner-photo{
-    max-width:100%;
   }
 }
 
@@ -2373,6 +3527,18 @@ body.page-developpement .diag-intro{
   box-shadow:none;
 }
 
+body.page-developpement .diag-intro.diag-intro--after-expertise{
+  margin-top:190px;
+}
+
+@media (max-width:1279px){
+  body.page-developpement .diag-intro.diag-intro--after-expertise{margin-top:150px;}
+}
+
+@media (max-width:767px){
+  body.page-developpement .diag-intro.diag-intro--after-expertise{margin-top:110px;}
+}
+
 body.page-developpement .diag-intro .overline{
   display:block;
   background:none;
@@ -2382,6 +3548,8 @@ body.page-developpement .diag-intro .overline{
   font-size:clamp(19px, 2.4vw, 28px);
   color:var(--color-white);
   margin-bottom:8px;
+  letter-spacing:normal;
+  text-transform:none;
 }
 
 body.page-developpement .diag-intro h2{
@@ -2393,9 +3561,13 @@ body.page-developpement .diag-intro h2{
 }
 
 /* Cartes d'expertises techniques : hauteur uniforme, icône en médaillon bas-droite, halo animé au survol */
+.cards--expertise{
+  margin-bottom:calc(var(--spacing-section) + 40px);
+}
+
 .cards--expertise .card{
   min-height:355px;
-  background:rgba(255,255,255,0.40);
+  background:rgba(var(--color-primary-rgb),0.55);
   color:var(--color-white);
 }
 
@@ -2482,8 +3654,8 @@ body.page-developpement .diag-intro h2{
   transition:stroke-dashoffset 0.6s ease;
 }
 
-.expertise-icon-fx .eifx-line:nth-of-type(1){stroke:var(--color-primary);}
-.expertise-icon-fx .eifx-line:nth-of-type(2){stroke:var(--color-secondary); transition-delay:0.1s;}
+.expertise-icon-fx .eifx-line:nth-of-type(1){stroke:#25396C;}
+.expertise-icon-fx .eifx-line:nth-of-type(2){stroke:#25396C; transition-delay:0.1s;}
 .expertise-icon-fx .eifx-line:nth-of-type(3){stroke:var(--color-white); transition-delay:0.2s;}
 
 .cards--expertise .card:hover .expertise-icon-fx .eifx-line{
@@ -2495,8 +3667,8 @@ body.page-developpement .diag-intro h2{
   transition:opacity 0.4s ease;
 }
 
-.expertise-icon-fx .eifx-dot--a{fill:var(--color-primary); filter:drop-shadow(0 0 3px rgba(var(--color-primary-rgb),0.9));}
-.expertise-icon-fx .eifx-dot--b{fill:var(--color-secondary); filter:drop-shadow(0 0 3px rgba(var(--color-secondary-rgb),0.9));}
+.expertise-icon-fx .eifx-dot--a{fill:#25396C; filter:drop-shadow(0 0 3px rgba(37,57,108,0.9));}
+.expertise-icon-fx .eifx-dot--b{fill:#25396C; filter:drop-shadow(0 0 3px rgba(37,57,108,0.9));}
 .expertise-icon-fx .eifx-dot--c{fill:var(--color-white); filter:drop-shadow(0 0 3px rgba(255,255,255,0.8));}
 
 .cards--expertise .card:hover .expertise-icon-fx .eifx-dot{
@@ -2612,6 +3784,48 @@ body.page-developpement .diag-intro h2{
   height:10px;
   background:var(--color-primary);
   transform:translateY(-50%);
+}
+
+/* Flèche de retour Étape 6 → Étape 5 : symbolise le caractère évolutif de la
+   maintenance (optimisation/mise à niveau possible), superposée à la liaison
+   existante sans la remplacer. */
+.milestone-connector--loop{
+  position:relative;
+  overflow:visible;
+}
+
+.milestone-loop-arrow{
+  position:absolute;
+  left:0;
+  bottom:50%;
+  width:100%;
+  height:40px;
+  overflow:visible;
+}
+
+.milestone-loop-path{
+  fill:none;
+  stroke:var(--color-primary);
+  stroke-width:2.5;
+  stroke-linecap:round;
+  stroke-dasharray:150;
+  stroke-dashoffset:150;
+}
+
+.methodology.is-inview .milestone-loop-path{
+  transition:stroke-dashoffset 1.3s ease;
+  stroke-dashoffset:0;
+}
+
+#milestone-loop-arrowhead path{
+  fill:var(--color-primary);
+}
+
+@media (prefers-reduced-motion:reduce){
+  .milestone-loop-path{
+    stroke-dashoffset:0;
+    transition:none;
+  }
 }
 
 @media (max-width:900px){
@@ -2833,7 +4047,7 @@ body.page-developpement .diag-intro h2{
   font-weight:600;
   font-size:clamp(12px, 1.6vw, 14px);
   letter-spacing:0.02em;
-  color:var(--title-color);
+  color:var(--color-white);
   margin:0;
   white-space:nowrap;
 }
@@ -2856,7 +4070,7 @@ body.page-developpement .diag-intro h2{
 
 .footer-meta strong{
   font-weight:600;
-  color:var(--title-color);
+  color:var(--color-white);
 }
 
 .footer-legal{
@@ -3134,6 +4348,10 @@ body.page-developpement .diag-intro h2{
   font-size:28px;
   color:var(--title-color);
   margin:0 0 var(--spacing-title-text);
+}
+
+.usecase-section h2.usecase-title--white{
+  color:var(--color-white);
 }
 
 .usecase-grid{
@@ -3886,8 +5104,6 @@ body.page-developpement .diag-intro h2{
   --rd-border-feature:rgba(var(--color-primary-rgb),0.45);
   --rd-border-card:rgba(var(--color-primary-rgb),0.4);
   --rd-border-panel:rgba(var(--color-primary-rgb),0.35);
-  --rd-divider:rgba(var(--color-primary-rgb),0.45);
-  --rd-divider-2:rgba(var(--color-primary-rgb),0.35);
   --rd-cyan-mark:var(--color-primary);
   --rd-cyan-link:var(--color-primary);
   --rd-cyan-link-2:var(--color-primary);
@@ -3906,12 +5122,6 @@ body.page-developpement .diag-intro h2{
   max-width:1100px;
   margin:0 auto;
   padding:0 24px var(--spacing-section);
-}
-
-.rd-divider{
-  height:1px;
-  background:var(--rd-divider);
-  margin:var(--spacing-section-tight) 0;
 }
 
 /* ---------- Hero ---------- */
@@ -3949,6 +5159,40 @@ body.page-developpement .diag-intro h2{
 /* ---------- Sections génériques ---------- */
 .rd-section{
   margin-top:var(--spacing-section-tight);
+}
+
+/* Respiration renforcée entre grandes parties (utilitaire générique, même
+   valeurs que .rd-section--gap-lg sur la page R&D) */
+.section-gap-lg{
+  margin-top:190px;
+}
+
+@media (max-width:1279px){
+  .section-gap-lg{margin-top:150px;}
+}
+
+@media (max-width:767px){
+  .section-gap-lg{margin-top:110px;}
+}
+
+/* Respiration renforcée entre les grandes parties de la page R&D (remplace
+   les anciennes lignes .rd-divider, supprimées) */
+.rd-section--gap-lg{
+  margin-top:190px;
+}
+
+.rd-section--gap-xl{
+  margin-top:240px;
+}
+
+@media (max-width:1279px){
+  .rd-section--gap-lg{margin-top:150px;}
+  .rd-section--gap-xl{margin-top:190px;}
+}
+
+@media (max-width:767px){
+  .rd-section--gap-lg{margin-top:110px;}
+  .rd-section--gap-xl{margin-top:140px;}
 }
 
 .rd-section-head{
@@ -4005,7 +5249,7 @@ body.page-developpement .diag-intro h2{
   border:1px solid var(--rd-border-card);
   border-radius:var(--radius-lg);
   padding:28px 32px;
-  background:rgba(255,255,255,0.20);
+  background:rgba(var(--color-primary-rgb),0.55);
   transition:border-color 0.4s ease, box-shadow 0.4s ease;
   perspective:1400px;
 }
@@ -4062,7 +5306,7 @@ body.page-developpement .diag-intro h2{
   font-family:var(--font-heading);
   font-weight:700;
   font-size:30px;
-  color:var(--rd-cyan-number);
+  color:var(--color-white);
   width:44px;
 }
 
@@ -4085,7 +5329,7 @@ body.page-developpement .diag-intro h2{
   font-size:12px;
   letter-spacing:0.05em;
   text-transform:uppercase;
-  color:var(--rd-cyan-link);
+  color:var(--color-white);
   white-space:nowrap;
   cursor:pointer;
 }
@@ -4488,68 +5732,23 @@ body.page-developpement .diag-intro h2{
    =================================================================== */
 
 .cert-page{
-  --cert-divider-hero:rgba(var(--color-primary-rgb),0.35);
   --cert-divider-row:rgba(var(--color-primary-rgb),0.25);
-  --cert-highlight:var(--color-primary);
-  --cert-hero-body:#D9DFE5;
   --cert-row-body:#D7DFE8;
   --cert-row-eyebrow:#BBC5D1;
 }
 
-.cert-hero{
-  background:linear-gradient(90deg, var(--color-dark) 0%, var(--color-surface) 100%);
-  border-bottom:1px solid var(--cert-divider-hero);
-  padding:72px 24px;
-}
-
-.cert-hero-inner{
-  max-width:1200px;
-  margin:0 auto;
-  display:grid;
-  grid-template-columns:1.2fr 0.8fr;
-  gap:28px;
-  align-items:start;
-}
-
-.cert-hero-title{
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(26px, 3vw, 38px);
-  line-height:1.28;
-  color:var(--color-white);
-  margin:0;
-}
-
-/* Dégagement horizontal du logo d'angle fixe (position:fixed, top:20px/left:32px,
-   voir design_system.md), même logique que .uc-hero-content. */
-@media (min-width:900px) and (max-width:1299px){
-  .cert-hero-title{padding-left:110px;}
-}
-
-@media (min-width:1300px){
-  .cert-hero-title{padding-left:90px;}
-}
-
-.cert-hero-highlight{
-  color:var(--cert-highlight);
-}
-
-.cert-hero-text{
-  font-family:var(--font-body);
-  font-weight:400;
-  font-size:17px;
-  line-height:1.8;
-  color:var(--cert-hero-body);
-  margin:0;
-  padding-top:6px;
-  text-align:justify;
-  text-align-last:left;
-}
-
 .cert-list{
   max-width:1200px;
-  margin:0 auto;
+  margin:120px auto 0;
   padding:0 24px;
+}
+
+@media (max-width:900px){
+  .cert-list{margin-top:90px;}
+}
+
+@media (max-width:600px){
+  .cert-list{margin-top:64px;}
 }
 
 .cert-row{
@@ -4657,14 +5856,12 @@ body.page-developpement .diag-intro h2{
 }
 
 @media (max-width:900px){
-  .cert-hero-inner{grid-template-columns:1fr; gap:24px;}
   .cert-row{flex-direction:column; align-items:flex-start; gap:24px; padding:36px 0;}
   .cert-row-logo{align-self:center;}
   .cert-row-text{max-width:none;}
 }
 
 @media (max-width:600px){
-  .cert-hero{padding:56px 20px;}
   .cert-list{padding:0 20px;}
   .cert-row-logo{width:180px; height:114px;}
 }
@@ -4829,7 +6026,7 @@ body.page-developpement .diag-intro h2{
   font-weight:700;
   font-size:clamp(38px, 4vw, 52px);
   line-height:1;
-  color:var(--color-white);
+  color:var(--color-primary);
 }
 
 .format-duration-unit{
@@ -4909,6 +6106,30 @@ body.page-developpement .diag-intro h2{
   display:flex;
   width:100%;
   justify-content:center;
+}
+
+.formats-cta-full.cta-button{
+  background-color:transparent;
+  background-image:linear-gradient(currentColor, currentColor);
+  background-repeat:no-repeat;
+  background-position:left bottom;
+  background-size:0% 2px;
+  color:var(--color-primary);
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  padding:0;
+  font-size:19px;
+  transition:background-size 0.3s ease, color 0.2s ease;
+}
+
+.formats-cta-full.cta-button:hover,
+.formats-cta-full.cta-button:focus{
+  background-color:transparent;
+  background-size:100% 2px;
+  color:var(--color-primary-hover);
+  box-shadow:none;
+  transform:none;
 }
 
 @media (max-width:900px){
