@@ -446,8 +446,13 @@ img{max-width:100%;}
   text-align:center;
 }
 
+.hero{
+  max-width:960px;
+}
+
 .hero h1,
 .page-hero h1{
+  text-align:center;
   margin:0 0 var(--gap-title-sub);
 }
 
@@ -461,12 +466,17 @@ img{max-width:100%;}
 
 .hero-title-text{
   display:inline-block;
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(28px, 4.4vw, 56px);
   color:var(--title-accent-color);
-  letter-spacing:0.01em;
+  font-size:clamp(26px, 3.2vw, 40px);
   line-height:1.25;
+}
+
+.hero .hero-title-text{
+  color:var(--color-white);
+}
+
+.page-hero--services .hero-title-text{
+  color:var(--color-white);
 }
 
 .hero-tagline{
@@ -503,64 +513,154 @@ img{max-width:100%;}
 /* ===================================================================
    Révélation du logo G2M officiel (page d'accueil)
    Le fichier images/Logo_G2M.png est utilisé tel quel (proportions,
-   couleurs et formes 100% fidèles). Une grille de tuiles colorées le
-   recouvre entièrement au départ ; chaque tuile s'allume brièvement
-   (pixel de données) puis s'efface, dans un ordre en vague partant du
-   centre, révélant progressivement l'image réelle en dessous.
-   Se joue une seule fois (js/hero-logo-reveal.js).
+   couleurs et formes 100% fidèles, jamais recréé en CSS/SVG). Un réseau
+   de particules et de lignes (canvas, js/hero-logo-reveal.js) évoque des
+   flux de données qui convergent autour du logo pendant que celui-ci se
+   construit : le contour circulaire se dessine (anneau SVG), puis l'image
+   se révèle par un masque circulaire du centre vers l'extérieur, avec deux
+   légers éclats synchronisés sur le "2" et sur l'inscription "GO 2 MARKET".
+   Une fois révélé, le réseau s'efface, quelques particules très lentes
+   subsistent et une respiration lumineuse discrète entoure le logo.
+   La construction ne se joue qu'une seule fois, déclenchée au scroll.
    =================================================================== */
 .hero-logo-reveal{
   position:relative;
-  width:clamp(150px, 18vw, 260px);
+  width:clamp(200px, 24vw, 340px);
   aspect-ratio:1;
-  margin:40px auto;
+  margin:40px auto 64px;
+}
+
+.hlr-canvas{
+  position:absolute;
+  inset:-45%;
+  width:190%;
+  height:190%;
+  pointer-events:none;
+}
+
+.hlr-glow{
+  position:absolute;
+  inset:-14%;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(var(--color-primary-rgb),0.35) 0%, rgba(var(--color-primary-rgb),0) 70%);
+  opacity:0;
+  pointer-events:none;
+}
+
+.hero-logo-reveal.is-revealed .hlr-glow{
+  animation:hlrBreathe 4.5s ease-in-out 0.3s infinite;
+}
+
+@keyframes hlrBreathe{
+  0%, 100%{opacity:0.16; transform:scale(0.96);}
+  50%{opacity:0.38; transform:scale(1.04);}
+}
+
+.hlr-ring{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  transform:rotate(-90deg);
+}
+
+.hlr-ring-circle{
+  fill:none;
+  stroke:var(--color-primary);
+  stroke-width:1.4;
+  stroke-linecap:round;
+  stroke-dasharray:295.3;
+  stroke-dashoffset:295.3;
+  opacity:0.85;
+}
+
+.hero-logo-reveal.is-building .hlr-ring-circle{
+  transition:stroke-dashoffset 1.6s cubic-bezier(0.65,0,0.35,1);
+  stroke-dashoffset:0;
+}
+
+.hero-logo-reveal.is-revealed .hlr-ring-circle{
+  transition:opacity 1.2s ease;
+  opacity:0;
 }
 
 .hero-logo-reveal-img{
+  position:relative;
+  z-index:1;
   display:block;
   width:100%;
   height:100%;
   object-fit:contain;
-  opacity:0;
+  clip-path:circle(0% at 50% 50%);
+}
+
+.hero-logo-reveal.is-building .hero-logo-reveal-img{
+  transition:clip-path 1.9s cubic-bezier(0.4,0,0.2,1);
+  clip-path:circle(100% at 50% 50%);
 }
 
 .hero-logo-reveal.is-revealed .hero-logo-reveal-img{
-  opacity:1;
+  clip-path:circle(100% at 50% 50%);
 }
 
-.hlr-grid{
+.hlr-spark{
   position:absolute;
-  inset:0;
-  display:grid;
-  grid-template-columns:repeat(16, 1fr);
-  grid-template-rows:repeat(16, 1fr);
-}
-
-.hlr-tile{
+  left:52%;
+  top:33%;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(var(--color-primary-rgb),0.9) 45%, rgba(var(--color-primary-rgb),0) 75%);
   opacity:0;
-  transform:scale(0.6);
-  transition:opacity 0.35s ease-out, transform 0.35s ease-out;
+  transform:translate(-50%,-50%) scale(0.4);
+  pointer-events:none;
+  z-index:2;
 }
 
-.hlr-tile.hlr-tile--lit{
-  opacity:1;
-  transform:scale(1);
+.hlr-spark--text{
+  left:50%;
+  top:74%;
+  width:66%;
+  height:12px;
+  border-radius:7px;
+  background:linear-gradient(90deg, rgba(var(--color-primary-rgb),0) 0%, rgba(255,255,255,0.85) 50%, rgba(var(--color-primary-rgb),0) 100%);
 }
 
-.hlr-tile.hlr-tile--gone{
-  opacity:0;
-  transform:scale(1);
-  transition:opacity 0.5s ease-out, transform 0.5s ease-out;
+.hero-logo-reveal.is-spark-two .hlr-spark--two{
+  animation:hlrSpark 0.7s ease-out both;
+}
+
+.hero-logo-reveal.is-spark-text .hlr-spark--text{
+  animation:hlrSparkText 0.8s ease-out both;
+}
+
+@keyframes hlrSpark{
+  0%{opacity:0; transform:translate(-50%,-50%) scale(0.3);}
+  40%{opacity:1; transform:translate(-50%,-50%) scale(1.3);}
+  100%{opacity:0; transform:translate(-50%,-50%) scale(0.6);}
+}
+
+@keyframes hlrSparkText{
+  0%{opacity:0; transform:translate(-50%,-50%) scaleX(0.25);}
+  45%{opacity:0.9; transform:translate(-50%,-50%) scaleX(1);}
+  100%{opacity:0; transform:translate(-50%,-50%) scaleX(1);}
 }
 
 @media (prefers-reduced-motion: reduce){
-  .hlr-grid{
+  .hlr-canvas, .hlr-ring, .hlr-spark{
     display:none;
   }
 
   .hero-logo-reveal-img{
+    clip-path:none;
     opacity:0;
     animation:hlrFadeIn 0.6s ease-out forwards;
+  }
+
+  .hero-logo-reveal.is-revealed .hlr-glow{
+    animation:none;
+    opacity:0;
   }
 }
 
@@ -571,8 +671,8 @@ img{max-width:100%;}
 
 @media (max-width:600px){
   .hero-logo-reveal{
-    width:clamp(130px, 38vw, 200px);
-    margin:28px auto;
+    width:clamp(170px, 46vw, 260px);
+    margin:28px auto 44px;
   }
 }
 
@@ -585,13 +685,28 @@ img{max-width:100%;}
   text-align:center;
 }
 
-.page-header h1{
+/* Règle typographique commune à tous les titres principaux (h1) du site :
+   même taille, graisse, hauteur de ligne et espacement des lettres partout.
+   Chaque page garde sa propre couleur / alignement via sa classe de contexte
+   (.page-header h1, .uc-hero-title, .elig-title, etc.), appliquée en plus
+   de .page-title sur le même élément. */
+.page-title{
   font-family:var(--font-heading);
   font-weight:700;
   font-size:clamp(26px, 3.6vw, 42px);
-  color:var(--title-accent-color);
-  letter-spacing:0.01em;
   line-height:1.3;
+  letter-spacing:0.01em;
+}
+
+/* Variante taille réduite : même taille que le titre de "À propos de G2M",
+   appliquée en plus (ou à la place) de .page-title / de la classe de
+   contexte de chaque page sur le même élément h1. */
+.page-title-sm{
+  font-size:clamp(22px, 3vw, 34px);
+}
+
+.page-header h1{
+  color:var(--title-accent-color);
   margin-bottom:var(--gap-title-intro);
 }
 
@@ -626,6 +741,10 @@ img{max-width:100%;}
    (js/intro-typewriter.js). Le texte final ("ghost") reste invisible mais
    occupe l'espace normal du paragraphe pour ne provoquer aucun déplacement ;
    le texte tapé est superposé en position absolue par-dessus. */
+.intro--typewriter{
+  text-align:justify;
+}
+
 .intro--typewriter .intro-line{
   position:relative;
 }
@@ -776,6 +895,206 @@ img{max-width:100%;}
   transform:translateY(-6px);
   border-color:rgba(var(--color-primary-rgb),0.30);
   box-shadow:var(--shadow-hover);
+}
+
+/* ===================================================================
+   Carrousel des 4 cartes de la page d'accueil (.section-preview.carousel)
+   Une seule carte visible à la fois, centrée, défilement automatique.
+   Les overrides de couleur/padding sont scopés via l'ancêtre
+   .section-preview.carousel pour gagner la cascade face aux règles
+   partagées .card/.card-title/.card p (utilisées par d'autres pages,
+   ex. certifications) sans dépendre de l'ordre des règles dans ce fichier.
+   Voir js/home-cards-carousel.js.
+   =================================================================== */
+.section-preview.carousel{
+  display:block;
+  position:relative;
+  padding-left:56px;
+  padding-right:56px;
+}
+
+.carousel-viewport{
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+.carousel-viewport::-webkit-scrollbar{
+  display:none;
+}
+
+.carousel-track{
+  display:flex;
+  align-items:stretch;
+  gap:var(--spacing-cards);
+  padding:10px 2px 28px;
+}
+
+.carousel-slide{
+  flex:0 0 100%;
+  width:100%;
+  scroll-snap-align:center;
+  position:relative;
+  transition:border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.section-preview.carousel .carousel-slide{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:340px;
+  padding:56px 44px 60px;
+  background-image:url("../images/photo-page-accueil-v2.png");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  color:#161C22;
+  border-color:rgba(var(--color-primary-rgb),0.28);
+}
+
+/* Le survol ne doit soulever que le petit encadré blanc (.carousel-slide-pill
+   ci-dessous), jamais la carte/l'image de fond elle-même : on neutralise ici
+   le transform hérité de la règle partagée .card:hover. */
+.section-preview.carousel .carousel-slide:hover{
+  transform:none;
+}
+
+/* Bandeau blanc arrondi regroupant le libellé et le texte de la carte,
+   centré dans la carte pour rester lisible sur la photo de fond. */
+.carousel-slide-pill{
+  width:fit-content;
+  height:auto;
+  max-width:min(340px, 84%);
+  margin:0 auto;
+  background:rgba(255,255,255,0.73);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  border-radius:22px;
+  padding:9px 32px;
+  text-align:center;
+  box-shadow:0 14px 36px rgba(0,0,0,0.2);
+  transition:transform 0.35s ease-out, box-shadow 0.35s ease-out;
+}
+
+/* Soulèvement au survol réservé aux pointeurs précis (souris/trackpad) :
+   pas de hover collant au doigt sur tactile, le clic reste immédiat. */
+@media (hover:hover) and (pointer:fine){
+  .carousel-slide:hover .carousel-slide-pill{
+    transform:translateY(-10px);
+    box-shadow:0 22px 46px rgba(0,0,0,0.3);
+  }
+}
+
+.section-preview.carousel .carousel-slide .carousel-slide-pill p{
+  color:#0F2A4A;
+  margin:0;
+}
+
+.section-preview.carousel .carousel-slide .card-title{
+  margin-bottom:8px;
+  color:#0F2A4A;
+  background:none;
+  border:none;
+  padding:0;
+  border-radius:0;
+}
+
+.section-preview.carousel .carousel-slide a.card-title:hover,
+.section-preview.carousel .carousel-slide a.card-title:focus{
+  color:#0F2A4A;
+  background:none;
+  transform:none;
+}
+
+.carousel-slide.is-active{
+  border-color:rgba(var(--color-primary-rgb),0.55);
+  box-shadow:var(--shadow-hover), 0 0 0 1px rgba(var(--color-primary-rgb),0.22);
+  transform:scale(1.015);
+}
+
+/* Le clic navigue depuis n'importe quel point de la carte (pas seulement
+   le libellé), sans dupliquer de lien ni changer le contenu visible. */
+.carousel-slide .card-title::after{
+  content:'';
+  position:absolute;
+  inset:0;
+}
+
+.carousel-arrow{
+  position:absolute;
+  top:calc(50% - 14px);
+  z-index:2;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.35);
+  background:rgba(var(--color-surface-rgb),0.85);
+  color:#FFFFFF;
+  font-size:22px;
+  line-height:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-arrow:hover{
+  background:rgba(255,255,255,0.18);
+  border-color:rgba(255,255,255,0.6);
+  transform:translateY(-1px);
+}
+
+.carousel-arrow--prev{left:0;}
+.carousel-arrow--next{right:0;}
+
+.carousel-dots{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:-8px;
+}
+
+.carousel-dot{
+  width:8px;
+  height:8px;
+  padding:0;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.5);
+  background:transparent;
+  cursor:pointer;
+  transition:background 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-dot.is-active{
+  background:#FFFFFF;
+  transform:scale(1.2);
+}
+
+@media (max-width:600px){
+  .section-preview.carousel{
+    padding-left:40px;
+    padding-right:40px;
+  }
+
+  .section-preview.carousel .carousel-slide{
+    min-height:300px;
+    padding:44px 30px 48px;
+  }
+
+  .carousel-arrow{
+    width:36px;
+    height:36px;
+    font-size:18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .carousel-slide{transition:none;}
 }
 
 /* Programme de formation — cartes de modules teintées d'un bleu ciel plus visible (scopé à formation-initiation-ia.html) */
@@ -1591,11 +1910,6 @@ a.pave-title:focus{
   width:100%;
   margin:0 auto var(--gap-title-intro);
   max-width:900px;
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(26px, 3.6vw, 42px);
-  letter-spacing:0.01em;
-  line-height:1.3;
   color:var(--title-accent-color);
   text-align:center;
 }
@@ -1676,10 +1990,11 @@ a.pave-title:focus{
 
 .diag2-levels-intro{
   margin:0 0 56px;
-  font-family:var(--font-body);
-  font-weight:400;
-  font-size:17px;
-  line-height:1.8;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(20px, 2.4vw, 30px);
+  line-height:1.4;
+  letter-spacing:0.01em;
   color:#eaf2f6;
   text-align:center;
 }
@@ -1706,6 +2021,16 @@ a.pave-title:focus{
 
 .diag2-level-card .diag2-chip{
   align-self:flex-start;
+}
+
+/* Les 3 pastilles de niveaux (page diagnostic.html) reprennent le bleu nuit
+   de la pastille "AXE INNOVATION" (.diag2-chip--flat), sans toucher aux
+   pastilles PME/ETI de conditions-eligibilite.html qui partagent la même
+   classe de base .diag2-chip. */
+.diag2-levels-grid .diag2-chip{
+  color:#10222f;
+  background:#d7dee3;
+  border:none;
 }
 
 .diag2-level-title{
@@ -1804,7 +2129,7 @@ a.pave-title:focus{
   font-family:var(--font-heading);
   font-weight:600;
   font-size:14px;
-  color:#ffffff;
+  color:var(--color-primary);
   text-decoration:none;
   margin-top:18px;
   transition:color 0.2s ease;
@@ -1883,7 +2208,7 @@ a.pave-title:focus{
 /* ---- Section 5 : Étapes méthodologie ---- */
 .diag2-steps{
   background:#0a1c2b;
-  padding:0 6% 100px 6%;
+  padding:0 6% 48px 6%;
 }
 
 .diag2-steps-inner{
@@ -1905,7 +2230,7 @@ a.pave-title:focus{
   max-width:680px;
   margin:0 auto;
   overflow:hidden;
-  background:#cbd4d9;
+  background:#ffffff;
   border-radius:18px;
   padding:40px 44px 0;
   color:#10222f;
@@ -2128,7 +2453,7 @@ a.pave-title:focus{
 }
 
 .elig-hero{
-  padding:90px 6% 48px 6%;
+  padding:var(--gap-header-hero) 6% 48px 6%;
 }
 
 .elig-hero-inner{
@@ -2143,10 +2468,6 @@ a.pave-title:focus{
 
 .elig-title{
   margin:24px 0 0;
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(28px, 4vw, 44px);
-  line-height:1.3;
   color:var(--title-color);
 }
 
@@ -2332,10 +2653,247 @@ a.pave-title:focus{
 }
 
 @media (max-width:600px){
-  .elig-hero{padding:64px 6% 36px;}
+  .elig-hero{padding:var(--gap-header-hero) 6% 36px;}
   .elig-section{padding:0 6% 40px 6%;}
   .elig-divider{margin:40px 0;}
-  .elig-title{font-size:28px;}
+}
+
+/* ===================================================================
+   FAQ Formation (formation.html) — accordéon questions/réponses,
+   juste avant le bandeau CTA final. Voir js/formation-faq.js.
+   =================================================================== */
+.formation-faq{
+  max-width:1100px;
+  margin:var(--spacing-section) auto 0;
+  padding:0 24px;
+}
+
+/* Voile bleu clair sur la FAQ (formation.html uniquement). Plein écran
+   (pas seulement les 1100px du contenu, sinon rectangle à bords visibles),
+   fond opaque + teinte bleu clair pour rester homogène quel que soit le
+   point du dégradé global du body à cet endroit. L'espace avant le CTA est
+   porté par le padding ci-dessous (couvert par ce fond) plutôt que par la
+   marge de .final-cta, pour éviter toute bande non peinte entre les deux. */
+.formation-faq--blue-veil{
+  max-width:none;
+  width:100%;
+  margin-top:0;
+  padding-left:0;
+  padding-right:0;
+  padding-top:var(--spacing-section);
+  padding-bottom:var(--spacing-section);
+  background-image:linear-gradient(180deg,
+    rgba(var(--color-primary-rgb),0.18) 0%,
+    rgba(var(--color-primary-rgb),0.10) 55%,
+    var(--color-dark) 100%
+  );
+}
+
+.formation-faq--blue-veil + .final-cta{
+  margin-top:0;
+}
+
+.formation-faq-inner{
+  max-width:820px;
+  margin:0 auto;
+  padding:0 24px;
+  text-align:center;
+}
+
+.formation-faq-eyebrow{
+  display:block;
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:14px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--color-primary);
+  margin:0 0 var(--gap-title-sub);
+}
+
+.formation-faq-title{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(26px, 3vw, 36px);
+  color:var(--color-white);
+  margin:0 0 var(--gap-sub-text);
+}
+
+.formation-faq-intro{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.8;
+  color:var(--text-on-dark);
+  margin:0 0 var(--spacing-title-text);
+}
+
+.faq-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  text-align:left;
+}
+
+.faq-item{
+  background:rgba(var(--color-surface-soft-rgb),0.6);
+  border:1px solid rgba(var(--color-primary-rgb),0.22);
+  border-radius:var(--radius);
+  overflow:hidden;
+  transition:border-color 0.25s ease;
+}
+
+.faq-item:hover,
+.faq-item.is-open{
+  border-color:rgba(var(--color-primary-rgb),0.42);
+}
+
+.faq-question{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:22px 26px;
+  background:none;
+  border:none;
+  margin:0;
+  cursor:pointer;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:17px;
+  line-height:1.5;
+  color:var(--color-white);
+  text-align:left;
+}
+
+.faq-question:focus-visible{
+  outline:2px solid var(--color-primary);
+  outline-offset:-2px;
+}
+
+.faq-chevron{
+  flex:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:28px;
+  height:28px;
+  color:var(--color-primary);
+  transition:transform 0.3s ease;
+}
+
+.faq-chevron svg{
+  width:20px;
+  height:20px;
+  display:block;
+}
+
+.faq-item.is-open .faq-chevron{
+  transform:rotate(180deg);
+}
+
+.faq-answer{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height 0.35s ease;
+}
+
+.faq-answer-inner{
+  padding:0 26px 24px;
+}
+
+.faq-answer-inner p{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:16px;
+  line-height:1.8;
+  color:var(--text-on-dark);
+  margin:0 0 14px;
+}
+
+.faq-answer-inner p:last-child{
+  margin-bottom:0;
+}
+
+.faq-cta-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:15px;
+  text-decoration:none;
+}
+
+.faq-cta-link-label{
+  position:relative;
+  display:inline-block;
+  width:fit-content;
+  max-width:100%;
+  color:var(--color-primary);
+  padding-bottom:3px;
+  transition:color 0.35s ease-out, transform 0.35s ease-out;
+}
+
+.faq-cta-link-label::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:96%;
+  height:1px;
+  background:#8FD3FF;
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform 0.35s ease-out;
+}
+
+.faq-cta-link-arrow{
+  display:inline-block;
+  color:var(--color-primary);
+  transition:transform 0.35s ease-out, color 0.35s ease-out;
+}
+
+.faq-cta-link:hover .faq-cta-link-label,
+.faq-cta-link:focus .faq-cta-link-label{
+  color:#8FD3FF;
+  transform:translateY(-2px);
+}
+
+.faq-cta-link:hover .faq-cta-link-label::after,
+.faq-cta-link:focus .faq-cta-link-label::after{
+  transform:scaleX(1);
+}
+
+.faq-cta-link:hover .faq-cta-link-arrow,
+.faq-cta-link:focus .faq-cta-link-arrow{
+  transform:translateX(7px);
+  color:#8FD3FF;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .faq-cta-link-label,
+  .faq-cta-link-label::after,
+  .faq-cta-link-arrow{
+    transition:none;
+  }
+}
+
+@media (max-width:600px){
+  .faq-question{
+    padding:18px 20px;
+    font-size:16px;
+    gap:14px;
+  }
+  .faq-answer-inner{
+    padding:0 20px 20px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .faq-answer{transition:none;}
+  .faq-chevron{transition:none;}
 }
 
 /* ---------- CTA finale ---------- */
@@ -2530,10 +3088,37 @@ a.pave-title:focus{
    visible. Le `gap` est porté par .logo-carousel-track uniquement : comme
    les deux moitiés sont strictement identiques, l'espacement reste rigoureu-
    sement égal partout, y compris à la jonction de la boucle. */
+.logo-carousel-title{
+  margin:152px 0 0;
+  padding:0 24px;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(20px, 2.4vw, 30px);
+  letter-spacing:0.01em;
+  color:var(--color-white);
+  text-align:center;
+}
+
+.logo-carousel-subtitle{
+  margin:8px 0 0;
+  padding:0 24px;
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:15px;
+  color:var(--text-on-dark);
+  text-align:center;
+}
+
+/* Rapproche le bandeau de logos du titre/sous-titre qui le précèdent
+   (au lieu du grand espacement standard entre sections). */
+.logo-carousel-subtitle + .logo-carousel{
+  margin-top:20px;
+}
+
 .logo-carousel{
   width:100%;
   margin:var(--spacing-section) 0;
-  padding:28px 0;
+  padding:40px 0;
   background:var(--color-white);
   overflow:hidden;
 }
@@ -2541,16 +3126,16 @@ a.pave-title:focus{
 .logo-carousel-track{
   display:flex;
   align-items:center;
-  gap:64px;
+  gap:76px;
   width:max-content;
   animation:logo-carousel-scroll 50s linear infinite;
 }
 
 .logo-carousel-item{
   flex:0 0 auto;
-  width:180px;
-  height:90px;
-  padding:16px;
+  width:230px;
+  height:115px;
+  padding:18px;
   box-sizing:border-box;
   display:flex;
   align-items:center;
@@ -2583,26 +3168,26 @@ a.pave-title:focus{
 
 @media (max-width:1024px){
   .logo-carousel-track{
-    gap:48px;
+    gap:58px;
   }
   .logo-carousel-item{
-    width:150px;
-    height:78px;
-    padding:14px;
+    width:190px;
+    height:98px;
+    padding:16px;
   }
 }
 
 @media (max-width:767px){
   .logo-carousel{
-    padding:20px 0;
+    padding:26px 0;
   }
   .logo-carousel-track{
-    gap:36px;
+    gap:44px;
   }
   .logo-carousel-item{
-    width:120px;
-    height:64px;
-    padding:12px;
+    width:150px;
+    height:80px;
+    padding:14px;
   }
 }
 
@@ -2617,7 +3202,8 @@ a.pave-title:focus{
 /* Intro (partenaires.html, certifications.html) : reprend désormais le
    composant générique .page-header (partagé par formation/diagnostic/
    développement), avec un texte justifié via .intro--justify. */
-.page-header .intro.intro--justify{
+.page-header .intro.intro--justify,
+.method-intro p.intro--justify{
   text-align:justify;
   text-align-last:left;
 }
@@ -2640,7 +3226,7 @@ a.pave-title:focus{
 
 .partners-tier{
   text-align:center;
-  margin-bottom:72px;
+  margin-bottom:240px;
 }
 
 .partners-tier:last-child{
@@ -2658,8 +3244,8 @@ a.pave-title:focus{
 
 .partners-tier-subtitle{
   font-family:var(--font-body);
-  font-weight:500;
-  font-size:14px;
+  font-weight:700;
+  font-size:21px;
   letter-spacing:0.04em;
   text-transform:uppercase;
   color:var(--color-primary);
@@ -2676,22 +3262,22 @@ a.pave-title:focus{
 }
 
 .partners-tier-logos .partner-logo{
-  width:220px;
+  width:290px;
   flex:none;
 }
 
 @media (max-width:520px){
   .partners-tier-logos .partner-logo{
     width:100%;
-    max-width:260px;
+    max-width:290px;
   }
 }
 
 .partner-logo{
   background:var(--color-white);
   border-radius:var(--radius);
-  padding:24px;
-  height:120px;
+  padding:30px;
+  height:235px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -2705,9 +3291,22 @@ a.pave-title:focus{
 }
 
 .partner-logo img{
-  max-width:100%;
-  max-height:100%;
+  width:100%;
+  height:100%;
   object-fit:contain;
+}
+
+/* Le logo Digital League contient une marge interne importante dans son
+   fichier source : on réduit le padding intérieur (au lieu d'agrandir
+   l'image via transform) pour l'agrandir visuellement tout en garantissant,
+   grâce à object-fit:contain, qu'il ne dépasse jamais les bords de
+   l'encadré. L'encadré lui-même (largeur/hauteur/fond/coins) est inchangé. */
+.partner-logo--digital-league{
+  padding:12px;
+}
+
+@media (max-width:600px){
+  .partners-tier{margin-bottom:140px;}
 }
 
 .card-logo{
@@ -3071,7 +3670,6 @@ a.pave-title:focus{
 
 .page-header--wide h1{
   color:var(--color-primary);
-  font-size:clamp(20px, 2.6vw, 34px);
 }
 
 /* Force exactement 2 lignes (coupure au <br> du HTML), sans retour à la
@@ -3119,6 +3717,23 @@ a.pave-title:focus{
   border:none;
   box-shadow:none;
   padding-bottom:22px;
+  margin-top:calc(var(--spacing-section) * 2);
+}
+
+.method-intro--no-frame h2{
+  color:var(--color-white);
+  font-size:clamp(18px, 2.2vw, 26px);
+}
+
+.appr-section-title{
+  text-align:center;
+  color:var(--color-white);
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(18px, 2.2vw, 26px);
+  letter-spacing:0.01em;
+  line-height:1.3;
+  margin:0 0 var(--gap-title-intro);
 }
 
 .journey--tight{
@@ -4274,6 +4889,24 @@ body.page-developpement .diag-intro h2{
   cursor:pointer;
 }
 
+.contact-form .cta-button:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
+
+.contact-error{
+  text-align:center;
+  padding:24px;
+}
+
+.contact-error p{
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  color:#ff8a8a;
+  margin:0;
+}
+
 .contact-confirmation{
   text-align:center;
   padding:24px;
@@ -4357,10 +4990,6 @@ body.page-developpement .diag-intro h2{
    =================================================================== */
 
 @media (min-width:1280px) and (max-width:1600px){
-  .hero-title-text{
-    font-size:calc(42px + (100vw - 1280px) * 0.04375);
-  }
-
   .hero-tagline{
     font-size:calc(15px + (100vw - 1280px) * 0.009375);
   }
@@ -4373,10 +5002,6 @@ body.page-developpement .diag-intro h2{
 
   .hero p{
     font-size:calc(15px + (100vw - 1280px) * 0.00625);
-  }
-
-  .page-header h1{
-    font-size:calc(36px + (100vw - 1280px) * 0.01875);
   }
 
   .cta-button{
@@ -4578,7 +5203,7 @@ body.page-developpement .diag-intro h2{
 
 .uc-hero-inner{
   display:grid;
-  grid-template-columns:0.95fr 1.15fr;
+  grid-template-columns:1fr 1fr;
   gap:48px;
   align-items:start;
 }
@@ -4596,13 +5221,9 @@ body.page-developpement .diag-intro h2{
 }
 
 .uc-hero-title{
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(30px, 3.6vw, 46px);
-  line-height:1.25;
   color:var(--color-white);
   margin:0 0 18px;
-  text-align:justify;
+  text-align:left;
   text-wrap:balance;
   animation:fadeInUp 0.6s ease both 0.12s;
 }
@@ -4624,7 +5245,6 @@ body.page-developpement .diag-intro h2{
   font-size:17px;
   line-height:1.8;
   color:var(--uc-body);
-  max-width:640px;
   margin:0;
   text-align:justify;
   animation:fadeInUp 0.6s ease both 0.24s;
@@ -4760,6 +5380,24 @@ body.page-developpement .diag-intro h2{
   margin-bottom:var(--gap-title-sub);
 }
 
+/* À partir de 900px, l'icône sort du flux (positionnement absolu dans la
+   marge gauche) pour que le titre "La problématique client" / "La solution
+   apportée" démarre exactement sur le même axe que la colonne de texte du
+   hero et l'encadré ci-dessous, au lieu d'être décalé par l'icône + le gap
+   (54px + 20px). En-dessous de 900px, l'icône reste dans le flux normal. */
+@media (min-width:900px){
+  .uc-intro-head{
+    position:relative;
+  }
+
+  .uc-icon{
+    position:absolute;
+    left:-74px;
+    top:50%;
+    transform:translateY(-50%);
+  }
+}
+
 .uc-eyebrow{
   display:block;
   font-family:var(--font-body);
@@ -4825,6 +5463,23 @@ body.page-developpement .diag-intro h2{
   animation:fadeInUp 0.6s ease both;
 }
 
+/* À partir de 900px, .uc-icon est centré verticalement via
+   transform:translateY(-50%) (voir règle plus haut) ; l'animation générique
+   fadeInUp se terminant sur transform:translateY(0), elle écraserait ce
+   centrage une fois l'icône révélée. On rejoue donc le même effet de
+   glissement mais autour de la valeur de centrage -50%, pour que l'icône
+   reste alignée avec le titre après son apparition. */
+@keyframes ucIconFadeInUp{
+  from{opacity:0; transform:translateY(calc(-50% + 18px));}
+  to{opacity:1; transform:translateY(-50%);}
+}
+
+@media (min-width:900px){
+  .uc-reveal-section.uc-inview .uc-icon{
+    animation:ucIconFadeInUp 0.6s ease both;
+  }
+}
+
 .uc-reveal-section.uc-inview .uc-intro-head > div{
   animation:fadeInUp 0.6s ease both 0.15s;
 }
@@ -4838,6 +5493,33 @@ body.page-developpement .diag-intro h2{
   margin:var(--spacing-section-tight) auto 0;
   max-width:1100px;
   padding:0 24px;
+}
+
+/* Même décalage gauche que .uc-hero-content (dégagement du logo d'angle fixe,
+   voir plus haut) : garantit que le bord gauche des sections (icône, titre,
+   encadré) tombe exactement sur le même axe vertical que la colonne de texte
+   du hero, à toutes les largeurs d'écran. */
+@media (min-width:900px) and (max-width:1299px){
+  .uc-section{padding-left:134px;}
+}
+
+@media (min-width:1300px){
+  .uc-section{padding-left:114px;}
+}
+
+/* Espacement renforcé avant les grandes parties (mêmes valeurs/paliers que
+   .rd-section--gap-lg sur la page R&D) : sépare plus nettement chaque grande
+   partie du cas d'usage lors du défilement, sans créer de vide disproportionné. */
+.uc-section--gap-lg{
+  margin-top:190px;
+}
+
+@media (max-width:1279px){
+  .uc-section--gap-lg{margin-top:150px;}
+}
+
+@media (max-width:767px){
+  .uc-section--gap-lg{margin-top:110px;}
 }
 
 /* ---------- Flux d'étapes (fonctionnement de l'outil / synthèse) ---------- */
@@ -5153,15 +5835,23 @@ body.page-developpement .diag-intro h2{
   white-space:nowrap;
 }
 
-.uc-synthesis-node--final{
-  margin:0 auto 40px;
-  display:table;
+/* Regroupe chaque flèche avec l'encadré qui la suit (pas celui qui la
+   précède) en un seul bloc qui ne se scinde jamais lors du retour à la ligne
+   (.uc-synthesis-row est en flex-wrap) : garantit qu'une flèche n'est jamais
+   isolée en fin de 1re ligne — si l'encadré suivant passe à la 2e ligne, sa
+   flèche le suit et se retrouve donc en tête de cette 2e ligne, juste avant
+   lui, ce qui garde le parcours lisible. */
+.uc-synthesis-step{
+  display:flex;
+  align-items:center;
+  gap:14px;
 }
 
 @media (max-width:700px){
   .uc-synthesis-row{flex-direction:column;}
   .uc-synthesis-row .uc-flow-arrow{transform:rotate(90deg);}
   .uc-synthesis-node{white-space:normal;}
+  .uc-synthesis-step{flex-direction:column;}
 }
 
 .uc-cta-pill{
@@ -5230,10 +5920,7 @@ body.page-developpement .diag-intro h2{
 }
 
 .rd-hero-title{
-  font-family:var(--font-heading);
-  font-weight:700;
-  font-size:clamp(32px, 4vw, 46px);
-  color:var(--color-white);
+  color:var(--title-accent-color);
   margin:0 0 var(--gap-title-intro);
 }
 
@@ -5319,6 +6006,13 @@ body.page-developpement .diag-intro h2{
   font-size:clamp(24px, 3vw, 32px);
   color:var(--color-white);
   margin:0 0 var(--gap-sub-text);
+  white-space:nowrap;
+}
+
+@media (max-width:700px){
+  .rd-section-head h2{
+    white-space:normal;
+  }
 }
 
 .rd-section-intro{
@@ -5665,10 +6359,15 @@ body.page-developpement .diag-intro h2{
 
 /* ---------- Synthèse et appel à l'action ---------- */
 .rd-badges{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
   gap:16px;
   margin-bottom:var(--spacing-cards);
+}
+
+.rd-badges .rd-badge{
+  flex:0 1 calc((100% - 2*16px)/3);
 }
 
 .rd-badge{
@@ -6235,4 +6934,430 @@ body.page-developpement .diag-intro h2{
 
 @media (max-width:900px){
   .formats-cta-wrap{max-width:600px;}
+}
+
+/* ===================================================================
+   Notre approche — principes de travail, engagements, sécurité (approche.html)
+   =================================================================== */
+.appr-icon{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:var(--color-white);
+  color:var(--color-surface-soft);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+  margin-bottom:20px;
+  box-shadow:var(--shadow-sm);
+}
+
+.appr-icon svg{
+  width:26px;
+  height:26px;
+}
+
+.appr-icon img{
+  width:26px;
+  height:26px;
+  object-fit:contain;
+}
+
+.appr-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  position:relative;
+  z-index:1;
+  opacity:0;
+  transform:translateY(26px);
+  transition:opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.appr-pill svg{
+  width:16px;
+  height:16px;
+  flex:none;
+}
+
+/* Bandeau engagements (approche.html) : apparition successive des 4 capsules
+   au scroll, puis ligne de progression qui les relie et déclenche un bref
+   halo sur chacune — .is-inview ajouté une seule fois par js/appr-pills-reveal.js
+   (même convention que .diag2-steps-list / .formation-network). */
+.appr-pills-wrap{
+  position:relative;
+  margin:0 auto var(--spacing-title-text);
+  max-width:900px;
+}
+
+.appr-pills-wrap.is-inview .appr-pill{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.appr-pills-wrap.is-inview .appr-pill--1{transition-delay:0s;}
+.appr-pills-wrap.is-inview .appr-pill--2{transition-delay:0.2s;}
+.appr-pills-wrap.is-inview .appr-pill--3{transition-delay:0.4s;}
+.appr-pills-wrap.is-inview .appr-pill--4{transition-delay:0.6s;}
+
+.appr-pill::after{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:inherit;
+  background:radial-gradient(circle, rgba(var(--color-primary-rgb),0.5), transparent 72%);
+  opacity:0;
+  pointer-events:none;
+}
+
+.appr-pills-wrap.is-inview .appr-pill--1::after{animation:apprPillGlow 0.9s ease-out 1.3s;}
+.appr-pills-wrap.is-inview .appr-pill--2::after{animation:apprPillGlow 0.9s ease-out 1.73s;}
+.appr-pills-wrap.is-inview .appr-pill--3::after{animation:apprPillGlow 0.9s ease-out 2.16s;}
+.appr-pills-wrap.is-inview .appr-pill--4::after{animation:apprPillGlow 0.9s ease-out 2.6s;}
+
+@keyframes apprPillGlow{
+  0%, 100%{opacity:0;}
+  50%{opacity:1;}
+}
+
+.appr-pills-line{
+  position:absolute;
+  z-index:0;
+  top:50%;
+  left:6%;
+  right:6%;
+  height:3px;
+  margin-top:-1.5px;
+  background:linear-gradient(90deg, transparent, var(--color-primary) 12%, var(--color-primary) 88%, transparent);
+  box-shadow:0 0 12px rgba(var(--color-primary-rgb),0.8), 0 0 4px rgba(var(--color-primary-rgb),0.95);
+  opacity:0;
+  transform:scaleX(0);
+  transform-origin:left center;
+  pointer-events:none;
+}
+
+.appr-pills-wrap.is-inview .appr-pills-line{
+  animation:apprLineDraw 1.6s ease-out 1.2s forwards;
+}
+
+@keyframes apprLineDraw{
+  0%{opacity:0; transform:scaleX(0);}
+  8%{opacity:1;}
+  100%{opacity:1; transform:scaleX(1);}
+}
+
+@media (max-width:800px){
+  .appr-pills-line{display:none;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .appr-pill{opacity:1; transform:none; transition:none;}
+  .appr-pill::after{animation:none; opacity:0;}
+  .appr-pills-line{animation:none; opacity:0;}
+}
+
+.cards--sky .card{
+  background:rgba(var(--color-primary-rgb),0.55);
+  border-color:rgba(var(--color-primary-rgb),0.4);
+  color:var(--color-white);
+}
+
+.cards--sky .card:hover{
+  border-color:rgba(255,255,255,0.5);
+}
+
+.cards--sky .card-subtitle,
+.cards--sky .card-text{
+  color:var(--color-white);
+  text-shadow:0 1px 4px rgba(0,0,0,0.65);
+}
+
+/* Apparition au scroll des 3 cartes bleu ciel (approche.html) — même
+   convention IntersectionObserver → .is-inview (une seule fois) que
+   .diag2-steps-list / .formation-network / .appr-pills-wrap, ici sur la
+   section .cards--sky elle-même (js/appr-cards-reveal.js). */
+.cards--sky .card{
+  opacity:0;
+  transform:translateY(30px) scale(0.97);
+  transition:opacity 2.8s ease-out, transform 2.8s ease-out;
+}
+
+.cards--sky.is-inview .card{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.cards--sky.is-inview .card:hover{
+  transform:translateY(-6px);
+}
+
+.cards--sky.is-inview .card:nth-child(1){transition-delay:0s;}
+.cards--sky.is-inview .card:nth-child(2){transition-delay:0.55s;}
+.cards--sky.is-inview .card:nth-child(3){transition-delay:1.1s;}
+
+@media (prefers-reduced-motion: reduce){
+  .cards--sky .card{opacity:1; transform:none; transition:none;}
+}
+
+/* ===================================================================
+   Timeline verticale — hébergement / sécurité (approche.html)
+   Remplace les 3 cartes par 3 étapes reliées par une ligne qui se dessine
+   au scroll (js/appr-timeline-reveal.js, même convention IntersectionObserver
+   → .is-inview une seule fois que les autres reveals de la page).
+   =================================================================== */
+.appr-timeline{
+  position:relative;
+  max-width:820px;
+  margin:var(--spacing-section) auto 0;
+  padding:0 24px;
+}
+
+.appr-timeline-line{
+  position:absolute;
+  left:47px;
+  top:24px;
+  bottom:24px;
+  width:2px;
+  background:linear-gradient(180deg, var(--color-primary), rgba(var(--color-primary-rgb),0.2));
+  box-shadow:0 0 8px rgba(var(--color-primary-rgb),0.45);
+  transform:scaleY(0);
+  transform-origin:top center;
+}
+
+.appr-timeline.is-inview .appr-timeline-line{
+  animation:apprTimelineDraw 5.5s ease-out forwards;
+}
+
+@keyframes apprTimelineDraw{
+  from{transform:scaleY(0);}
+  to{transform:scaleY(1);}
+}
+
+.appr-timeline-step{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  gap:28px;
+  padding-bottom:var(--spacing-cards);
+}
+
+.appr-timeline-step:last-child{
+  padding-bottom:0;
+}
+
+.appr-timeline-dot{
+  position:relative;
+  flex:none;
+  margin-bottom:0;
+  transition:box-shadow 0.3s ease;
+}
+
+.appr-timeline-dot::after{
+  content:"";
+  position:absolute;
+  inset:-10px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(var(--color-primary-rgb),0.45), transparent 70%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.5s ease-out;
+}
+
+.appr-timeline-dot svg,
+.appr-timeline-dot img{
+  opacity:0;
+  transition:opacity 0.4s ease-out;
+}
+
+.appr-timeline-content{
+  flex:1;
+  padding-top:6px;
+  opacity:0;
+  transform:translateX(20px);
+  transition:opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.appr-timeline-content .card-subtitle{
+  font-size:17px;
+}
+
+.appr-timeline-content .card-text{
+  font-size:17px;
+  line-height:1.8;
+  max-width:800px;
+}
+
+.appr-timeline.is-inview .appr-timeline-step--1 .appr-timeline-dot::after,
+.appr-timeline.is-inview .appr-timeline-step--1 .appr-timeline-dot svg,
+.appr-timeline.is-inview .appr-timeline-step--1 .appr-timeline-dot img,
+.appr-timeline.is-inview .appr-timeline-step--1 .appr-timeline-content{
+  opacity:1;
+  transition-delay:0.2s;
+}
+
+.appr-timeline.is-inview .appr-timeline-step--2 .appr-timeline-dot::after,
+.appr-timeline.is-inview .appr-timeline-step--2 .appr-timeline-dot svg,
+.appr-timeline.is-inview .appr-timeline-step--2 .appr-timeline-dot img,
+.appr-timeline.is-inview .appr-timeline-step--2 .appr-timeline-content{
+  opacity:1;
+  transition-delay:2.75s;
+}
+
+.appr-timeline.is-inview .appr-timeline-step--3 .appr-timeline-dot::after,
+.appr-timeline.is-inview .appr-timeline-step--3 .appr-timeline-dot svg,
+.appr-timeline.is-inview .appr-timeline-step--3 .appr-timeline-dot img,
+.appr-timeline.is-inview .appr-timeline-step--3 .appr-timeline-content{
+  opacity:1;
+  transition-delay:5.3s;
+}
+
+.appr-timeline.is-inview .appr-timeline-content{
+  transform:translateX(0);
+}
+
+.appr-timeline-step:hover .appr-timeline-dot::after{
+  opacity:1;
+}
+
+.appr-timeline-step:hover .appr-timeline-dot{
+  box-shadow:var(--shadow-sm), 0 0 0 3px rgba(var(--color-primary-rgb),0.3);
+}
+
+.appr-timeline-step:hover .card-subtitle{
+  text-shadow:0 0 12px rgba(var(--color-primary-rgb),0.55);
+}
+
+@media (max-width:600px){
+  .appr-timeline-line{left:35px;}
+  .appr-timeline-step{gap:20px;}
+  .appr-timeline-dot{width:40px; height:40px;}
+  .appr-timeline-dot svg{width:20px; height:20px;}
+  .appr-timeline-dot img{width:20px; height:20px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .appr-timeline-line{transition:none; animation:none; transform:scaleY(1);}
+  .appr-timeline-dot::after{transition:none; opacity:1;}
+  .appr-timeline-dot svg,
+  .appr-timeline-dot img{transition:none; opacity:1;}
+  .appr-timeline-content{transition:none; opacity:1; transform:none;}
+}
+
+/* ===================================================================
+   Nous rejoindre (nous-rejoindre.html)
+   =================================================================== */
+.rej-section-title{
+  max-width:900px;
+  margin:var(--spacing-section) auto var(--gap-title-intro);
+  padding:0 24px;
+  text-align:center;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(18px, 2.2vw, 26px);
+  line-height:1.3;
+  letter-spacing:0.01em;
+  color:var(--color-white);
+}
+
+.rej-values{
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+.rej-values h2{
+  text-align:center;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(18px, 2.2vw, 26px);
+  line-height:1.3;
+  letter-spacing:0.01em;
+  color:var(--color-white);
+  margin:0 0 56px;
+}
+
+.rej-values-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.rej-value{
+  padding:28px 0;
+  border-bottom:1px solid rgba(var(--color-primary-rgb),0.18);
+}
+
+.rej-value:last-child{
+  border-bottom:none;
+}
+
+.rej-value:nth-child(2){margin-left:8%;}
+.rej-value:nth-child(3){margin-left:16%;}
+
+.rej-value-num{
+  display:block;
+  width:auto;
+  height:clamp(36px, 4.5vw, 56px);
+}
+
+/* Chiffre tracé au trait puis rempli (js/rej-values-reveal.js, une
+   IntersectionObserver par .rej-value — chaque valeur s'anime indépendamment
+   dès qu'elle entre dans le viewport, une seule fois). Le contour utilise le
+   tracé pathLength="1" pour animer stroke-dashoffset indépendamment de la
+   longueur réelle du tracé (glyphes Montserrat Bold extraits en SVG). */
+.rej-num-stroke{
+  fill:none;
+  stroke:var(--color-white);
+  stroke-width:30;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  stroke-dasharray:1;
+  stroke-dashoffset:1;
+  transition:stroke-dashoffset 2.2s ease-out;
+}
+
+.rej-num-fill{
+  fill:var(--color-white);
+  fill-opacity:0;
+  transition:fill-opacity 1s ease-out;
+}
+
+.rej-value.is-inview .rej-num-stroke{
+  stroke-dashoffset:0;
+}
+
+.rej-value.is-inview .rej-num-fill{
+  fill-opacity:1;
+  transition-delay:2.2s;
+}
+
+.rej-value-label{
+  display:block;
+  margin-top:10px;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:13px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--color-gray-light);
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.rej-value.is-inview .rej-value-label{
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:3.2s;
+}
+
+@media (max-width:700px){
+  .rej-value:nth-child(2){margin-left:4%;}
+  .rej-value:nth-child(3){margin-left:8%;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .rej-num-stroke{transition:none; stroke-dashoffset:0;}
+  .rej-num-fill{transition:none; fill-opacity:1;}
+  .rej-value-label{transition:none; opacity:1; transform:none;}
 }

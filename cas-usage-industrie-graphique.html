@@ -21,8 +21,8 @@
         <a href="a-propos.html">À propos de G2M</a>
         <a href="partenaires.html">Nos partenaires</a>
         <a href="certifications.html">Nos certifications</a>
-        <a href="#">Notre approche</a>
-        <a href="#">Nous rejoindre</a>
+        <a href="approche.html">Notre approche</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
       </div>
     </li>
     <li class="nav-item">
@@ -62,11 +62,11 @@
     <div class="uc-hero-inner">
       <div class="uc-hero-content">
         <p class="uc-hero-eyebrow">INDUSTRIE GRAPHIQUE</p>
-        <h1 class="uc-hero-title">Automatisation &amp; intégration SI</h1>
+        <h1 class="uc-hero-title page-title">Automatisation &amp; intégration SI</h1>
         <p class="uc-hero-desc">Découvrez comment l'intelligence artificielle transforme des fichiers Excel dispersés et des processus manuels en un environnement métier centralisé et connecté à SAGE</p>
       </div>
-      <div class="uc-hero-visual">
-        <img src="images/cas-usage-industrie-graphique-page.png" alt="Machine d'impression grand format en production, industrie graphique">
+      <div class="uc-hero-visual" style="background:var(--uc-panel);">
+        <img src="images/cas-usage-industrie-graphique-page.png" alt="Machine d'impression grand format en production, industrie graphique" style="object-fit:contain;">
       </div>
     </div>
   </header>
@@ -91,7 +91,7 @@
   </section>
 
   <!-- SECTION 4 — SOLUTION APPORTÉE -->
-  <section class="uc-section uc-reveal-section">
+  <section class="uc-section uc-reveal-section uc-section--gap-lg">
     <div class="uc-intro-head">
       <span class="uc-icon uc-icon--solution" aria-hidden="true">
         <svg class="uc-icon-glyph" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -123,8 +123,21 @@
   </section>
 
   <!-- SECTION 5 — AU CŒUR DE LA SOLUTION / EXPERTISES TECHNIQUES -->
-  <section class="uc-section">
+  <section class="uc-section uc-section--gap-lg">
     <div class="uc-intro-head">
+      <span class="uc-icon uc-icon--expertise" aria-hidden="true">
+        <svg class="uc-icon-glyph" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="5" stroke="var(--uc-ring)" stroke-width="1.8"></circle>
+          <line x1="17" y1="12" x2="20" y2="12" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="15.54" y1="15.54" x2="17.66" y2="17.66" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="12" y1="17" x2="12" y2="20" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="8.46" y1="15.54" x2="6.34" y2="17.66" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="7" y1="12" x2="4" y2="12" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="8.46" y1="8.46" x2="6.34" y2="6.34" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="12" y1="7" x2="12" y2="4" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+          <line x1="15.54" y1="8.46" x2="17.66" y2="6.34" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round"></line>
+        </svg>
+      </span>
       <div>
         <h2>Les expertises techniques utilisées</h2>
       </div>
@@ -196,8 +209,13 @@
   </section>
 
   <!-- SECTION 6 — RÉSULTAT / BÉNÉFICES POUR LE CLIENT -->
-  <section class="uc-section">
+  <section class="uc-section uc-section--gap-lg">
     <div class="uc-intro-head">
+      <span class="uc-icon uc-icon--benefits" aria-hidden="true">
+        <svg class="uc-icon-glyph" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 13l4 4L19 7" stroke="var(--uc-ring)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+      </span>
       <div>
         <h2>Les bénéfices pour le client</h2>
       </div>
@@ -219,7 +237,7 @@
   </section>
 
   <!-- SECTION 7 — EN SYNTHÈSE -->
-  <section class="uc-section uc-synthesis">
+  <section class="uc-section uc-synthesis uc-section--gap-lg">
     <div class="uc-intro-head" style="justify-content:center;">
       <div>
         <span class="uc-eyebrow uc-eyebrow--accent">SYNTHÈSE</span>
@@ -229,14 +247,23 @@
 
     <div class="uc-synthesis-row">
       <span class="uc-synthesis-node">Fichiers Excel dispersés et fragiles</span>
-      <span class="uc-flow-arrow" aria-hidden="true">→</span>
-      <span class="uc-synthesis-node">Environnement Notion centralisé</span>
-      <span class="uc-flow-arrow" aria-hidden="true">→</span>
-      <span class="uc-synthesis-node">Chatbot IA connecté à SAGE</span>
-      <span class="uc-flow-arrow" aria-hidden="true">→</span>
-      <span class="uc-synthesis-node">Données fiables et à jour</span>
+      <span class="uc-synthesis-step">
+        <span class="uc-flow-arrow" aria-hidden="true">→</span>
+        <span class="uc-synthesis-node">Environnement Notion centralisé</span>
+      </span>
+      <span class="uc-synthesis-step">
+        <span class="uc-flow-arrow" aria-hidden="true">→</span>
+        <span class="uc-synthesis-node">Chatbot IA connecté à SAGE</span>
+      </span>
+      <span class="uc-synthesis-step">
+        <span class="uc-flow-arrow" aria-hidden="true">→</span>
+        <span class="uc-synthesis-node">Données fiables et à jour</span>
+      </span>
+      <span class="uc-synthesis-step">
+        <span class="uc-flow-arrow" aria-hidden="true">→</span>
+        <span class="uc-synthesis-node">Outil métier unifié</span>
+      </span>
     </div>
-    <span class="uc-synthesis-node uc-synthesis-node--final">Outil métier unifié</span>
 
     <a class="uc-cta-pill" href="cas-usages.html">Découvrir nos autres cas d'usage <span aria-hidden="true">→</span></a>
   </section>

@@ -23,8 +23,8 @@
         <a href="a-propos.html">À propos de G2M</a>
         <a href="partenaires.html">Nos partenaires</a>
         <a href="certifications.html">Nos certifications</a>
-        <a href="#">Notre approche</a>
-        <a href="#">Nous rejoindre</a>
+        <a href="approche.html">Notre approche</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
       </div>
     </li>
     <li class="nav-item">
@@ -58,13 +58,18 @@
 </nav>
 
 <section class="hero">
-  <h1><span class="hero-title-text">L'Intelligence Artificielle au service de votre entreprise.</span></h1>
-  <p class="hero-tagline hero-tagline--home">Conseil, accompagnement et intégration</p>
-
   <div class="hero-logo-reveal">
+    <canvas class="hlr-canvas" aria-hidden="true"></canvas>
+    <div class="hlr-glow" aria-hidden="true"></div>
+    <svg class="hlr-ring" viewBox="0 0 100 100" aria-hidden="true">
+      <circle class="hlr-ring-circle" cx="50" cy="50" r="47"></circle>
+    </svg>
     <img class="hero-logo-reveal-img" src="images/Logo_G2M.png" alt="G2M — Your AI Sparring Partner">
-    <div class="hlr-grid" aria-hidden="true"></div>
+    <span class="hlr-spark hlr-spark--two" aria-hidden="true"></span>
+    <span class="hlr-spark hlr-spark--text" aria-hidden="true"></span>
   </div>
+
+  <h1><span class="hero-title-text page-header--wide-line">Société de conseil et de développement</span><br><span class="hero-title-text page-header--wide-line">sur mesure en intelligence artificielle</span></h1>
 
   <p>
     <span>G2M accompagne les entreprises dans leurs projets d'intelligence artificielle,</span>
@@ -73,23 +78,42 @@
   <span class="scroll-indicator" aria-hidden="true"></span>
 </section>
 
-<section class="section-preview">
-  <div class="card">
-    <a class="card-title" href="a-propos.html">Qui sommes-nous</a>
-    <p>Découvrez G2M, nos partenaires, nos certifications et notre approche.</p>
+<section class="section-preview carousel" aria-roledescription="carrousel">
+  <button type="button" class="carousel-arrow carousel-arrow--prev" aria-label="Carte précédente">
+    <span aria-hidden="true">‹</span>
+  </button>
+  <div class="carousel-viewport">
+    <div class="carousel-track">
+      <div class="card carousel-slide">
+        <div class="carousel-slide-pill">
+          <a class="card-title" href="a-propos.html">Qui sommes-nous</a>
+          <p>Découvrez G2M, nos partenaires, nos certifications et notre approche.</p>
+        </div>
+      </div>
+      <div class="card carousel-slide">
+        <div class="carousel-slide-pill">
+          <a class="card-title" href="services-ia.html">Services IA</a>
+          <p>Formation, diagnostic,<br>et développement de solution d'IA</p>
+        </div>
+      </div>
+      <div class="card carousel-slide">
+        <div class="carousel-slide-pill">
+          <a class="card-title" href="cas-usages.html">Réalisations</a>
+          <p>Un aperçu de nos projets et réussites clients.</p>
+        </div>
+      </div>
+      <div class="card carousel-slide">
+        <div class="carousel-slide-pill">
+          <a class="card-title" href="expertises.html">Expertises</a>
+          <p>Des projets IA concrets, des résultats mesurables.</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="card">
-    <a class="card-title" href="services-ia.html">Services IA</a>
-    <p>Formation, diagnostic et développement de solutions d'intelligence artificielle personnalisées.</p>
-  </div>
-  <div class="card">
-    <a class="card-title" href="cas-usages.html">Réalisations</a>
-    <p>Un aperçu de nos projets et réussites clients.</p>
-  </div>
-  <div class="card">
-    <a class="card-title" href="expertises.html">Expertises</a>
-    <p>Des projets IA concrets, des résultats mesurables.</p>
-  </div>
+  <button type="button" class="carousel-arrow carousel-arrow--next" aria-label="Carte suivante">
+    <span aria-hidden="true">›</span>
+  </button>
+  <div class="carousel-dots" role="tablist" aria-label="Sélection de la carte"></div>
 </section>
 
 <footer class="site-footer">
@@ -104,6 +128,7 @@
 </footer>
 
 <script src="js/hero-logo-reveal.js" defer></script>
+<script src="js/home-cards-carousel.js" defer></script>
 </body>
 </html>
 

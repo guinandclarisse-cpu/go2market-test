@@ -21,8 +21,8 @@
         <a href="a-propos.html">À propos de G2M</a>
         <a href="partenaires.html">Nos partenaires</a>
         <a href="certifications.html">Nos certifications</a>
-        <a href="#">Notre approche</a>
-        <a href="#">Nous rejoindre</a>
+        <a href="approche.html">Notre approche</a>
+        <a href="nous-rejoindre.html">Nous rejoindre</a>
       </div>
     </li>
     <li class="nav-item">
@@ -65,11 +65,13 @@
 </header>
 
 <section class="contact-section">
-  <form class="contact-form" id="contact-form" action="https://formsubmit.co/guinandjean@gmail.com" method="POST">
-    <input type="hidden" name="_subject" value="Nouveau message depuis le site G2M">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+  <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+    <input type="hidden" name="subject" value="Nouvelle demande de contact – Site G2M">
+    <input type="hidden" name="from_name" value="Formulaire de contact — Site G2M">
+    <input type="hidden" name="replyto" id="contact-replyto" value="">
+    <input type="hidden" name="date_envoi" id="contact-date" value="">
+    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
     <div class="form-row">
       <div class="form-field">
@@ -99,12 +101,16 @@
     </div>
 
     <p class="form-note">* Champs obligatoires</p>
-    <button type="submit" class="cta-button">Envoyer le message</button>
+    <button type="submit" class="cta-button" id="contact-submit">Envoyer le message</button>
   </form>
 
   <div class="contact-confirmation" id="contact-confirmation" hidden>
-    <p>Votre message a bien été envoyé. Merci, nous vous répondrons rapidement.</p>
+    <p>Merci pour votre message. Votre demande a bien été envoyée à l'équipe G2M. Nous vous répondrons dans les meilleurs délais.</p>
     <p class="contact-confirmation-note">Retour à l'accueil dans quelques secondes...</p>
+  </div>
+
+  <div class="contact-error" id="contact-error" hidden>
+    <p>Votre message n'a pas pu être envoyé en raison d'une erreur technique. Merci de réessayer dans quelques instants.</p>
   </div>
 </section>
 
@@ -112,27 +118,55 @@
 (function(){
   var form = document.getElementById('contact-form');
   var confirmation = document.getElementById('contact-confirmation');
+  var errorBox = document.getElementById('contact-error');
+  var submitBtn = document.getElementById('contact-submit');
+  var replytoField = document.getElementById('contact-replyto');
+  var dateField = document.getElementById('contact-date');
   if(!form) return;
+
+  var submitLabel = submitBtn.textContent;
 
   form.addEventListener('submit', function(event){
     event.preventDefault();
-    var data = new FormData(form);
 
-    fetch('https://formsubmit.co/ajax/guinandjean@gmail.com', {
+    errorBox.hidden = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Envoi en cours…';
+
+    replytoField.value = document.getElementById('contact-email').value;
+    dateField.value = new Date().toLocaleString('fr-FR', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+      timeZone: 'Europe/Paris'
+    });
+
+    var payload = {};
+    new FormData(form).forEach(function(value, key){ payload[key] = value; });
+
+    fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: {'Accept': 'application/json'},
-      body: data
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload)
     }).then(function(response){
-      if(!response.ok){ throw new Error('Envoi impossible'); }
-      return response.json();
-    }).then(function(){
+      return response.json().then(function(json){
+        return { ok: response.ok && json.success, json: json };
+      });
+    }).then(function(result){
+      if(!result.ok){ throw new Error(result.json && result.json.message ? result.json.message : 'Envoi impossible'); }
+
+      form.reset();
       form.hidden = true;
       confirmation.hidden = false;
       setTimeout(function(){
         window.location.href = 'index.html';
       }, 4000);
     }).catch(function(){
-      form.submit();
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitLabel;
+      errorBox.hidden = false;
     });
   });
 })();
