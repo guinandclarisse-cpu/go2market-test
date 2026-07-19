@@ -47,7 +47,7 @@
   --shadow-hover:0 28px 90px rgba(0,0,0,0.44), 0 0 36px rgba(var(--color-primary-rgb),0.14);
 
   /* Espacements — voir "Guide des espacements" (palier Desktop ≥1600px) */
-  --gap-header-hero:48px;        /* Header → Hero */
+  --gap-header-hero:130px;        /* Header → Hero */
   --hero-pb:64px;                 /* Hero : padding-bottom (texte → cartes) */
   --gap-title-sub:24px;           /* Titre → sous-titre */
   --gap-sub-text:20px;            /* Sous-titre → texte */
@@ -70,7 +70,7 @@
 @media (min-width:1280px) and (max-width:1599px){
   /* Portable : 2560 / 1920 / 1600px restent au palier Desktop ci-dessus ; 1440 / 1366 / 1280px passent ici */
   :root{
-    --gap-header-hero:40px;
+    --gap-header-hero:108px;
     --hero-pb:56px;
     --gap-title-sub:20px;
     --gap-sub-text:16px;
@@ -88,7 +88,7 @@
 
 @media (min-width:768px) and (max-width:1279px){
   :root{
-    --gap-header-hero:36px;
+    --gap-header-hero:97px;
     --hero-pb:48px;
     --gap-title-sub:16px;
     --gap-sub-text:14px;
@@ -106,7 +106,7 @@
 
 @media (max-width:767px){
   :root{
-    --gap-header-hero:32px;
+    --gap-header-hero:87px;
     --hero-pb:40px;
     --gap-title-sub:16px;
     --gap-sub-text:12px;
@@ -192,6 +192,60 @@ body::after{
   background:rgba(var(--color-black-rgb),0.20);
   z-index:-1;
   pointer-events:none;
+}
+
+/* Voile "hero" premium — composant générique réutilisable sur toutes les
+   pages du site (référence : developpement.html). Ne remplace ni ne masque
+   le fond du site (globe/particules/image de fond, body::before/::after,
+   toujours présents et visibles) : ajoute seulement un halo radial bleu
+   très diffus derrière le titre + un voile blanc clair uniforme.
+   .hero-veil-wrap enveloppe le logo, la nav, le hero ET .hero-divider afin
+   que le voile (height:100% du wrapper) démarre pile en haut de la page
+   (pas seulement sous la nav) et s'arrête pile à la ligne de séparation,
+   quelle que soit la longueur du texte d'intro — le margin-bottom de la
+   ligne se collapse hors de .hero-veil-wrap (aucune bordure/padding sur le
+   wrapper) et n'est donc jamais inclus dans la hauteur du voile. Le logo
+   (position:fixed) et la nav (position:sticky) gardent leur rendu et leur
+   z-index (90/100) inchangés malgré leur nouvel emplacement dans le DOM. */
+.hero-veil-wrap{
+  position:relative;
+}
+
+.hero-veil{
+  position:absolute;
+  inset:0;
+  height:100%;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    radial-gradient(ellipse 700px 420px at 50% 340px, rgba(var(--color-primary-rgb),0.22), transparent 70%),
+    linear-gradient(180deg, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.07) 55%, transparent 100%);
+}
+
+/* Séparateur discret marquant la fin de la hero section — un simple trait
+   long en dégradé (plus lumineux au centre, fondu aux extrémités) + point
+   lumineux central, pas de bandeau ni d'encadré. Remplace la flèche de
+   scroll (.scroll-indicator, retirée sur les pages utilisant ce
+   composant) : la ligne est désormais seule à marquer la fin de la hero. */
+.hero-divider{
+  position:relative;
+  width:72%;
+  max-width:900px;
+  height:1px;
+  margin:24px auto 160px;
+  background:linear-gradient(90deg, transparent 0%, rgba(var(--color-primary-rgb),0.12) 12%, rgba(var(--color-primary-rgb),0.9) 50%, rgba(var(--color-primary-rgb),0.12) 88%, transparent 100%);
+}
+
+.hero-divider-dot{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--color-primary);
+  box-shadow:0 0 8px 2px rgba(var(--color-primary-rgb),0.65);
+  transform:translate(-50%, -50%);
 }
 
 h1, h2, h3, h4{
@@ -314,9 +368,10 @@ img{max-width:100%;}
 .nav-menu{
   list-style:none;
   display:flex;
+  width:100%;
   margin:0;
   padding:0;
-  gap:4px;
+  gap:10px;
 }
 
 .nav-item{
@@ -343,6 +398,10 @@ img{max-width:100%;}
 .nav-item.active .nav-link{
   background:rgba(var(--color-primary-rgb),0.14);
   color:var(--color-primary);
+}
+
+.nav-item:last-child{
+  margin-left:auto;
 }
 
 .nav-item:last-child .nav-link{
@@ -415,7 +474,11 @@ img{max-width:100%;}
     width:100%;
     flex-wrap:wrap;
     justify-content:center;
-    gap:6px;
+    gap:8px;
+  }
+
+  .nav-item:last-child{
+    margin-left:0;
   }
 
   .dropdown{
@@ -496,6 +559,10 @@ img{max-width:100%;}
   color:var(--color-primary);
 }
 
+.page-header p.hero-tagline--white{
+  color:var(--color-white);
+}
+
 .hero p{
   font-family:var(--font-body);
   font-weight:400;
@@ -527,7 +594,7 @@ img{max-width:100%;}
   position:relative;
   width:clamp(200px, 24vw, 340px);
   aspect-ratio:1;
-  margin:40px auto 64px;
+  margin:40px auto 110px;
 }
 
 .hlr-canvas{
@@ -737,54 +804,6 @@ img{max-width:100%;}
   margin-bottom:6px;
 }
 
-/* Effet machine à écrire réservé au texte introductif de "Nos cas d'usage IA"
-   (js/intro-typewriter.js). Le texte final ("ghost") reste invisible mais
-   occupe l'espace normal du paragraphe pour ne provoquer aucun déplacement ;
-   le texte tapé est superposé en position absolue par-dessus. */
-.intro--typewriter{
-  text-align:justify;
-}
-
-.intro--typewriter .intro-line{
-  position:relative;
-}
-
-.page-header .intro .intro-line-ghost{
-  display:inline;
-  margin:0;
-  visibility:hidden;
-}
-
-.page-header .intro .intro-line-typed{
-  display:block;
-  margin:0;
-  position:absolute;
-  top:0;
-  left:0;
-  right:0;
-}
-
-.uc-typewriter-cursor{
-  display:inline-block;
-  width:2px;
-  height:1em;
-  margin-left:2px;
-  background:var(--color-white);
-  vertical-align:text-bottom;
-  animation:ucCursorBlink 0.85s step-end infinite;
-}
-
-.uc-typewriter-cursor.is-fading{
-  animation:none;
-  opacity:0;
-  transition:opacity 0.5s ease;
-}
-
-@keyframes ucCursorBlink{
-  0%, 100%{opacity:1;}
-  50%{opacity:0;}
-}
-
 @media (min-width:900px){
   .intro--nowrap span{
     white-space:nowrap;
@@ -855,13 +874,17 @@ img{max-width:100%;}
 .section-preview{grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));}
 .services-grid{grid-template-columns:repeat(3, 1fr);}
 .paves{grid-template-columns:repeat(3, 1fr); margin-bottom:80px;}
+.paves--linked{grid-template-columns:repeat(4, 1fr); max-width:1400px;}
+.paves--linked .pave{min-height:400px; min-width:0;}
+.paves--linked .pave-title{font-size:12px;}
 .modules{grid-template-columns:repeat(2, 1fr);}
 .audience-grid{grid-template-columns:repeat(4, 1fr); text-align:left;}
 
 @media (max-width:900px){
   .services-grid,
   .paves{grid-template-columns:1fr;}
-  .audience-grid{grid-template-columns:repeat(2, 1fr);}
+  .audience-grid,
+  .paves--linked{grid-template-columns:repeat(2, 1fr);}
 }
 
 @media (max-width:700px){
@@ -869,7 +892,8 @@ img{max-width:100%;}
 }
 
 @media (max-width:520px){
-  .audience-grid{grid-template-columns:1fr;}
+  .audience-grid,
+  .paves--linked{grid-template-columns:1fr;}
 }
 
 .card,
@@ -909,6 +933,7 @@ img{max-width:100%;}
 .section-preview.carousel{
   display:block;
   position:relative;
+  margin-top:130px;
   padding-left:56px;
   padding-right:56px;
 }
@@ -945,14 +970,40 @@ img{max-width:100%;}
   display:flex;
   align-items:center;
   justify-content:center;
-  min-height:340px;
+  min-height:460px;
   padding:56px 44px 60px;
-  background-image:url("../images/photo-page-accueil-v2.png");
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
   color:#161C22;
   border-color:rgba(var(--color-primary-rgb),0.28);
+}
+
+/* Une image de fond dédiée par carte (au lieu de l'unique image
+   partagée précédente), reprenant le même traitement cover/center. */
+.carousel-slide--qui-sommes-nous{
+  background-image:url("../images/Caroussel QUI SOMMES NOUS.png");
+}
+
+.carousel-slide--services{
+  background-image:url("../images/Caroussel SERVICES IA.png");
+}
+
+/* Sélecteur renforcé (égale la spécificité de la règle de base
+   .section-preview.carousel .carousel-slide ci-dessus, qui écrasait
+   sinon ce background-position) : cadre sur le tiers supérieur de
+   l'image pour garder les pièces de puzzle tenues en l'air visibles,
+   plutôt que le sol/les jambes en bas de l'image. */
+.section-preview.carousel .carousel-slide--services{
+  background-position:center 15%;
+}
+
+.carousel-slide--realisations{
+  background-image:url("../images/Caroussel REALISATION.png");
+}
+
+.carousel-slide--rd{
+  background-image:url("../images/Caroussel R&D.png");
 }
 
 /* Le survol ne doit soulever que le petit encadré blanc (.carousel-slide-pill
@@ -1163,6 +1214,10 @@ img{max-width:100%;}
   border-radius:var(--radius-pill);
   margin:0 0 var(--card-title-gap);
   transition:background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.pave-title--nowrap{
+  white-space:nowrap;
 }
 
 a.card-title:hover,
@@ -1402,6 +1457,8 @@ a.pave-title:focus{
 }
 
 .cards--narrow{max-width:1100px;}
+
+.cards--tight-bottom{margin-bottom:16px;}
 
 .card--full{
   grid-column:1 / -1;
@@ -1830,7 +1887,7 @@ a.pave-title:focus{
 .callout h2{
   font-family:var(--font-heading);
   font-weight:600;
-  font-size:28px;
+  font-size:32px;
   color:var(--color-white);
   margin:0 0 var(--gap-title-intro);
 }
@@ -1928,7 +1985,7 @@ a.pave-title:focus{
   color:#f2f8fa;
   max-width:900px;
   margin:0 auto;
-  text-align:justify;
+  text-align:center;
 }
 
 .diag2-hero-text p{
@@ -1940,7 +1997,8 @@ a.pave-title:focus{
 }
 
 .diag2-hero-strip{
-  padding:44px 6% 0;
+  padding:60px 6% 0;
+  margin-top:-80px;
 }
 
 .diag2-hero-strip-inner{
@@ -1980,7 +2038,7 @@ a.pave-title:focus{
 /* ---- Section 2 : Trois niveaux ---- */
 .diag2-levels{
   position:relative;
-  padding:56px 6% 32px 6%;
+  padding:8px 6% 32px 6%;
 }
 
 .diag2-levels-inner{
@@ -2199,7 +2257,7 @@ a.pave-title:focus{
   margin:0;
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:clamp(20px, 2.4vw, 30px);
+  font-size:32px;
   letter-spacing:0.01em;
   line-height:1.3;
   color:var(--color-white);
@@ -2475,7 +2533,7 @@ a.pave-title:focus{
   margin:0 0 18px;
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:26px;
+  font-size:32px;
   color:var(--color-white);
   text-align:center;
 }
@@ -3201,8 +3259,13 @@ a.pave-title:focus{
 
 /* Intro (partenaires.html, certifications.html) : reprend désormais le
    composant générique .page-header (partagé par formation/diagnostic/
-   développement), avec un texte justifié via .intro--justify. */
-.page-header .intro.intro--justify,
+   développement). Texte introductif principal centré ; .method-intro
+   (intros de section en milieu de page, pas sous le titre principal) reste
+   justifié. */
+.page-header .intro.intro--justify{
+  text-align:center;
+}
+
 .method-intro p.intro--justify{
   text-align:justify;
   text-align-last:left;
@@ -3236,7 +3299,7 @@ a.pave-title:focus{
 .partners-tier h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:28px;
+  font-size:32px;
   color:var(--color-white);
   text-align:center;
   margin:0 0 6px;
@@ -3261,19 +3324,42 @@ a.pave-title:focus{
   gap:var(--spacing-cards);
 }
 
-.partners-tier-logos .partner-logo{
+.partners-tier-logos .partner-item{
   width:290px;
   flex:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:14px;
 }
 
 @media (max-width:520px){
-  .partners-tier-logos .partner-logo{
+  .partners-tier-logos .partner-item{
     width:100%;
     max-width:290px;
   }
 }
 
+.partner-logo-link{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:13px;
+  color:var(--color-gray);
+  text-decoration:none;
+  transition:color 0.25s ease, gap 0.25s ease;
+}
+
+.partner-logo-link:hover,
+.partner-logo-link:focus-visible{
+  color:var(--color-white);
+  gap:9px;
+}
+
 .partner-logo{
+  width:100%;
   background:var(--color-white);
   border-radius:var(--radius);
   padding:30px;
@@ -3288,6 +3374,14 @@ a.pave-title:focus{
 .partner-logo:hover{
   transform:translateY(-4px);
   box-shadow:var(--shadow);
+}
+
+.partner-logo a{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  height:100%;
 }
 
 .partner-logo img{
@@ -3507,7 +3601,7 @@ a.pave-title:focus{
 .outcomes-section h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:28px;
+  font-size:32px;
   color:var(--color-white);
   text-align:center;
   margin:0 0 var(--gap-title-intro);
@@ -3530,7 +3624,7 @@ a.pave-title:focus{
 .day-section h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:26px;
+  font-size:32px;
   color:var(--color-white);
   letter-spacing:0.01em;
   margin:0 0 var(--gap-title-intro);
@@ -3653,7 +3747,7 @@ a.pave-title:focus{
   max-width:950px;
   margin-left:auto;
   margin-right:auto;
-  text-align:justify;
+  text-align:center;
 }
 
 @media (max-width:1400px){
@@ -3670,6 +3764,13 @@ a.pave-title:focus{
 
 .page-header--wide h1{
   color:var(--color-primary);
+}
+
+/* Descend le bloc titre de la hero (espace nav → titre), spécifique à
+   a-propos.html (ne touche pas index.html / certifications.html qui
+   partagent .page-header--wide). Taille du hero inchangée. */
+body.page-a-propos .page-header--wide{
+  padding-top:130px;
 }
 
 /* Force exactement 2 lignes (coupure au <br> du HTML), sans retour à la
@@ -3692,6 +3793,10 @@ a.pave-title:focus{
 
 .method-intro--sm-title{
   margin-top:170px;
+  background:none;
+  border:none;
+  box-shadow:none;
+  padding:0 24px;
 }
 
 @media (max-width:900px){
@@ -3703,12 +3808,13 @@ a.pave-title:focus{
 }
 
 .method-intro--sm-title h2{
-  font-size:clamp(22px, 2.8vw, 34px);
+  font-size:32px;
   color:var(--color-white);
+  margin-bottom:8px;
 }
 
 .method-intro h2.method-intro-title--sm{
-  font-size:clamp(19px, 2.5vw, 26px);
+  font-size:32px;
   color:var(--color-white);
 }
 
@@ -3722,7 +3828,7 @@ a.pave-title:focus{
 
 .method-intro--no-frame h2{
   color:var(--color-white);
-  font-size:clamp(18px, 2.2vw, 26px);
+  font-size:32px;
 }
 
 .appr-section-title{
@@ -3754,64 +3860,102 @@ a.pave-title:focus{
 
 .method-intro.method-intro--sm-title p{
   color:var(--color-primary);
+  font-size:16px;
 }
 
 .audience-section--accent-intro > p{
   color:var(--color-primary);
+  font-size:16px;
 }
 
 .audience-section--accent-intro h2{
   margin-bottom:8px;
+  font-size:32px;
   color:var(--color-white);
 }
 
 .audience-section--accent-intro{
-  margin-top:170px;
+  margin-top:260px;
 }
 
 @media (max-width:900px){
-  .audience-section--accent-intro{margin-top:130px;}
+  .audience-section--accent-intro{margin-top:200px;}
 }
 
 @media (max-width:600px){
-  .audience-section--accent-intro{margin-top:90px;}
+  .audience-section--accent-intro{margin-top:140px;}
 }
 
 .team-group-title.team-group-title--committee{
-  margin-top:170px;
+  margin-top:56px;
 }
 
 @media (max-width:900px){
-  .team-group-title.team-group-title--committee{margin-top:130px;}
+  .team-group-title.team-group-title--committee{margin-top:48px;}
 }
 
 @media (max-width:600px){
-  .team-group-title.team-group-title--committee{margin-top:90px;}
+  .team-group-title.team-group-title--committee{margin-top:40px;}
 }
 
-/* Les icônes des cartes "valeurs" débordent volontairement au-dessus de la
-   carte (cf. .value-icon-frame, margin-top négatif) ; on descend donc tout
-   le bloc .cards--light pour que ce débordement reste cantonné à sa propre
-   carte, sans empiéter sur le bloc titre/texte du dessus. */
-.cards--light{
-  margin-top:20px;
+/* "Nos valeurs" — 3 lignes horizontales éditoriales (a-propos.html), en
+   remplacement des 3 cartes .cards--light : icône à gauche (centrée
+   verticalement sur le bloc titre+texte), titre et texte alignés à gauche
+   à droite de l'icône, sans fond de carte. Séparées par un fin trait en
+   dégradé aligné sur la largeur du contenu (pas de trait après la 3e). */
+.values-frieze{
+  max-width:820px;
+  margin:56px auto 0;
+  padding:0 24px;
+  display:flex;
+  flex-direction:column;
 }
 
-.cards--light .card{
-  background:rgba(var(--color-primary-rgb),0.42);
-  border-color:rgba(var(--color-primary-rgb),0.18);
+.values-frieze-item{
+  display:flex;
+  align-items:center;
+  text-align:left;
+  gap:32px;
+  padding:40px 0;
 }
 
-.cards--light .card-subtitle{
+.values-frieze-item:first-child{
+  padding-top:0;
+}
+
+.values-frieze-item:last-child{
+  padding-bottom:0;
+}
+
+.values-frieze-body{
+  flex:1;
+}
+
+.values-frieze-title{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:19px;
+  letter-spacing:0.05em;
   color:var(--color-white);
-  text-transform:uppercase;
-  text-align:center;
-  margin-bottom:32px;
+  text-align:left;
+  margin:0 0 12px;
 }
 
-.cards--light .card-text{
-  color:var(--color-white);
-  text-align:justify;
+.values-frieze-text{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:16px;
+  line-height:1.8;
+  color:var(--text-on-dark);
+  text-align:left;
+  margin:0;
+}
+
+.values-frieze-divider{
+  display:block;
+  width:100%;
+  height:1px;
+  background:linear-gradient(90deg, transparent, rgba(var(--color-primary-rgb),0.5), transparent);
 }
 
 @property --ring-angle{
@@ -3823,9 +3967,10 @@ a.pave-title:focus{
 .value-icon-frame{
   display:block;
   position:relative;
-  width:140px;
-  height:140px;
-  margin:calc(-1 * (var(--card-padding) + 40px)) auto 20px;
+  flex:none;
+  width:110px;
+  height:110px;
+  margin:0;
 }
 
 .value-icon-frame::before{
@@ -3843,23 +3988,23 @@ a.pave-title:focus{
   pointer-events:none;
 }
 
-.card:hover .value-icon-frame::before{
+.values-frieze-item:hover .value-icon-frame::before{
   --ring-angle:360deg;
 }
 
 /* Les 3 logos (Engagement / Compétences / Sens du résultat) partagent
-   exactement le même cercle (140x140, fond #F7F7F7 identique au fond propre
+   exactement le même cercle (110x110, fond #F7F7F7 identique au fond propre
    des fichiers sources) et le même padding de base : object-fit:contain
    garantit qu'aucun pictogramme n'est jamais rogné ni déformé, et la marge
    intérieure commune leur donne la même importance visuelle, quelle que
    soit la résolution ou le cadrage d'origine de chaque fichier. */
 .value-icon{
   display:block;
-  width:140px;
-  height:140px;
+  width:110px;
+  height:110px;
   border-radius:50%;
   box-sizing:border-box;
-  padding:16px;
+  padding:13px;
   background-color:#F7F7F7;
   object-fit:contain;
   object-position:center;
@@ -3870,29 +4015,96 @@ a.pave-title:focus{
   transition:box-shadow 0.3s ease;
 }
 
-/* Recentrage horizontal propre à chaque pictogramme : dans ces 3 fichiers,
-   le dessin n'est pas centré dans son propre canevas, et la largeur de
-   l'image correspond exactement à la largeur utile du cercle une fois
-   réduite par le padding (aspect ratio proche de 1:1 pour Compétences,
-   nettement plus large que haut pour les deux autres) — object-position
-   seul n'a donc aucune marge à exploiter sur cet axe. On corrige à la place
-   en répartissant le padding gauche/droite de façon asymétrique (même
-   somme = même largeur utile pour le pictogramme), ce qui déplace le
-   contenu sans jamais changer la taille du cercle ni celle du dessin. */
+/* Recentrage horizontal propre à chaque pictogramme (voir .value-icon) —
+   mêmes proportions qu'en 140px, mises à l'échelle pour le cercle 110px. */
 .value-icon[src*="valeur-engagement"]{
-  padding:16px 13px 16px 19px;
+  padding:13px 10px 13px 15px;
 }
 
 .value-icon[src*="valeur-competences"]{
-  padding:16px 14px 16px 18px;
+  padding:13px 11px 13px 14px;
 }
 
 .value-icon[src*="valeur-sens-du-resultat"]{
-  padding:16px 14px 16px 18px;
+  padding:13px 11px 13px 14px;
 }
 
-.card:hover .value-icon{
+.values-frieze-item:hover .value-icon{
   box-shadow:0 0 0 4px rgba(var(--color-primary-rgb),0.12), var(--shadow);
+}
+
+@media (max-width:600px){
+  .values-frieze-item{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    gap:16px;
+  }
+
+  .values-frieze-title,
+  .values-frieze-text{
+    text-align:center;
+  }
+}
+
+/* ===================================================================
+   Nos valeurs — apparition au scroll (a-propos.html)
+   Déclenchement unique via IntersectionObserver (voir
+   js/values-frieze-reveal.js, même principe que .sf-cards/.cards--sky) :
+   les 3 blocs (icône + titre + texte) se révèlent en cascade, le cercle
+   d'icône passe d'une légère transparence à son état normal, et les
+   séparateurs se dessinent de gauche à droite — le tout via transform/
+   opacity/clip-path pour rester fluide sur mobile.
+   =================================================================== */
+.values-frieze-item{
+  opacity:0;
+  transform:translateY(35px) scale(0.98);
+  transition:opacity 2.4s ease-out, transform 2.4s ease-out;
+}
+
+.values-frieze-item:nth-of-type(1){transition-delay:0ms;}
+.values-frieze-item:nth-of-type(2){transition-delay:600ms;}
+.values-frieze-item:nth-of-type(3){transition-delay:1200ms;}
+
+.values-frieze.is-inview .values-frieze-item{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.value-icon-frame{
+  opacity:0.4;
+  transition:opacity 2.4s ease;
+}
+
+.values-frieze-item:nth-of-type(1) .value-icon-frame{transition-delay:0ms;}
+.values-frieze-item:nth-of-type(2) .value-icon-frame{transition-delay:600ms;}
+.values-frieze-item:nth-of-type(3) .value-icon-frame{transition-delay:1200ms;}
+
+.values-frieze.is-inview .value-icon-frame{
+  opacity:1;
+}
+
+.values-frieze-divider{
+  clip-path:inset(0 100% 0 0);
+  transition:clip-path 2.4s ease-out;
+}
+
+.values-frieze-divider:nth-of-type(1){transition-delay:600ms;}
+.values-frieze-divider:nth-of-type(2){transition-delay:1200ms;}
+
+.values-frieze.is-inview .values-frieze-divider{
+  clip-path:inset(0 0% 0 0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .values-frieze-item,
+  .value-icon-frame,
+  .values-frieze-divider{
+    opacity:1;
+    transform:none;
+    clip-path:inset(0 0% 0 0);
+    transition:none;
+  }
 }
 
 /* Bordure animée qui se "dessine" en cercle au survol (a-propos.html, developpement.html) */
@@ -3934,12 +4146,17 @@ a.pave-title:focus{
 }
 
 .card--full.card--border-draw + .card--full.card--border-draw{
-  margin-top:32px;
+  margin-top:170px;
 }
 
 .card--full.card--border-draw .card-subtitle{
-  font-size:21px;
+  font-size:32px;
+  font-weight:700;
   color:#FFFFFF;
+}
+
+.sf-intro-text{
+  text-align:center;
 }
 
 .card--full.card--border-draw .journey-subtitle{
@@ -3947,6 +4164,7 @@ a.pave-title:focus{
   margin:0 0 16px;
   color:var(--color-primary);
   font-style:normal;
+  font-size:16px;
 }
 
 .card--full.card--border-draw .card-text{
@@ -3965,16 +4183,37 @@ a.pave-title:focus{
   margin-top:16px;
 }
 
+/* NOTRE MISSION (a-propos.html) : le titre/sous-titre bleu sont sortis de la
+   ligne texte+photo (.card--full-heading, pleine largeur, au-dessus) afin
+   que la photo ne s'aligne plus que sur .card--full-text — elle commence au
+   niveau de la première ligne du texte et finit à la dernière, pas au
+   niveau du titre. .card--full-row est la ligne flex texte+photo (remplace
+   .card--full comme contexte de stretch pour .card--full-media). */
+.card--full-row{
+  display:flex;
+  align-items:stretch;
+  gap:32px;
+  margin-top:56px;
+}
+
+.card--full-text{
+  flex:1;
+}
+
+@media (max-width:700px){
+  .card--full-row{flex-direction:column;}
+}
+
 /* Wrapper sans hauteur intrinsèque propre (l'image y est détachée du flux via
    position:absolute) : dans le flex row, sa taille de référence avant stretch
-   est donc nulle, ce qui laisse .card--full-content (le texte) seul maître de
+   est donc nulle, ce qui laisse .card--full-text (le texte) seul maître de
    la hauteur de la ligne. align-self:stretch étire ensuite ce wrapper à cette
    hauteur, et l'image la remplit en object-fit:cover. Résultat : la hauteur
-   de l'encadré suit le texte, jamais l'inverse. */
+   de la photo suit le texte (paragraphe + liste), jamais le titre. */
 .card--full.card--border-draw .card--full-media{
   position:relative;
   width:100%;
-  max-width:320px;
+  max-width:440px;
   align-self:stretch;
   flex:none;
   border-radius:var(--radius-lg);
@@ -3996,13 +4235,63 @@ a.pave-title:focus{
   .card--full.card--border-draw .card--full-media{max-width:100%; aspect-ratio:4/3;}
 }
 
+/* Variante "sans encadré" (a-propos.html, blocs NOTRE MISSION / NOTRE
+   SAVOIR-FAIRE) : supprime uniquement le fond, la bordure statique, le
+   padding et le liseré conique animé de .card--border-draw — la mise en
+   page (texte + photo côte à côte), la typographie et le style de l'image
+   restent ceux de .card--full.card--border-draw, inchangés. */
+.card--full.card--border-draw.card--full--plain{
+  background:none;
+}
+
+.card--full--plain{
+  border:none;
+  padding:0;
+  box-shadow:none;
+}
+
+.card--full--plain .card-subtitle,
+.card--full.card--border-draw.card--full--plain .journey-subtitle{
+  text-align:center;
+}
+
+.card--full--plain:hover{
+  border:none;
+  box-shadow:none;
+  transform:none;
+}
+
+.card--full--plain.card--border-draw::before{
+  display:none;
+}
+
+.stats-row-title{
+  text-align:center;
+  margin:170px 0 0;
+}
+
+@media (max-width:900px){
+  .stats-row-title{margin-top:130px;}
+}
+
+@media (max-width:600px){
+  .stats-row-title{margin-top:90px;}
+}
+
+.stats-row-title h2{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:32px;
+  color:var(--color-white);
+  margin:0;
+}
+
 .stats-row{
   max-width:none;
-  margin:170px 0 0;
+  margin:32px 0 0;
   padding:100px 24px;
   display:grid;
   grid-template-columns:repeat(4, 1fr);
-  gap:var(--spacing-cards);
   text-align:center;
   background:var(--color-white);
   border:1px solid rgba(var(--color-primary-rgb),0.14);
@@ -4012,17 +4301,29 @@ a.pave-title:focus{
 }
 
 .stats-row > div{
+  position:relative;
   min-width:0;
   width:100%;
+  padding:0 calc(var(--spacing-cards) / 2);
   box-sizing:border-box;
 }
 
-@media (max-width:900px){
-  .stats-row{margin-top:130px;}
-}
-
-@media (max-width:600px){
-  .stats-row{margin-top:90px;}
+/* Pas de gap entre colonnes : le séparateur est posé exactement à la
+   frontière entre deux colonnes égales (right:0), et le padding
+   symétrique de chaque colonne garantit une distance identique entre
+   le trait et l'indicateur de gauche comme de droite. N'a de sens
+   qu'avec les 4 colonnes alignées sur une seule ligne (breakpoints
+   ci-dessous). */
+@media (min-width:701px){
+  .stats-row > div:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:15%;
+    bottom:15%;
+    right:0;
+    width:1px;
+    background:linear-gradient(180deg, transparent, rgba(var(--color-primary-rgb),0.35), transparent);
+  }
 }
 
 @media (max-width:700px){
@@ -4037,9 +4338,61 @@ a.pave-title:focus{
   font-family:var(--font-heading);
   font-weight:700;
   font-size:clamp(34px, 4vw, 52px);
-  color:#27516A;
+  color:var(--color-primary);
   line-height:1;
   margin:0 0 2px;
+}
+
+/* Hauteur fixe partagée avec .stat-rotator (établissement en rotation,
+   sur 2 colonnes max) pour garantir un alignement vertical identique
+   entre les 4 indicateurs, que la valeur tienne sur une ligne ou que le
+   nom d'établissement le plus long en occupe deux. */
+.stats-row .stat-number,
+.stat-rotator{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.stat-rotator{
+  position:relative;
+  margin:0 0 2px;
+}
+
+.stat-rotator-item{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(20px, 2.6vw, 28px);
+  line-height:1.2;
+  color:var(--color-primary);
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 0.45s ease, transform 0.45s ease;
+}
+
+.stat-rotator-item--long{
+  font-size:clamp(18px, 2.3vw, 24px);
+}
+
+.stat-rotator-item.is-active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.stat-rotator-item.is-leaving{
+  opacity:0;
+  transform:translateY(-10px);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .stat-rotator-item{transition:none;}
 }
 
 .stat-label{
@@ -4052,26 +4405,38 @@ a.pave-title:focus{
 }
 
 .team-grid{
-  max-width:1352px;
-  margin:var(--spacing-title-text) auto var(--spacing-section);
+  max-width:1120px;
+  margin:calc(var(--spacing-title-text) + 110px) auto var(--spacing-section);
   padding:0 24px;
   display:flex;
   flex-wrap:wrap;
   justify-content:center;
-  gap:var(--spacing-cards);
+  align-items:flex-start;
+  gap:100px 24px;
 }
 
+/* Carte "avatar débordant" : la photo (portée par .team-photo-wrap,
+   positionnée en absolu) chevauche le haut de la carte d'environ 50% de
+   sa hauteur — d'où le padding-top de .team-card réservant cet espace,
+   et le position:relative + overflow:visible pour laisser le cercle
+   déborder sans être rogné. */
 .team-card{
-  flex:0 1 calc((100% - 2 * var(--spacing-cards)) / 3);
+  --team-photo-size:clamp(120px, 22vw, 150px);
+  position:relative;
+  overflow:visible;
+  width:100%;
+  max-width:304px;
+  flex:0 1 304px;
   display:flex;
   flex-direction:column;
-  gap:16px;
+  align-items:center;
   background:linear-gradient(165deg, rgba(var(--color-primary-rgb),0.62) 0%, rgba(var(--color-primary-rgb),0.34) 45%, rgba(var(--color-surface-rgb),0.97) 100%);
   border:1px solid rgba(var(--color-primary-rgb),0.40);
   border-radius:var(--radius);
-  padding:var(--card-padding);
+  padding:calc(var(--team-photo-size) / 2 + 16px) 26px 24px;
+  height:380px;
   box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
-  text-align:left;
+  text-align:center;
   transition:transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -4080,7 +4445,7 @@ a.pave-title:focus{
 }
 
 @media (max-width:520px){
-  .team-card{flex-basis:100%;}
+  .team-card{flex-basis:100%; max-width:300px;}
 }
 
 .team-card:hover{
@@ -4089,64 +4454,80 @@ a.pave-title:focus{
   box-shadow:var(--shadow-hover);
 }
 
-.team-card-top{
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  gap:20px;
-  min-height:160px;
-}
-
-.team-card-heading{
-  flex:1;
-  min-width:0;
+.team-photo-wrap{
+  position:absolute;
+  top:calc(var(--team-photo-size) / -2);
+  left:50%;
+  transform:translateX(-50%);
+  width:var(--team-photo-size);
+  height:var(--team-photo-size);
+  border-radius:50%;
+  box-shadow:0 12px 28px rgba(0,0,0,0.4);
 }
 
 .team-photo{
-  width:130px;
-  height:130px;
+  width:100%;
+  height:100%;
   flex:none;
   border-radius:50%;
   object-fit:cover;
   margin:0;
   display:block;
-  border:1px solid rgba(var(--color-primary-rgb),0.20);
+  border:3px solid var(--color-white);
 }
 
-@media (max-width:480px){
-  .team-card-top{
-    flex-direction:column;
-    text-align:center;
-  }
-
-  .team-card{
-    text-align:center;
-  }
-
-  .team-photo{
-    margin:0 auto;
-    width:150px;
-    height:150px;
-  }
+/* Photo source déjà cadrée serré (portrait plein cadre) : contain montre
+   la photo entière au lieu de la recadrer davantage via cover, pour un
+   rendu moins zoomé. Fond blanc pour prolonger l'arrière-plan de la photo
+   dans les bandes latérales laissées par contain (au lieu de zones noires). */
+.team-photo--contain{
+  object-fit:contain;
+  background:var(--color-white);
 }
 
-.team-card h3{
+.team-card-body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  height:100%;
+}
+
+.team-name{
   font-family:var(--font-heading);
-  font-weight:600;
-  font-size:16px;
+  font-weight:700;
+  font-size:20px;
   color:var(--color-white);
-  margin:0 0 4px;
+  margin:0;
+}
+
+.team-surname{
+  color:var(--color-white);
 }
 
 .team-role{
   font-family:var(--font-body);
   font-style:italic;
   font-weight:400;
-  font-size:14px;
-  text-transform:uppercase;
+  font-size:13px;
+  text-transform:lowercase;
   letter-spacing:0.02em;
   color:var(--color-gray);
-  margin:0;
+  text-align:center;
+  white-space:nowrap;
+  margin:6px 0 0;
+}
+
+.team-role::first-letter{
+  text-transform:uppercase;
+}
+
+.team-divider{
+  width:36px;
+  height:2px;
+  border-radius:2px;
+  background:var(--color-primary);
+  margin:10px 0;
 }
 
 .team-expertise{
@@ -4155,29 +4536,52 @@ a.pave-title:focus{
   font-size:13px;
   line-height:1.6;
   color:var(--text-on-dark);
-  text-align:left;
+  text-align:center;
+  max-width:230px;
   margin:0;
 }
 
 .team-link{
-  display:inline-block;
-  margin-top:0;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:auto;
+  padding-top:14px;
   font-family:var(--font-body);
   font-weight:500;
   font-size:13px;
   color:var(--color-primary);
   text-decoration:none;
+  transition:color 0.25s ease, gap 0.25s ease;
+}
+
+.team-link-icon{
+  width:15px;
+  height:15px;
+  flex:none;
+  fill:currentColor;
+}
+
+.team-link-arrow{
+  transform:translateX(-2px);
+  transition:transform 0.25s ease;
 }
 
 .team-link:hover,
-.team-link:focus{
-  color:var(--color-secondary);
+.team-link:focus-visible{
+  color:var(--color-white);
+  gap:11px;
+}
+
+.team-link:hover .team-link-arrow,
+.team-link:focus-visible .team-link-arrow{
+  transform:translateX(0);
 }
 
 .team-group-title{
   font-family:var(--font-heading);
-  font-weight:600;
-  font-size:20px;
+  font-weight:700;
+  font-size:32px;
   color:var(--color-white);
   text-align:center;
   margin:var(--spacing-section-tight) 0 var(--gap-title-intro);
@@ -4185,6 +4589,125 @@ a.pave-title:focus{
 
 .team-group-title:first-of-type{
   margin-top:var(--spacing-title-text);
+}
+
+/* ===================================================================
+   "G2M en chiffres" — bandeau indicateurs (index.html)
+   Fond bleu nuit hérité de body{} (pas de bande blanche comme .stats-row
+   sur a-propos.html — composant volontairement distinct). Compteurs
+   simultanés animés au scroll via js/stats-band-counter.js (~1,9s,
+   ease-out, une seule fois — IntersectionObserver + unobserve).
+   =================================================================== */
+.stats-band{
+  max-width:1352px;
+  margin:var(--spacing-section) auto;
+  padding:0 24px;
+  text-align:center;
+}
+
+/* grid-template-columns:repeat(auto-fit, minmax(0,1fr)) : autant de
+   colonnes strictement égales qu'il y a de .stats-band-item — ajouter un
+   4e indicateur (ou un 5e) dans le HTML suffit, la répartition reste
+   automatiquement homogène sans toucher au CSS. */
+.stats-band-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(0, 1fr));
+}
+
+@media (max-width:900px){
+  .stats-band-grid{grid-template-columns:repeat(2, minmax(0, 1fr)); row-gap:48px;}
+}
+
+@media (max-width:520px){
+  .stats-band-grid{grid-template-columns:minmax(0, 1fr); row-gap:40px;}
+}
+
+.stats-band-item{
+  position:relative;
+  display:block;
+  padding:8px 32px;
+  border-radius:var(--radius);
+  color:inherit;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform 0.28s ease-out;
+}
+
+/* Pas de gap entre colonnes : le séparateur est posé exactement à la
+   frontière entre deux colonnes égales (right:0, sans gap), et le padding
+   symétrique de chaque item (32px de part et d'autre) garantit une
+   distance identique entre le trait et l'indicateur de gauche comme de
+   droite. Masqué dès que la grille repasse en 2 colonnes / 1 colonne,
+   où la frontière ne sépare plus les mêmes voisins visuellement. */
+@media (min-width:901px){
+  .stats-band-item:not(:last-child)::before{
+    content:"";
+    position:absolute;
+    top:15%;
+    bottom:15%;
+    right:0;
+    width:1px;
+    background:linear-gradient(180deg, transparent, rgba(var(--color-primary-rgb),0.35), transparent);
+  }
+}
+
+.stats-band-item::after{
+  content:"";
+  position:absolute;
+  inset:-14px;
+  border-radius:var(--radius-lg);
+  background:radial-gradient(circle, rgba(var(--color-primary-rgb),0.16), transparent 72%);
+  opacity:0;
+  transition:opacity 0.3s ease;
+  pointer-events:none;
+  z-index:-1;
+}
+
+.stats-band-item:hover,
+.stats-band-item:focus-visible{
+  transform:scale(1.03);
+}
+
+.stats-band-item:hover::after,
+.stats-band-item:focus-visible::after{
+  opacity:1;
+}
+
+.stats-band-item .stat-number{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:clamp(36px, 4.4vw, 56px);
+  color:var(--color-primary);
+  line-height:1;
+  white-space:nowrap;
+  margin:0 0 10px;
+  transition:color 0.28s ease-out, text-shadow 0.28s ease-out;
+}
+
+.stats-band-item:hover .stat-number,
+.stats-band-item:focus-visible .stat-number{
+  color:var(--color-white);
+  text-shadow:0 0 22px rgba(var(--color-primary-rgb),0.85);
+}
+
+.stats-band-item .stat-label{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:14px;
+  line-height:1.5;
+  color:var(--text-on-dark);
+  margin:0;
+  transition:color 0.28s ease-out;
+}
+
+.stats-band-item:hover .stat-label,
+.stats-band-item:focus-visible .stat-label{
+  color:var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .stats-band-item{transition:none;}
+  .stats-band-item:hover{transform:none;}
 }
 
 /* ===================================================================
@@ -4202,7 +4725,7 @@ a.pave-title:focus{
 }
 
 .intro-banner-text{
-  text-align:justify;
+  text-align:center;
 }
 
 .intro-banner-text p{
@@ -4272,24 +4795,36 @@ body.page-developpement .diag-intro h2{
   margin:0 0 var(--gap-title-intro);
 }
 
-/* Cartes d'expertises techniques : hauteur uniforme, icône en médaillon bas-droite, halo animé au survol */
+/* Cartes d'expertises techniques (accordéon) : icône en médaillon centré en haut, halo animé au survol */
 .cards--expertise{
   margin-bottom:calc(var(--spacing-section) + 40px);
 }
 
 .cards--expertise .card{
-  min-height:355px;
+  height:auto;
+  align-self:start;
+  padding-top:calc(var(--card-padding) * 0.65);
+  padding-bottom:calc(var(--card-padding) * 0.65);
   background:rgba(var(--color-primary-rgb),0.55);
+  border-color:rgba(255,255,255,0.35);
   color:var(--color-white);
+  transition:transform 0.25s ease, box-shadow 0.3s ease-out, border-color 0.3s ease-out, background 0.3s ease-out;
+}
+
+.cards--expertise .card:hover{
+  border-color:rgba(255,255,255,0.5);
+  background:rgba(var(--color-primary-rgb),0.62);
+  box-shadow:var(--shadow-hover), 0 0 22px rgba(255,255,255,0.08);
 }
 
 .cards--expertise .card-subtitle{
+  display:block;
   font-size:17px;
   color:var(--color-white);
   font-weight:700;
   text-shadow:0 1px 4px rgba(0,0,0,0.65);
   text-align:center;
-  margin-bottom:28px;
+  margin:0;
 }
 
 .cards--expertise .g2m-list li{
@@ -4301,16 +4836,25 @@ body.page-developpement .diag-intro h2{
 }
 
 .cards--expertise .card--border-draw::before{
-  padding:5px;
-  transition:--card-border-angle 0.28s ease;
+  padding:1.5px;
+  background:conic-gradient(from -90deg, rgba(255,255,255,0.85) var(--card-border-angle), transparent var(--card-border-angle));
+  transition:--card-border-angle 0.3s ease-out;
+}
+
+.expertise-icon-wrap{
+  position:relative;
+  width:120px;
+  height:120px;
+  margin:0 auto 8px;
+  flex:none;
 }
 
 .expertise-icon{
   position:absolute;
-  bottom:14px;
-  right:14px;
-  width:76px;
-  height:76px;
+  top:15px;
+  left:15px;
+  width:90px;
+  height:90px;
   border-radius:50%;
   background:var(--color-white);
   border:2px solid rgba(var(--color-primary-rgb),0.55);
@@ -4319,12 +4863,6 @@ body.page-developpement .diag-intro h2{
   box-sizing:border-box;
   box-shadow:var(--shadow-sm);
   z-index:2;
-  transition:transform 0.3s ease, border-color 0.3s ease;
-}
-
-.expertise-icon:hover{
-  transform:translateY(-6px);
-  border-color:var(--color-primary);
 }
 
 .expertise-icon--transparent{
@@ -4335,66 +4873,234 @@ body.page-developpement .diag-intro h2{
   padding:0;
 }
 
-.expertise-icon--transparent:hover{
-  border-color:transparent;
-}
-
-/* Effet "réseau de données" au survol de l'icône */
-.expertise-icon-fx{
+/* Anneau de particules gravitant autour de l'icône, révélé au survol de la
+   carte (pas seulement de l'icône). Chaque point est un .orbit-dot placé à
+   un rayon fixe (margin-top négatif) à l'intérieur d'un .orbit-ring qui
+   tourne en continu (rotate 0→360, linear, infini) ; la rotation tourne déjà
+   en arrière-plan même carte au repos, seule l'opacité du conteneur
+   .expertise-icon-orbit est pilotée par le survol (fondu 0→1 en 0.3s), pour
+   éviter tout à-coup de démarrage/redémarrage de l'animation. 3 rayons
+   (40/50/58px) × 2 points = 6 particules, tailles 3-5px, mélange blanc /
+   bleu primary / bleu primary-hover, intensités de halo (box-shadow)
+   variées ; un animation-delay négatif différent par anneau déphase leur
+   position de départ sans avoir à écrire une trajectoire par angle, et la
+   durée du scintillement (opacité) de chaque point est volontairement
+   désynchronisée de sa vitesse de rotation pour un rendu organique.
+   L'icône elle-même reste fixe (aucune animation sur .expertise-icon). */
+.expertise-icon-orbit{
   position:absolute;
-  bottom:-4px;
-  right:-4px;
-  width:112px;
-  height:112px;
-  overflow:visible;
-  opacity:0;
+  inset:0;
   pointer-events:none;
-  transition:opacity 0.4s ease;
   z-index:1;
-}
-
-.cards--expertise .card:hover .expertise-icon-fx{
-  opacity:1;
-}
-
-.expertise-icon-fx .eifx-line{
-  fill:none;
-  stroke-width:1.2;
-  stroke-linecap:round;
-  stroke-dasharray:50;
-  stroke-dashoffset:50;
-  transition:stroke-dashoffset 0.6s ease;
-}
-
-.expertise-icon-fx .eifx-line:nth-of-type(1){stroke:#25396C;}
-.expertise-icon-fx .eifx-line:nth-of-type(2){stroke:#25396C; transition-delay:0.1s;}
-.expertise-icon-fx .eifx-line:nth-of-type(3){stroke:var(--color-white); transition-delay:0.2s;}
-
-.cards--expertise .card:hover .expertise-icon-fx .eifx-line{
-  stroke-dashoffset:0;
-}
-
-.expertise-icon-fx .eifx-dot{
   opacity:0;
-  transition:opacity 0.4s ease;
+  transition:opacity 0.3s ease-out;
 }
 
-.expertise-icon-fx .eifx-dot--a{fill:#25396C; filter:drop-shadow(0 0 3px rgba(37,57,108,0.9));}
-.expertise-icon-fx .eifx-dot--b{fill:#25396C; filter:drop-shadow(0 0 3px rgba(37,57,108,0.9));}
-.expertise-icon-fx .eifx-dot--c{fill:var(--color-white); filter:drop-shadow(0 0 3px rgba(255,255,255,0.8));}
-
-.cards--expertise .card:hover .expertise-icon-fx .eifx-dot{
+.cards--expertise .card:hover .expertise-icon-orbit{
   opacity:1;
 }
 
-@keyframes eifx-spin{
+.orbit-ring{
+  position:absolute;
+  inset:0;
+  animation-name:orbitSpin;
+  animation-timing-function:linear;
+  animation-iteration-count:infinite;
+}
+
+@keyframes orbitSpin{
   from{transform:rotate(0deg);}
   to{transform:rotate(360deg);}
 }
 
-.cards--expertise .card:hover .expertise-icon-fx .eifx-spin{
-  transform-origin:80px 80px;
-  animation:eifx-spin 7s linear infinite;
+.orbit-dot{
+  position:absolute;
+  top:50%;
+  left:50%;
+  border-radius:50%;
+  animation-name:orbitTwinkle;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+}
+
+@keyframes orbitTwinkle{
+  0%, 100%{opacity:0.65;}
+  50%{opacity:1;}
+}
+
+.orbit-ring--1a{animation-duration:7s; animation-delay:0s;}
+.orbit-ring--1b{animation-duration:7s; animation-delay:-3.5s;}
+.orbit-ring--2a{animation-duration:8.5s; animation-delay:-1.5s;}
+.orbit-ring--2b{animation-duration:8.5s; animation-delay:-5.2s;}
+.orbit-ring--3a{animation-duration:10.5s; animation-delay:-3s;}
+.orbit-ring--3b{animation-duration:10.5s; animation-delay:-8s;}
+
+.orbit-ring--1a .orbit-dot,
+.orbit-ring--1b .orbit-dot{
+  margin-top:-40px;
+}
+
+.orbit-ring--2a .orbit-dot,
+.orbit-ring--2b .orbit-dot{
+  margin-top:-50px;
+}
+
+.orbit-ring--3a .orbit-dot,
+.orbit-ring--3b .orbit-dot{
+  margin-top:-58px;
+}
+
+.orbit-dot--blue-1{
+  width:4px;
+  height:4px;
+  margin-left:-2px;
+  background:var(--color-primary);
+  box-shadow:0 0 7px rgba(var(--color-primary-rgb),1);
+  animation-duration:2.6s;
+}
+
+.orbit-dot--white-1{
+  width:3px;
+  height:3px;
+  margin-left:-1.5px;
+  background:var(--color-white);
+  box-shadow:0 0 4px rgba(255,255,255,0.95);
+  animation-duration:3.1s;
+  animation-delay:-1s;
+}
+
+.orbit-dot--blue-2{
+  width:5px;
+  height:5px;
+  margin-left:-2.5px;
+  background:var(--color-primary);
+  box-shadow:0 0 9px rgba(var(--color-primary-rgb),0.75);
+  animation-duration:3.6s;
+  animation-delay:-0.6s;
+}
+
+.orbit-dot--white-2{
+  width:3.5px;
+  height:3.5px;
+  margin-left:-1.75px;
+  background:var(--color-white);
+  box-shadow:0 0 5px rgba(255,255,255,1);
+  animation-duration:2.9s;
+  animation-delay:-1.8s;
+}
+
+.orbit-dot--blue-3{
+  width:4.5px;
+  height:4.5px;
+  margin-left:-2.25px;
+  background:var(--color-primary-hover);
+  box-shadow:0 0 6px rgba(var(--color-primary-hover-rgb),0.9);
+  animation-duration:4s;
+  animation-delay:-2.2s;
+}
+
+.orbit-dot--white-3{
+  width:3px;
+  height:3px;
+  margin-left:-1.5px;
+  background:var(--color-white);
+  box-shadow:0 0 4px rgba(255,255,255,0.8);
+  animation-duration:3.4s;
+  animation-delay:-0.4s;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .expertise-icon-orbit{transition:none;}
+  .orbit-ring{animation:none;}
+  .orbit-dot{animation:none; opacity:0.7;}
+}
+
+/* Cartes d'expertises techniques en accordéon (developpement.html) : fermées
+   par défaut, .expertise-toggle (vrai <button>) ouvre/ferme .expertise-panel
+   via js/expertise-accordion.js (.is-open sur .card). Transition de hauteur
+   fluide en grid-template-rows 0fr→1fr (précise quelle que soit la longueur
+   du contenu, contrairement à un max-height fixe) ; le contenu de la liste
+   suit avec un fondu + léger translateY. Plusieurs cartes peuvent rester
+   ouvertes simultanément ; les autres cartes de la ligne ne s'étirent pas
+   (.card passe en align-self:start au lieu du stretch par défaut). */
+.expertise-toggle{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:100%;
+  background:none;
+  border:none;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+  color:inherit;
+  font:inherit;
+  text-align:center;
+}
+
+.expertise-toggle:focus-visible{
+  outline:2px solid var(--color-white);
+  outline-offset:6px;
+  border-radius:var(--radius-sm);
+}
+
+.expertise-chevron{
+  flex:none;
+  margin-top:10px;
+  width:32px;
+  height:32px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(255,255,255,0.85);
+  transition:transform 0.4s ease-out, color 0.25s ease;
+}
+
+.expertise-chevron svg{
+  width:22px;
+  height:22px;
+  display:block;
+}
+
+.cards--expertise .card:hover .expertise-chevron{
+  color:var(--color-white);
+}
+
+.cards--expertise .card.is-open .expertise-chevron{
+  transform:rotate(180deg);
+}
+
+.expertise-panel{
+  display:grid;
+  grid-template-rows:0fr;
+  transition:grid-template-rows 0.4s ease-out;
+}
+
+.cards--expertise .card.is-open .expertise-panel{
+  grid-template-rows:1fr;
+}
+
+.expertise-panel-inner{
+  overflow:hidden;
+  min-height:0;
+}
+
+.expertise-panel .g2m-list{
+  padding-top:20px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.cards--expertise .card.is-open .expertise-panel .g2m-list{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .expertise-panel{transition:none;}
+  .expertise-panel .g2m-list{transition:none;}
+  .expertise-chevron{transition:none;}
 }
 
 /* ---------- Méthodologie en frise (cercles numérotés reliés par une ligne) ---------- */
@@ -4496,6 +5202,13 @@ body.page-developpement .diag-intro h2{
   height:10px;
   background:var(--color-primary);
   transform:translateY(-50%);
+}
+
+/* Liaison Étape 5 → Étape 6 : trait pointillé pour distinguer cette
+   transition (mise à niveau, optionnelle) des liaisons pleines du parcours
+   principal. */
+.milestone-connector--dashed{
+  background-image:repeating-linear-gradient(to right, rgba(var(--color-primary-rgb),0.45) 0, rgba(var(--color-primary-rgb),0.45) 8px, transparent 8px, transparent 16px);
 }
 
 /* Flèche de retour Étape 6 → Étape 5 : symbolise le caractère évolutif de la
@@ -4630,6 +5343,14 @@ body.page-developpement .diag-intro h2{
 .pave:hover .pave-connector-node--end,
 .pave.is-linked .pave-connector-node--end{
   animation:pave-connector-pulse 1.6s ease-in-out 0.6s infinite;
+}
+
+/* Carte "Agrément CII" (developpement.html) : texte plus court que ses
+   voisines de la grille .paves une fois la dernière phrase retirée — sort
+   du stretch par défaut de la grille pour reprendre sa hauteur de contenu
+   propre plutôt qu'un vide en bas de carte. */
+.pave--compact{
+  align-self:start;
 }
 
 .pave-badge{
@@ -4962,17 +5683,17 @@ body.page-developpement .diag-intro h2{
 .corner-logo{
   position:fixed;
   top:20px;
-  left:32px;
-  height:150px;
+  left:8px;
+  height:112px;
   width:auto;
   z-index:90;
 }
 
 @media (max-width:1300px){
   .corner-logo{
-    height:90px;
+    height:68px;
     top:14px;
-    left:16px;
+    left:4px;
   }
 }
 
@@ -5022,7 +5743,7 @@ body.page-developpement .diag-intro h2{
 
 .chatbot-button {
   position: fixed;
-  top: 24px;
+  bottom: 60px;
   right: 24px;
   width: 64px;
   height: 64px;
@@ -5162,7 +5883,7 @@ body.page-developpement .diag-intro h2{
 
 @media (max-width: 768px) {
   .chatbot-button {
-    top: 16px;
+    bottom: 16px;
     right: 16px;
     width: 54px;
     height: 54px;
@@ -5246,7 +5967,7 @@ body.page-developpement .diag-intro h2{
   line-height:1.8;
   color:var(--uc-body);
   margin:0;
-  text-align:justify;
+  text-align:center;
   animation:fadeInUp 0.6s ease both 0.24s;
 }
 
@@ -5414,7 +6135,7 @@ body.page-developpement .diag-intro h2{
 .uc-intro-head h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:clamp(22px, 2.6vw, 32px);
+  font-size:32px;
   color:var(--color-white);
   margin:0;
 }
@@ -5915,7 +6636,7 @@ body.page-developpement .diag-intro h2{
 .rd-hero{
   max-width:820px;
   margin:0 auto;
-  padding:var(--gap-header-hero) 0 0;
+  padding:calc(var(--gap-header-hero) + 40px) 0 80px;
   text-align:center;
 }
 
@@ -5930,7 +6651,7 @@ body.page-developpement .diag-intro h2{
   line-height:1.8;
   color:var(--rd-body-1);
   margin:0 0 var(--gap-sub-text);
-  text-align:justify;
+  text-align:center;
   text-align-last:left;
 }
 
@@ -5940,7 +6661,7 @@ body.page-developpement .diag-intro h2{
   line-height:1.8;
   color:var(--rd-muted-1);
   margin:0 0 var(--gap-text-button);
-  text-align:justify;
+  text-align:center;
   text-align-last:left;
 }
 
@@ -6003,16 +6724,9 @@ body.page-developpement .diag-intro h2{
 .rd-section-head h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:clamp(24px, 3vw, 32px);
+  font-size:32px;
   color:var(--color-white);
   margin:0 0 var(--gap-sub-text);
-  white-space:nowrap;
-}
-
-@media (max-width:700px){
-  .rd-section-head h2{
-    white-space:normal;
-  }
 }
 
 .rd-section-intro{
@@ -6020,6 +6734,7 @@ body.page-developpement .diag-intro h2{
   font-size:16px;
   line-height:1.8;
   color:var(--rd-muted-2);
+  text-align:center;
   margin:0;
 }
 
@@ -6035,18 +6750,18 @@ body.page-developpement .diag-intro h2{
 
 /* ---------- Étapes (démarche en 3 étapes) ---------- */
 .rd-steps{
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:24px;
 }
 
 .rd-step-card{
   border:1px solid var(--rd-border-card);
   border-radius:var(--radius-lg);
-  padding:28px 32px;
   background:rgba(var(--color-primary-rgb),0.55);
   transition:border-color 0.4s ease, box-shadow 0.4s ease;
   perspective:1400px;
+  aspect-ratio:1 / 1;
 }
 
 .rd-step-card:hover{
@@ -6054,9 +6769,17 @@ body.page-developpement .diag-intro h2{
   box-shadow:0 0 0 1px var(--rd-border-icon), 0 0 22px rgba(var(--color-primary-rgb),0.2);
 }
 
-/* ---------- Effet recto-verso (flip 3D) au survol de "EN SAVOIR PLUS" ---------- */
+/* ---------- Effet recto-verso (flip 3D) au survol de "EN SAVOIR PLUS" ----------
+   Cartes carrées de taille identique (aspect-ratio:1/1 sur des colonnes de
+   grille égales) : .rd-flip-front et .rd-flip-back sont désormais toutes
+   les deux position:absolute/inset:0 (au lieu du seul .rd-flip-back
+   auparavant) pour se superposer exactement l'une sur l'autre dans le
+   carré ; le mécanisme de rotation (rotateY 180deg sur .rd-flip-inner,
+   piloté par js/rd-flip.js via .is-flipped) est inchangé. */
 .rd-flip-inner{
   position:relative;
+  width:100%;
+  height:100%;
   transform-style:preserve-3d;
   transition:transform 0.7s cubic-bezier(0.4, 0.1, 0.2, 1);
 }
@@ -6067,31 +6790,34 @@ body.page-developpement .diag-intro h2{
 
 .rd-flip-front,
 .rd-flip-back{
+  position:absolute;
+  inset:0;
   backface-visibility:hidden;
   -webkit-backface-visibility:hidden;
+  padding:28px;
+  box-sizing:border-box;
 }
 
 .rd-flip-front{
   display:flex;
-  align-items:center;
-  gap:24px;
+  flex-direction:column;
+  align-items:flex-start;
+  text-align:left;
 }
 
 .rd-flip-back{
-  position:absolute;
-  inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  padding:0 12px;
+  overflow-y:auto;
   transform:rotateY(180deg);
 }
 
 .rd-flip-back p{
   font-family:var(--font-body);
-  font-size:14.5px;
-  line-height:1.7;
+  font-size:14px;
+  line-height:1.6;
   color:var(--color-white);
   margin:0;
 }
@@ -6102,11 +6828,11 @@ body.page-developpement .diag-intro h2{
   font-weight:700;
   font-size:30px;
   color:var(--color-white);
-  width:44px;
+  margin-bottom:14px;
 }
 
 .rd-step-title{
-  flex:1 1 auto;
+  flex:none;
   font-family:var(--font-heading);
   font-weight:700;
   font-size:17px;
@@ -6115,7 +6841,8 @@ body.page-developpement .diag-intro h2{
 }
 
 .rd-step-more{
-  flex:none;
+  margin-top:auto;
+  align-self:flex-start;
   display:inline-flex;
   align-items:center;
   gap:8px;
@@ -6246,49 +6973,67 @@ body.page-developpement .diag-intro h2{
 .rd-icon-mark--circle{border-radius:50%;}
 
 /* ---------- Nos résultats ---------- */
-.rd-result-panel{
-  border:1px solid var(--rd-border-panel);
-  border-radius:var(--radius-lg);
-  padding:32px 36px;
-  margin-bottom:var(--spacing-cards);
-  background:rgba(var(--color-primary-rgb),0.25);
-}
-
-.rd-result-panel p{
-  font-family:var(--font-body);
-  font-size:16px;
-  line-height:1.8;
-  color:var(--rd-body-2);
-  margin:0;
-}
-
-.rd-mini-cards{
+/* Section "résultats concrets" : remplace l'ancien encadré de texte
+   (.rd-result-panel) + les 2 .rd-mini-card par 4 cartes-stats sur une ligne
+   (2 sous 900px, 1 sous 520px), même identité visuelle que les autres
+   cartes de la page (fond bleu translucide, bordure discrète, hover halo).
+   Contenu centré horizontalement
+   et verticalement ; .rd-result-stat-value--num agrandit le "30+" pour
+   lui donner le traitement "chiffre mis en valeur". Apparition au scroll
+   réutilisée telle quelle via .rd-reveal-item (fondu + translateY, stagger
+   par nth-child) — aucun CSS/JS supplémentaire nécessaire. */
+.rd-result-stats{
   display:grid;
-  grid-template-columns:repeat(2, 1fr);
+  grid-template-columns:repeat(4, 1fr);
   gap:var(--spacing-cards);
 }
 
-.rd-mini-card{
+.rd-result-stat{
   display:flex;
+  flex-direction:column;
   align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:170px;
   border:1px solid var(--rd-border-card);
   border-radius:var(--radius-lg);
-  padding:18px 22px;
+  padding:28px 20px;
+  text-align:center;
   background:rgba(var(--color-primary-rgb),0.25);
   transition:border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
-.rd-mini-card:hover{
+.rd-result-stat:hover{
   border-color:var(--rd-border-icon);
   box-shadow:0 0 0 1px var(--rd-border-icon), 0 0 22px rgba(var(--color-primary-rgb),0.2);
 }
 
-.rd-mini-card span:last-child{
-  font-family:var(--font-body);
+.rd-result-stat-value{
+  font-family:var(--font-heading);
   font-weight:700;
-  font-size:15px;
+  font-size:clamp(19px, 2.1vw, 24px);
+  line-height:1.25;
+  color:var(--color-white);
+}
+
+.rd-result-stat-value--num{
+  font-size:clamp(34px, 4.2vw, 46px);
+}
+
+.rd-result-stat-label{
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:14px;
   line-height:1.4;
   color:var(--rd-body-3);
+}
+
+@media (max-width:900px){
+  .rd-result-stats{grid-template-columns:repeat(2, 1fr);}
+}
+
+@media (max-width:520px){
+  .rd-result-stats{grid-template-columns:1fr;}
 }
 
 /* ---------- Reconnaissance externe (Booster) ---------- */
@@ -6345,7 +7090,9 @@ body.page-developpement .diag-intro h2{
 
 .rd-booster-link{
   position:relative;
-  display:inline-block;
+  display:block;
+  width:fit-content;
+  margin:0 auto;
   font-family:var(--font-heading);
   font-weight:700;
   font-size:15px;
@@ -6510,17 +7257,14 @@ body.page-developpement .diag-intro h2{
 /* ---------- Responsive ---------- */
 @media (max-width:900px){
   .rd-features{grid-template-columns:1fr;}
-  .rd-mini-cards{grid-template-columns:1fr;}
   .rd-badges{grid-template-columns:repeat(2, 1fr);}
-  .rd-flip-front{flex-wrap:wrap;}
-  .rd-step-more{margin-left:68px;}
+  .rd-steps{grid-template-columns:repeat(2, 1fr);}
   .rd-booster-logo{width:150px;}
 }
 
 @media (max-width:600px){
   .rd-badges{grid-template-columns:1fr;}
-  .rd-flip-front{align-items:flex-start;}
-  .rd-step-more{margin-left:0;}
+  .rd-steps{grid-template-columns:1fr;}
   .rd-booster-logo{width:120px;}
 }
 
@@ -6535,6 +7279,16 @@ body.page-developpement .diag-intro h2{
   --cert-divider-row:rgba(var(--color-primary-rgb),0.25);
   --cert-row-body:#D7DFE8;
   --cert-row-eyebrow:#BBC5D1;
+}
+
+/* Hero un peu courte par rapport aux autres pages (ex. partenaires.html) :
+   surcroît de padding haut/bas sur .page-header, scopé à cette page — les
+   espacements internes (titre/intro, gérés par --gap-title-intro) ne
+   bougent pas. .hero-veil (height:100% du wrapper) et .hero-divider (juste
+   après le header) suivent automatiquement la nouvelle hauteur. */
+.cert-page .page-header{
+  padding-top:calc(var(--gap-header-hero) + 40px);
+  padding-bottom:calc(var(--spacing-title-text) + 80px);
 }
 
 .cert-list{
@@ -6566,7 +7320,7 @@ body.page-developpement .diag-intro h2{
    ci-dessus) reste fixe et inchangée ; seul ce calque décoratif bouge. */
 .cert-spark{
   position:absolute;
-  bottom:-1px;
+  top:calc(100% + 0.5px);
   left:-3%;
   width:7px;
   height:7px;
@@ -6615,7 +7369,7 @@ body.page-developpement .diag-intro h2{
 .cert-row-text h2{
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:22px;
+  font-size:32px;
   color:var(--color-white);
   margin:0 0 10px;
 }
@@ -6638,15 +7392,12 @@ body.page-developpement .diag-intro h2{
 
 .cert-row-logo{
   flex:none;
-  width:210px;
-  height:132px;
-  background:rgba(var(--color-primary-rgb),0.35);
-  border-radius:var(--radius-lg);
+  width:280px;
+  height:176px;
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:18px;
-  box-shadow:var(--shadow-sm);
+  padding:8px;
 }
 
 .cert-row-logo img{
@@ -6663,7 +7414,7 @@ body.page-developpement .diag-intro h2{
 
 @media (max-width:600px){
   .cert-list{padding:0 20px;}
-  .cert-row-logo{width:180px; height:114px;}
+  .cert-row-logo{width:230px; height:146px;}
 }
 
 /* ===================================================================
@@ -7101,6 +7852,614 @@ body.page-developpement .diag-intro h2{
 }
 
 /* ===================================================================
+   "Pourquoi G2M ?" — 4 cartes glassmorphism (index.html)
+   Fond bleu nuit et halos déjà portés par body{} : les cartes sont de
+   simples calques translucides + flou par-dessus, sans section colorée
+   supplémentaire. Apparition en cascade au scroll via js/why-g2m-reveal.js
+   (même convention IntersectionObserver → .is-inview que .values-frieze /
+   .sf-cards / .cards--sky, une seule fois).
+   =================================================================== */
+.why-g2m{
+  max-width:1352px;
+  margin:160px auto 160px;
+  padding:0 24px;
+  text-align:center;
+}
+
+.why-g2m h2{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:32px;
+  color:var(--color-white);
+  margin:0 0 var(--spacing-title-text);
+}
+
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:var(--spacing-cards);
+}
+
+@media (max-width:1100px){
+  .why-grid{grid-template-columns:repeat(2, 1fr);}
+}
+
+@media (max-width:700px){
+  .why-grid{grid-template-columns:1fr;}
+}
+
+.why-card{
+  background:rgba(var(--color-primary-rgb),0.55);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:var(--radius);
+  padding:var(--card-padding);
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.05);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px) scale(0.98);
+  transition-property:opacity, transform, box-shadow, border-color;
+  transition-duration:0.6s, 0.6s, 0.25s, 0.25s;
+  transition-timing-function:ease-out, ease-out, ease, ease;
+  transition-delay:0s, 0s, 0s, 0s;
+}
+
+@supports not (backdrop-filter: blur(1px)){
+  .why-card{background:rgba(var(--color-primary-rgb),0.92);}
+}
+
+.why-grid.is-inview .why-card{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+.why-grid.is-inview .why-card:nth-child(1){transition-delay:0ms, 0ms, 0s, 0s;}
+.why-grid.is-inview .why-card:nth-child(2){transition-delay:120ms, 120ms, 0s, 0s;}
+.why-grid.is-inview .why-card:nth-child(3){transition-delay:240ms, 240ms, 0s, 0s;}
+.why-grid.is-inview .why-card:nth-child(4){transition-delay:360ms, 360ms, 0s, 0s;}
+
+.why-grid.is-inview .why-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(255,255,255,0.55);
+  box-shadow:var(--shadow-hover);
+}
+
+.why-card-icon{
+  width:56px;
+  height:56px;
+  border-radius:50%;
+  background:var(--color-white);
+  border:1px solid rgba(255,255,255,0.6);
+  color:var(--color-primary);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex:none;
+  margin-bottom:20px;
+  transition:box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.why-card-icon svg{
+  width:28px;
+  height:28px;
+}
+
+.why-card:hover .why-card-icon{
+  background:var(--color-white);
+  box-shadow:0 0 0 6px rgba(255,255,255,0.2), 0 0 24px rgba(var(--color-primary-rgb),0.6);
+}
+
+.why-card h3{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:18px;
+  color:var(--color-white);
+  text-shadow:0 1px 4px rgba(0,0,0,0.4);
+  margin:0 0 10px;
+}
+
+.why-card p{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--color-white);
+  text-shadow:0 1px 4px rgba(0,0,0,0.35);
+  margin:0;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .why-card{opacity:1; transform:none; transition:box-shadow 0.25s ease, border-color 0.25s ease;}
+}
+
+/* ===================================================================
+   "Des solutions Data & IA adaptées à chaque secteur" — réseau animé
+   (index.html). Fond bleu nuit hérité de body{}. Le SVG desktop dessine
+   12 connexions depuis le cercle G2M vers 12 secteurs, révélées en
+   cascade au scroll via js/sector-network-reveal.js (IntersectionObserver
+   → .is-inview une seule fois, même convention que les autres reveals).
+   Séquence par item (nth-child, ~100ms d'écart) : le trait se dessine
+   (stroke-dashoffset) PUIS le point + le nom du secteur apparaissent au
+   moment où le trait atteint son extrémité — d'où le délai du node
+   (delay-ligne + durée-tracé). Sur mobile, un composant HTML entièrement
+   différent (liste verticale, colonne .sector-network-mobile) prend le
+   relais : le schéma circulaire ne peut pas se "réduire" proprement.
+   =================================================================== */
+.sector-network{
+  max-width:1100px;
+  margin:var(--spacing-section) auto;
+  padding:0 24px;
+  text-align:center;
+}
+
+.sector-network h2{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:32px;
+  color:var(--color-white);
+  margin:0 0 var(--gap-title-intro);
+}
+
+.sector-network-intro{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.7;
+  color:var(--text-on-dark);
+  max-width:1020px;
+  margin:0 auto;
+}
+
+.sector-network-svg{
+  display:block;
+  width:100%;
+  max-width:800px;
+  height:auto;
+  margin:var(--spacing-title-text) auto 0;
+  overflow:visible;
+}
+
+.network-label{
+  font-family:var(--font-body);
+  font-weight:500;
+  font-size:16px;
+  fill:var(--color-white);
+  opacity:0;
+  transform:translateY(8px);
+  transform-box:fill-box;
+  transform-origin:center;
+  transition:opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.network-dot{
+  fill:var(--color-primary);
+  stroke:var(--color-dark);
+  stroke-width:2;
+  transform-box:fill-box;
+  transform-origin:center;
+  scale:0;
+  filter:drop-shadow(0 0 0 rgba(var(--color-primary-rgb),0));
+  transition:scale 0.7s ease-out, filter 0.25s ease-out;
+}
+
+.network-line{
+  fill:none;
+  stroke:rgba(var(--color-primary-rgb),0.5);
+  stroke-width:1.5;
+  stroke-dasharray:400;
+  stroke-dashoffset:400;
+  transition:stroke-dashoffset 0.9s ease-out, stroke 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+/* Cascade : le tracé de chaque ligne démarre ~100ms après la
+   précédente (fourchette 80-120ms demandée), après l'apparition du
+   centre (600ms) ; le point + le libellé du secteur apparaissent au
+   moment où leur ligne termine son tracé (délai ligne + 500ms). */
+.sector-network.is-inview .network-line{stroke-dashoffset:0;}
+.sector-network.is-inview .network-label{opacity:1; transform:translateY(0);}
+.sector-network.is-inview .network-dot{scale:1;}
+
+.network-item:nth-child(1) .network-line{transition-delay:1s;}
+.network-item:nth-child(2) .network-line{transition-delay:1.16s;}
+.network-item:nth-child(3) .network-line{transition-delay:1.32s;}
+.network-item:nth-child(4) .network-line{transition-delay:1.48s;}
+.network-item:nth-child(5) .network-line{transition-delay:1.64s;}
+.network-item:nth-child(6) .network-line{transition-delay:1.8s;}
+.network-item:nth-child(7) .network-line{transition-delay:1.96s;}
+.network-item:nth-child(8) .network-line{transition-delay:2.12s;}
+.network-item:nth-child(9) .network-line{transition-delay:2.28s;}
+.network-item:nth-child(10) .network-line{transition-delay:2.44s;}
+.network-item:nth-child(11) .network-line{transition-delay:2.6s;}
+.network-item:nth-child(12) .network-line{transition-delay:2.76s;}
+
+.network-item:nth-child(1) .network-dot,
+.network-item:nth-child(1) .network-label{transition-delay:1.9s;}
+.network-item:nth-child(2) .network-dot,
+.network-item:nth-child(2) .network-label{transition-delay:2.06s;}
+.network-item:nth-child(3) .network-dot,
+.network-item:nth-child(3) .network-label{transition-delay:2.22s;}
+.network-item:nth-child(4) .network-dot,
+.network-item:nth-child(4) .network-label{transition-delay:2.38s;}
+.network-item:nth-child(5) .network-dot,
+.network-item:nth-child(5) .network-label{transition-delay:2.54s;}
+.network-item:nth-child(6) .network-dot,
+.network-item:nth-child(6) .network-label{transition-delay:2.7s;}
+.network-item:nth-child(7) .network-dot,
+.network-item:nth-child(7) .network-label{transition-delay:2.86s;}
+.network-item:nth-child(8) .network-dot,
+.network-item:nth-child(8) .network-label{transition-delay:3.02s;}
+.network-item:nth-child(9) .network-dot,
+.network-item:nth-child(9) .network-label{transition-delay:3.18s;}
+.network-item:nth-child(10) .network-dot,
+.network-item:nth-child(10) .network-label{transition-delay:3.34s;}
+.network-item:nth-child(11) .network-dot,
+.network-item:nth-child(11) .network-label{transition-delay:3.5s;}
+.network-item:nth-child(12) .network-dot,
+.network-item:nth-child(12) .network-label{transition-delay:3.66s;}
+
+/* Survol : renforce le secteur ciblé, atténue les autres connexions
+   pour le mettre en valeur (:has, dégradation silencieuse sur les
+   navigateurs qui ne le supportent pas — les autres restent visibles). */
+.network-item{cursor:pointer;}
+
+.network-item:hover .network-line{
+  stroke:rgba(86,182,232,0.95);
+}
+
+.network-item:hover .network-dot{
+  filter:drop-shadow(0 0 8px rgba(var(--color-primary-rgb),0.85));
+}
+
+.network-item:hover .network-label{
+  font-weight:700;
+  transform:translateY(0) scale(1.06);
+}
+
+.sector-network-svg:has(.network-item:hover) .network-item:not(:hover) .network-line{
+  opacity:0.25;
+}
+
+/* Cercle central G2M : verre translucide, dégradé bleu léger, halo
+   externe subtil. Apparaît en premier (opacité + échelle, 600ms), puis
+   pulsation douce et continue une fois le réseau installé. */
+.network-center-circle{
+  fill:rgba(var(--color-primary-rgb),0.16);
+  stroke:rgba(var(--color-primary-rgb),0.6);
+  stroke-width:2;
+  transform-box:fill-box;
+  transform-origin:center;
+  opacity:0;
+  scale:0.85;
+  transition:opacity 1s ease-out, scale 1s ease-out;
+}
+
+.network-center-glow{
+  fill:rgba(var(--color-primary-rgb),0.12);
+  opacity:0;
+  transition:opacity 1.3s ease-out;
+}
+
+.network-center-logo{
+  opacity:0;
+  transition:opacity 1s ease-out;
+  transition-delay:0.3s;
+}
+
+.sector-network.is-inview .network-center-circle{
+  opacity:1;
+  scale:1;
+}
+
+.sector-network.is-inview .network-center-glow{
+  opacity:1;
+}
+
+.sector-network.is-inview .network-center-logo{
+  opacity:1;
+}
+
+@keyframes networkCenterPulse{
+  0%, 100%{filter:drop-shadow(0 0 0 rgba(var(--color-primary-rgb),0.35));}
+  50%{filter:drop-shadow(0 0 22px rgba(var(--color-primary-rgb),0.55));}
+}
+
+.sector-network.is-inview .network-center{
+  animation:networkCenterPulse 4.5s ease-in-out 1s infinite;
+}
+
+/* Point lumineux qui circule très ponctuellement le long de quelques
+   connexions (ambiance "flux de données"), via offset-path — dégrade
+   silencieusement en absence de support (le point reste simplement
+   invisible, aria-hidden). */
+.network-flow-dot{
+  fill:var(--color-white);
+  opacity:0;
+}
+
+.sector-network.is-inview .network-item:nth-child(3n+1) .network-flow-dot{
+  offset-path:var(--flow-path);
+  animation:networkFlow 7s linear 3.8s infinite;
+}
+
+@keyframes networkFlow{
+  0%{opacity:0; offset-distance:0%;}
+  8%{opacity:0.9;}
+  85%{opacity:0.9;}
+  100%{opacity:0; offset-distance:100%;}
+}
+
+.sector-network-mobile-center,
+.sector-network-mobile{
+  display:none;
+}
+
+@media (max-width:820px){
+  .sector-network-svg{display:none;}
+
+  .sector-network-mobile-center{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:96px;
+    height:96px;
+    margin:var(--spacing-title-text) auto 0;
+    border-radius:50%;
+    background:rgba(var(--color-primary-rgb),0.16);
+    border:2px solid rgba(var(--color-primary-rgb),0.6);
+    box-shadow:0 0 24px rgba(var(--color-primary-rgb),0.35);
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:20px;
+    color:var(--color-white);
+    opacity:0;
+    scale:0.85;
+    transition:opacity 1s ease-out, scale 1s ease-out;
+  }
+
+  .sector-network-mobile-center img{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+  }
+
+  .sector-network.is-inview .sector-network-mobile-center{
+    opacity:1;
+    scale:1;
+  }
+
+  .sector-network-mobile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    list-style:none;
+    margin:0 auto 0;
+    padding:32px 0 0;
+    max-width:420px;
+    position:relative;
+  }
+
+  .sector-network-mobile::before{
+    content:"";
+    position:absolute;
+    top:0;
+    bottom:24px;
+    left:50%;
+    width:1px;
+    background:linear-gradient(180deg, rgba(var(--color-primary-rgb),0.5), rgba(var(--color-primary-rgb),0.12));
+  }
+
+  .sector-network-mobile li{
+    position:relative;
+    width:50%;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-body);
+    font-weight:500;
+    font-size:15px;
+    color:var(--color-white);
+    opacity:0;
+    transform:translateY(8px);
+    transition:opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .sector-network.is-inview .sector-network-mobile li{
+    opacity:1;
+    transform:translateY(0);
+  }
+
+  .sector-network-mobile li:nth-child(1){transition-delay:1.1s;}
+  .sector-network-mobile li:nth-child(2){transition-delay:1.26s;}
+  .sector-network-mobile li:nth-child(3){transition-delay:1.42s;}
+  .sector-network-mobile li:nth-child(4){transition-delay:1.58s;}
+  .sector-network-mobile li:nth-child(5){transition-delay:1.74s;}
+  .sector-network-mobile li:nth-child(6){transition-delay:1.9s;}
+  .sector-network-mobile li:nth-child(7){transition-delay:2.06s;}
+  .sector-network-mobile li:nth-child(8){transition-delay:2.22s;}
+  .sector-network-mobile li:nth-child(9){transition-delay:2.38s;}
+  .sector-network-mobile li:nth-child(10){transition-delay:2.54s;}
+  .sector-network-mobile li:nth-child(11){transition-delay:2.7s;}
+  .sector-network-mobile li:nth-child(12){transition-delay:2.86s;}
+
+  /* Alternance gauche/droite de part et d'autre de la ligne centrale :
+     impair = colonne gauche (texte + point orientés vers l'axe),
+     pair = colonne droite (miroir). */
+  .sector-network-mobile li:nth-child(odd){
+    align-self:flex-start;
+    flex-direction:row-reverse;
+    text-align:right;
+  }
+
+  .sector-network-mobile li:nth-child(even){
+    align-self:flex-end;
+    text-align:left;
+  }
+
+  .sector-network-mobile-dot{
+    flex:none;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--color-primary);
+    box-shadow:0 0 8px rgba(var(--color-primary-rgb),0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .network-line,
+  .network-dot,
+  .network-label,
+  .network-center-circle,
+  .network-center-glow,
+  .network-center-logo,
+  .sector-network-mobile-center,
+  .sector-network-mobile li{
+    transition:none !important;
+    animation:none !important;
+    opacity:1 !important;
+    scale:1 !important;
+    transform:none !important;
+    stroke-dashoffset:0 !important;
+  }
+
+  .network-flow-dot{display:none;}
+}
+
+/* ===================================================================
+   "Des projets Data & IA plus accessibles" — bandeau financement
+   (index.html). Fond bleu nuit hérité de body{}, design épuré, sans
+   encadré autour des logos. Apparition en cascade au scroll via
+   js/funding-band-reveal.js (même convention IntersectionObserver →
+   .is-inview que .why-grid / .values-frieze, une seule fois).
+   =================================================================== */
+.funding-band{
+  max-width:1000px;
+  margin:var(--spacing-section) auto;
+  padding:0 24px;
+  text-align:center;
+}
+
+.funding-band h2{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:32px;
+  color:var(--color-white);
+  margin:0 0 var(--gap-title-intro);
+}
+
+.funding-band-intro{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:17px;
+  line-height:1.7;
+  color:var(--text-on-dark);
+  max-width:680px;
+  margin:0 auto;
+}
+
+.funding-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  margin:var(--spacing-title-text) auto 0;
+}
+
+@media (max-width:700px){
+  .funding-grid{grid-template-columns:1fr; row-gap:48px;}
+}
+
+.funding-item{
+  position:relative;
+  padding:0 32px;
+}
+
+/* Séparateurs verticaux fins entre les 3 dispositifs — pas de gap sur
+   la grille : le padding symétrique de chaque item place le trait
+   exactement à mi-distance entre deux logos voisins. Masqué en pile
+   mobile (1 colonne), où il n'y a plus de voisin de chaque côté. */
+@media (min-width:701px){
+  .funding-item:not(:last-child)::after{
+    content:"";
+    position:absolute;
+    top:8%;
+    bottom:8%;
+    right:0;
+    width:1px;
+    background:linear-gradient(180deg, transparent, rgba(var(--color-primary-rgb),0.25), transparent);
+  }
+}
+
+.funding-logo{
+  display:block;
+  height:96px;
+  width:auto;
+  max-width:220px;
+  margin:0 auto 24px;
+  object-fit:contain;
+  border-radius:var(--radius);
+  opacity:0;
+  translate:0 20px;
+  transition-property:opacity, translate, scale, filter;
+  transition-duration:0.6s, 0.6s, 0.25s, 0.25s;
+  transition-timing-function:ease-out, ease-out, ease-out, ease-out;
+  transition-delay:0s, 0s, 0s, 0s;
+  filter:drop-shadow(0 0 0 rgba(var(--color-primary-rgb),0));
+}
+
+.funding-grid.is-inview .funding-logo{
+  opacity:1;
+  translate:0 0;
+}
+
+.funding-grid.is-inview .funding-item:nth-child(1) .funding-logo{transition-delay:0ms, 0ms, 0s, 0s;}
+.funding-grid.is-inview .funding-item:nth-child(2) .funding-logo{transition-delay:150ms, 150ms, 0s, 0s;}
+.funding-grid.is-inview .funding-item:nth-child(3) .funding-logo{transition-delay:300ms, 300ms, 0s, 0s;}
+
+.funding-item:hover .funding-logo{
+  scale:1.05;
+  filter:drop-shadow(0 0 16px rgba(var(--color-primary-rgb),0.6));
+}
+
+.funding-item h3{
+  font-family:var(--font-heading);
+  font-weight:700;
+  font-size:17px;
+  color:var(--color-white);
+  margin:0 0 6px;
+}
+
+.funding-item p{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:13px;
+  color:var(--color-gray);
+  margin:0;
+}
+
+.funding-cta{
+  margin:80px auto 0;
+}
+
+.funding-band-note{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:12px;
+  font-style:italic;
+  color:var(--color-gray);
+  max-width:560px;
+  margin:10px auto 140px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .funding-logo{opacity:1; translate:0 0; transition:filter 0.25s ease;}
+  .funding-item:hover .funding-logo{scale:1;}
+}
+
+/* ===================================================================
    Timeline verticale — hébergement / sécurité (approche.html)
    Remplace les 3 cartes par 3 étapes reliées par une ligne qui se dessine
    au scroll (js/appr-timeline-reveal.js, même convention IntersectionObserver
@@ -7270,7 +8629,7 @@ body.page-developpement .diag-intro h2{
   text-align:center;
   font-family:var(--font-heading);
   font-weight:700;
-  font-size:clamp(18px, 2.2vw, 26px);
+  font-size:32px;
   line-height:1.3;
   letter-spacing:0.01em;
   color:var(--color-white);
@@ -7360,4 +8719,157 @@ body.page-developpement .diag-intro h2{
   .rej-num-stroke{transition:none; stroke-dashoffset:0;}
   .rej-num-fill{transition:none; fill-opacity:1;}
   .rej-value-label{transition:none; opacity:1; transform:none;}
+}
+
+/* ===================================================================
+   Notre savoir-faire — 3 cartes d'expertise (a-propos.html)
+   Reprend le contenu exact des 3 puces .g2m-list d'origine (texte
+   inchangé, seule la présentation change) : icône + titre mis en valeur +
+   texte descriptif, sur 3 .card.card--border-draw classiques (fond bleu
+   translucide via .sf-cards, bordure animée existante au survol —
+   "bordure plus lumineuse" réutilise .card--border-draw tel quel).
+   =================================================================== */
+.sf-cards .card{
+  background:#0a1c2b;
+  color:var(--color-white);
+  text-align:center;
+  border:1px solid rgba(255,255,255,0.2);
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.4s ease;
+}
+
+.sf-cards .card--border-draw::before{
+  content:none;
+}
+
+.sf-cards.is-inview .card{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.sf-cards.is-inview .card:hover{
+  transform:translateY(-6px);
+}
+
+.sf-card-icon{
+  display:block;
+  width:32px;
+  height:32px;
+  margin:0 auto 16px;
+  color:var(--color-white);
+}
+
+.sf-card-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
+
+.sf-cards .sf-card-title{
+  text-align:center;
+  font-size:16px;
+  font-weight:700;
+  color:var(--color-white);
+}
+
+.sf-cards .card-text{
+  color:var(--color-white);
+  text-align:center;
+}
+
+.sf-card-link{
+  display:inline-flex;
+  align-items:center;
+  align-self:center;
+  gap:4px;
+  margin-top:16px;
+  font-family:var(--font-body);
+  font-weight:600;
+  font-size:13px;
+  color:var(--color-primary);
+  text-decoration:none;
+  border-bottom:1px solid transparent;
+  transition:color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
+}
+
+.sf-card-link::after{
+  content:"→";
+  opacity:0;
+  transform:translateX(-4px);
+  transition:opacity 0.25s ease, transform 0.25s ease;
+}
+
+.sf-card-link:hover,
+.sf-card-link:focus-visible{
+  color:var(--color-white);
+  border-color:currentColor;
+  gap:6px;
+}
+
+.sf-card-link:hover::after,
+.sf-card-link:focus-visible::after{
+  opacity:1;
+  transform:translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .sf-cards .card{opacity:1; transform:none; transition:border-color 0.4s ease, box-shadow 0.4s ease;}
+}
+
+/* ===================================================================
+   Notre savoir-faire — mode carrousel (a-propos.html)
+   Réutilise la mécanique du carrousel de la page d'accueil (.carousel,
+   .carousel-viewport/-track/-slide, flèches et points : voir
+   js/carousel.js et le bloc "Carrousel des 4 cartes" plus haut) sans
+   reprendre ses overrides visuels (fond photo, pill blanche), afin que
+   les 3 cartes .sf-cards gardent leur design (icône, titre, texte,
+   fond bleu translucide, bordure animée) tel quel — seul l'affichage
+   passe de 3 cartes côte à côte à une carte à la fois.
+   =================================================================== */
+.sf-cards.carousel{
+  max-width:980px;
+  margin:0 auto var(--spacing-section);
+  padding:0 56px;
+  display:block;
+  position:relative;
+}
+
+.sf-cards.carousel .carousel-slide{
+  display:flex;
+  justify-content:center;
+}
+
+.sf-cards.carousel .carousel-slide .card{
+  width:100%;
+  max-width:780px;
+  min-height:clamp(220px, 32vw, 300px);
+  padding:clamp(30px, 5vw, 44px) clamp(24px, 4vw, 40px);
+}
+
+/* Titre + texte forment un bloc centré verticalement dans l'encadré
+   (marges auto sur l'axe vertical du .card en colonne) ; le bouton de
+   redirection, quand il existe, reste ainsi ancré en bas de la carte —
+   sur la carte "Financement" sans bouton, le bloc occupe tout l'espace
+   restant et se retrouve donc parfaitement centré, sans vide en bas. */
+.sf-cards .sf-card-body{
+  width:100%;
+  margin:auto 0;
+}
+
+/* Neutralise le style générique de mise en avant du carrousel (bordure/
+   halo bleu + zoom), pensé pour une carte pleine largeur : ici la carte
+   visible n'occupe pas toute la largeur du slide, ce halo déborderait
+   dans le vide autour d'elle. */
+.sf-cards.carousel .carousel-slide.is-active{
+  border-color:transparent;
+  box-shadow:none;
+  transform:none;
+}
+
+@media (max-width:600px){
+  .sf-cards.carousel{
+    padding-left:40px;
+    padding-right:40px;
+  }
 }
