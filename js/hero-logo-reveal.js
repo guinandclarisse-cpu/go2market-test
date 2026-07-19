@@ -63,8 +63,8 @@
         r: rand(1.1, 2.6),
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
         appearAt: rand(0, 550),
-        convergeAt: rand(1250, 1650),
-        convergeDur: rand(1000, 1600),
+        convergeAt: rand(1800, 2300),
+        convergeDur: rand(1500, 2200),
         opacity: 0,
         ambient: i < AMBIENT_COUNT,
         ambientPhase: rand(0, Math.PI * 2),
@@ -87,7 +87,7 @@
 
   function easeInOutSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
 
-  var FADE_START = 4250;
+  var FADE_START = 6000;
   var FADE_DUR = 750;
   var AMBIENT_START = FADE_START + FADE_DUR;
 
@@ -191,10 +191,10 @@
   function play() {
     requestAnimationFrame(loop);
 
-    setTimeout(function () { root.classList.add('is-building'); }, 2200);
-    setTimeout(function () { root.classList.add('is-spark-two'); }, 3750);
-    setTimeout(function () { root.classList.add('is-spark-text'); }, 4000);
-    setTimeout(function () { root.classList.add('is-revealed'); }, 4250);
+    setTimeout(function () { root.classList.add('is-building'); }, 3000);
+    setTimeout(function () { root.classList.add('is-spark-two'); }, 5400);
+    setTimeout(function () { root.classList.add('is-spark-text'); }, 5700);
+    setTimeout(function () { root.classList.add('is-revealed'); }, 6000);
   }
 
   if (!('IntersectionObserver' in window)) {
