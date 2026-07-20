@@ -19,7 +19,12 @@
 <a href="index.html"><img class="corner-logo" src="images/Logo_G2M.png" alt="G2M"></a>
 
 <nav class="navbar navbar--compact">
-  <ul class="nav-menu">
+  <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-menu">
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+    <span class="nav-toggle-bar"></span>
+  </button>
+  <ul class="nav-menu" id="nav-menu">
     <li class="nav-item">
       <a class="nav-link" tabindex="0">QUI SOMMES-NOUS</a>
       <div class="dropdown">
@@ -284,5 +289,6 @@
 <script src="js/hero-photo-match.js" defer></script>
 <script src="js/section-reveal.js" defer></script>
 <script src="js/stats-reveal.js" defer></script>
+<script src="js/mobile-nav.js" defer></script>
 </body>
 </html>

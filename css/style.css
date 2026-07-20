@@ -466,37 +466,178 @@ img{max-width:100%;}
   color:var(--color-white);
 }
 
+/* ---------- Menu mobile (hamburger + panneau latéral) ----------
+   Sous 900px, .nav-menu (la pastille de liens horizontale desktop) est
+   masquée ; js/mobile-nav.js clone son contenu dans .nav-panel, un panneau
+   ajouté directement à <body> (donc jamais confiné par le backdrop-filter
+   de .navbar, qui crée un containing block pour les descendants position:
+   fixed). Les sous-menus, en hover sur desktop, deviennent des accordéons
+   au clic dans le panneau (le survol n'existe pas au tactile). */
 @media (max-width:900px){
   .navbar{
-    flex-wrap:wrap;
-    row-gap:10px;
+    flex-wrap:nowrap;
+    justify-content:flex-end;
+    row-gap:0;
     border-radius:var(--radius-lg);
     padding:14px 18px;
   }
 
   .nav-menu{
-    width:100%;
-    flex-wrap:wrap;
+    display:none;
+  }
+
+  .nav-toggle{
+    display:flex;
+    flex-direction:column;
     justify-content:center;
-    gap:8px;
+    align-items:center;
+    gap:5px;
+    width:34px;
+    height:34px;
+    flex:none;
+    background:none;
+    border:none;
+    padding:0;
+    cursor:pointer;
   }
 
-  .nav-item:last-child{
-    margin-left:0;
+  .nav-toggle-bar{
+    display:block;
+    width:22px;
+    height:2px;
+    background:var(--color-white);
+    border-radius:2px;
+    transition:transform 0.3s ease, opacity 0.3s ease;
   }
 
-  .dropdown{
-    position:fixed;
-    left:16px;
-    right:16px;
-    width:auto;
-    transform:translateY(-6px);
-  }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2){opacity:0;}
+  .nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+}
 
-  .nav-item:hover .dropdown,
-  .nav-item:focus-within .dropdown{
-    transform:translateY(0);
-  }
+.nav-toggle{
+  display:none;
+}
+
+.nav-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.55);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity 0.35s ease, visibility 0.35s ease;
+  z-index:199;
+}
+
+.nav-overlay.is-visible{
+  opacity:1;
+  visibility:visible;
+}
+
+.nav-panel{
+  position:fixed;
+  top:0;
+  right:0;
+  width:min(320px, 84vw);
+  height:100vh;
+  height:100dvh;
+  background:linear-gradient(180deg, rgba(14,14,16,0.98), rgba(5,5,5,0.99));
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border-left:1px solid rgba(var(--color-primary-rgb),0.14);
+  box-shadow:-18px 0 60px rgba(0,0,0,0.5);
+  padding:96px 20px 32px;
+  overflow-y:auto;
+  transform:translateX(100%);
+  transition:transform 0.4s cubic-bezier(0.4,0.1,0.2,1);
+  z-index:200;
+}
+
+@supports not (backdrop-filter: blur(1px)){
+  .nav-panel{background:var(--color-black);}
+}
+
+.nav-panel.is-open{
+  transform:translateX(0);
+}
+
+.nav-panel .nav-menu{
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  gap:4px;
+}
+
+.nav-panel .nav-item{
+  width:100%;
+  position:relative;
+}
+
+.nav-panel .nav-item:last-child{
+  margin-left:0;
+  margin-top:16px;
+}
+
+.nav-panel .nav-link{
+  width:100%;
+  box-sizing:border-box;
+  padding:14px;
+  font-size:15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.nav-panel .nav-item:has(.dropdown) > .nav-link::after{
+  content:"";
+  width:8px;
+  height:8px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:rotate(45deg);
+  transition:transform 0.25s ease;
+  margin-left:8px;
+  flex:none;
+}
+
+.nav-panel .nav-item.is-expanded > .nav-link::after{
+  transform:rotate(-135deg);
+}
+
+.nav-panel .dropdown{
+  position:static;
+  opacity:1;
+  visibility:visible;
+  transform:none;
+  min-width:0;
+  max-height:0;
+  overflow:hidden;
+  background:rgba(255,255,255,0.03);
+  border:none;
+  box-shadow:none;
+  padding:0 8px;
+  margin:0;
+  transition:max-height 0.35s ease, padding 0.35s ease;
+}
+
+.nav-panel .nav-item.is-expanded .dropdown{
+  max-height:320px;
+  padding:6px 8px;
+  margin-top:2px;
+}
+
+.nav-panel .dropdown a{
+  padding:12px 14px;
+}
+
+body.nav-open{
+  overflow:hidden;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .nav-panel{transition:none;}
+  .nav-overlay{transition:none;}
+  .nav-panel .dropdown{transition:none;}
 }
 
 /* ===================================================================
