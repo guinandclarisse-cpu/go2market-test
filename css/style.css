@@ -192,6 +192,41 @@ body::after{
   pointer-events:none;
 }
 
+/* ---------- Correction du fond en version mobile uniquement ----------
+   Sur mobile, body::before/::after (image de fond + voile) sont en
+   position:fixed + height:100%, une combinaison que les navigateurs
+   mobiles (barre d'adresse dynamique) recalculent mal pendant le
+   défilement : le fond semblait se couper ou se repositionner entre les
+   sections. On les repasse en position:absolute ancrée sur la hauteur
+   réelle de la page (top/right/bottom/left:0, sans dépendre de vh), et on
+   réaligne les halos du body sur les valeurs desktop pour un fond
+   identique et continu. Scopé à ≤768px : tablette et desktop inchangés. */
+@media (max-width:768px){
+  body{
+    position:relative;
+    background-image:
+      radial-gradient(ellipse 1100px 780px at 14% 6%, rgba(var(--color-primary-rgb),0.32), transparent 64%),
+      radial-gradient(ellipse 940px 860px at 92% 46%, rgba(var(--color-primary-hover-rgb),0.34), transparent 62%),
+      radial-gradient(ellipse 940px 760px at 20% 92%, rgba(var(--color-secondary-rgb),0.16), transparent 62%),
+      linear-gradient(180deg, var(--color-surface-soft) 0%, var(--color-dark) 18%, var(--color-dark) 82%, var(--color-surface-soft) 100%);
+    background-position:0 0, 0 0, 0 0, 0 0;
+    background-repeat:repeat-y, repeat-y, repeat-y, repeat-y;
+    background-size:100% 1400px, 100% 1400px, 100% 1400px, 100% 1400px;
+  }
+
+  body::before,
+  body::after{
+    position:absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    width:auto;
+    height:auto;
+    background-attachment:scroll;
+  }
+}
+
 /* Voile "hero" premium — composant générique réutilisable sur toutes les
    pages du site (référence : developpement.html). Ne remplace ni ne masque
    le fond du site (globe/particules/image de fond, body::before/::after,
@@ -3178,10 +3213,11 @@ a.pave-title:focus{
     radial-gradient(ellipse 420px 320px at 100% 110%, rgba(var(--color-secondary-rgb),0.18), transparent 60%),
     var(--gradient-brand);
   border:1px solid rgba(var(--color-primary-rgb),0.22);
+  border-left:none;
   box-shadow:var(--shadow-hover);
 }
 
-.bottom-cta{padding:56px 24px; margin-bottom:var(--spacing-section);}
+.bottom-cta{padding:56px 24px; margin-bottom:0;}
 
 /* Le bandeau CTA de fin doit démarrer juste après la dernière ligne de
    certification (ENE), sans l'écart standard — scopé à certifications.html
@@ -3197,7 +3233,8 @@ a.pave-title:focus{
   font-size:16px;
 }
 
-.final-cta h2{
+.final-cta h2,
+.bottom-cta h2{
   font-family:var(--font-heading);
   font-weight:700;
   font-size:32px;
@@ -3205,7 +3242,8 @@ a.pave-title:focus{
   margin:0 0 var(--gap-title-intro);
 }
 
-.final-cta p{
+.final-cta p,
+.bottom-cta p{
   font-family:var(--font-body);
   font-weight:400;
   font-size:17px;
@@ -5841,17 +5879,17 @@ body.page-developpement .diag-intro h2{
    =================================================================== */
 
 .site-footer{
-  max-width:1100px;
-  margin:40px auto 0;
-  padding:0 24px 40px;
-}
-
-.footer-inner{
+  max-width:none;
+  margin:0;
+  padding:0;
   background:
     radial-gradient(circle at 50% 0%, rgba(var(--color-primary-rgb),0.10), transparent 38%),
     linear-gradient(180deg, var(--color-dark) 0%, var(--color-black) 100%);
-  border:1px solid rgba(var(--color-primary-rgb),0.10);
-  border-radius:var(--radius-xl);
+}
+
+.footer-inner{
+  max-width:1100px;
+  margin:0 auto;
   padding:24px 32px;
   display:flex;
   align-items:center;
