@@ -648,6 +648,18 @@ img{max-width:100%;}
   margin-top:2px;
 }
 
+/* Neutralise .nav-item:hover .dropdown / .nav-item:focus-within .dropdown
+   (règle desktop, transform:translateX(-50%) pour centrer le dropdown
+   sous son déclencheur en position:absolute) : au tactile, un tap sur le
+   lien déclenche souvent :focus-within (et parfois :hover), et cette
+   règle desktop, plus spécifique que .nav-panel .dropdown seul, ré-
+   appliquait ce translateX(-50%) au dropdown mobile — pourtant en
+   position:static et pleine largeur — le décalant hors de l'écran. */
+.nav-panel .nav-item:hover .dropdown,
+.nav-panel .nav-item:focus-within .dropdown{
+  transform:none;
+}
+
 .nav-panel .dropdown a{
   padding:12px 14px;
   text-align:center;
