@@ -64,6 +64,10 @@
   /* Typographie */
   --font-heading:'Montserrat', sans-serif;
   --font-body:'Inter', sans-serif;
+  /* Réservée aux H1 uniquement (grands titres de début de page) : géométrique
+     et arrondie, dans l'esprit d'ADA HYBRID (Canva), sans toucher aux H2/H3/
+     cartes/boutons qui restent en --font-heading. */
+  --font-h1:'Manrope', 'Montserrat', sans-serif;
 }
 
 /* ---------- Paliers responsive des espacements (Guide des espacements) ---------- */
@@ -293,7 +297,7 @@ h1, h2, h3, h4{
   margin:0;
 }
 
-h1{font-weight:700;}
+h1{font-family:var(--font-h1); font-weight:700;}
 h2, h3, h4{font-weight:600;}
 
 a{color:inherit;}
@@ -983,7 +987,7 @@ body.nav-open{
    (.page-header h1, .uc-hero-title, .elig-title, etc.), appliquée en plus
    de .page-title sur le même élément. */
 .page-title{
-  font-family:var(--font-heading);
+  font-family:var(--font-h1);
   font-weight:700;
   font-size:clamp(26px, 3.6vw, 42px);
   line-height:1.3;
@@ -8044,10 +8048,29 @@ body.page-developpement .diag-intro h2{
   object-fit:contain;
 }
 
-/* Logo ENE : fichier fourni en carré (fond blanc plein), on force un cercle
-   parfait pour rester cohérent avec les badges ronds CII/Bpifrance. */
-.cert-row-logo-round{
+/* Logo ENE : le fichier fourni est un carré 1000x1000 avec le logo centré
+   mais petit (fond blanc plein autour). On force un cadre rond identique
+   aux autres badges (160px, même taille que CII/Bpifrance rendus dans ce
+   bloc) et on zoome/recentre sur le logo via un recadrage en pixels. */
+.cert-logo-zoom{
+  position:relative;
+  display:block;
+  width:160px;
+  height:160px;
   border-radius:50%;
+  overflow:hidden;
+  background:var(--color-white);
+}
+
+.cert-row-logo .cert-logo-zoom-img{
+  position:absolute;
+  width:229px;
+  height:229px;
+  max-width:none;
+  max-height:none;
+  left:-33px;
+  top:-38px;
+  object-fit:cover;
 }
 
 @media (max-width:900px){
