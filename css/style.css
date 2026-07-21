@@ -10946,6 +10946,18 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
    =================================================================== */
 @media (max-width:768px){
 
+  /* ---------- 3. Titres blancs de section (.uc-intro-head h2) : une
+     seule règle déjà partagée par toutes les sections des 5 pages
+     (problématique, solution, expertises, bénéfices, synthèse) — donc
+     déjà de la même taille (32px) sur desktop. On réduit uniquement
+     cette taille pour mobile, ce qui limite les retours à la ligne des
+     titres les plus longs (ex. la synthèse) sans rien désynchroniser
+     entre les sections. Typographie, poids et couleur inchangés. */
+  body.page-cas-usage .uc-intro-head h2{
+    font-size:22px;
+    line-height:1.25;
+  }
+
   /* ---------- 1. "Fonctionnement de l'outil" (.uc-flow) : grille 2
      colonnes, flèches masquées (remplacées par la disposition en
      grille elle-même), dernier encadré impair centré automatiquement
