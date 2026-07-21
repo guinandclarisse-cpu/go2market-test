@@ -297,7 +297,7 @@ h1, h2, h3, h4{
   margin:0;
 }
 
-h1{font-family:var(--font-h1); font-weight:700;}
+h1{font-family:var(--font-h1); font-weight:700; font-size:44px;}
 h2, h3, h4{font-weight:600;}
 
 a{color:inherit;}
@@ -753,8 +753,16 @@ body.nav-open{
   line-height:1.25;
 }
 
+/* Titres bleus (fond clair) harmonisés à 44px ; exclut .page-hero--services
+   (services-ia.html), dont le titre est blanc sur fond sombre et garde sa
+   taille d'origine. */
+.page-hero:not(.page-hero--services) .hero-title-text{
+  font-size:44px;
+}
+
 .hero .hero-title-text{
   color:var(--color-white);
+  font-size:44px;
 }
 
 .page-hero--services .hero-title-text{
@@ -989,7 +997,7 @@ body.nav-open{
 .page-title{
   font-family:var(--font-h1);
   font-weight:700;
-  font-size:clamp(26px, 3.6vw, 42px);
+  font-size:44px;
   line-height:1.3;
   letter-spacing:0.01em;
 }
@@ -998,12 +1006,88 @@ body.nav-open{
    appliquée en plus (ou à la place) de .page-title / de la classe de
    contexte de chaque page sur le même élément h1. */
 .page-title-sm{
-  font-size:clamp(22px, 3vw, 34px);
+  font-size:44px;
+}
+
+/* Titre de partenaires.html, coupé en 2 lignes précises via <br> dans le
+   HTML, à 44px : chaque ligne dépasse la largeur du conteneur de 900px, ce
+   qui provoquait un wrap supplémentaire ("naissent" seul sur une 3e ligne).
+   On sort du conteneur pour couvrir toute la largeur du viewport (comme
+   .rd-section-head h2) et on empêche le retour à la ligne automatique :
+   seul le <br> du HTML crée un saut de ligne, ce qui garantit exactement
+   2 lignes. Sur mobile, où même la largeur du viewport est insuffisante,
+   on repasse en retour à la ligne normal plutôt que de forcer un
+   débordement horizontal. */
+body.page-partenaires .page-title-sm{
+  font-size:44px;
+  white-space:nowrap;
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  text-align:center;
+}
+
+@media (max-width:900px){
+  body.page-partenaires .page-title-sm{
+    white-space:normal;
+    width:auto;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+  }
+}
+
+/* Même correction que partenaires.html : titre coupé en 2 lignes précises
+   via <br>, dont chaque ligne dépasse la largeur du conteneur de 900px
+   à 44px. */
+body.page-nous-rejoindre .page-title-sm{
+  font-size:44px;
+  white-space:nowrap;
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  text-align:center;
+}
+
+@media (max-width:900px){
+  body.page-nous-rejoindre .page-title-sm{
+    white-space:normal;
+    width:auto;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+  }
 }
 
 .page-header h1{
   color:var(--title-accent-color);
   margin-bottom:var(--gap-title-intro);
+}
+
+/* Titre de formation-initiation-ia.html sur une seule ligne à 44px : sort
+   du conteneur de 900px pour couvrir toute la largeur du viewport et
+   empêche le retour à la ligne automatique (même technique que
+   partenaires.html / nous-rejoindre.html). Sur mobile, retour au
+   comportement normal pour éviter tout débordement horizontal. */
+body.page-formation-initiation-ia .page-header h1{
+  white-space:nowrap;
+  width:100vw;
+  max-width:100vw;
+  margin-left:calc(50% - 50vw);
+  margin-right:calc(50% - 50vw);
+  text-align:center;
+}
+
+@media (max-width:900px){
+  body.page-formation-initiation-ia .page-header h1{
+    white-space:normal;
+    width:auto;
+    max-width:none;
+    margin-left:0;
+    margin-right:0;
+  }
 }
 
 .page-header .intro{
@@ -1769,6 +1853,14 @@ body.page-approche .method-intro h2{
   margin:0 0 16px;
 }
 
+/* .card-subtitle est un composant partagé par toutes les cartes du site :
+   Manrope n'est appliquée qu'aux deux titres des cartes pleine largeur de
+   a-propos.html ("Notre mission", "Notre savoir-faire"). */
+.card--full .card-subtitle{
+  font-family:var(--font-h1);
+  font-size:40px;
+}
+
 .card-text{
   font-family:var(--font-body);
   font-weight:400;
@@ -2322,7 +2414,7 @@ body.page-diagnostic .callout h2{
   margin:0 0 56px;
   font-family:var(--font-h1);
   font-weight:700;
-  font-size:clamp(20px, 2.4vw, 30px);
+  font-size:32px;
   line-height:1.4;
   letter-spacing:0.01em;
   color:#eaf2f6;
@@ -2480,6 +2572,23 @@ body.page-diagnostic .callout h2{
 }
 
 .diag2-innovation-link:hover{
+  color:#3aa8c1;
+}
+
+.cert-eligibility-link{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-family:var(--font-heading);
+  font-weight:600;
+  font-size:14px;
+  color:var(--color-primary);
+  text-decoration:none;
+  margin-top:18px;
+  transition:color 0.2s ease;
+}
+
+.cert-eligibility-link:hover{
   color:#3aa8c1;
 }
 
@@ -2812,6 +2921,7 @@ body.page-diagnostic .callout h2{
 .elig-title{
   margin:24px 0 0;
   color:var(--title-color);
+  font-size:44px;
 }
 
 .elig-h2{
@@ -3060,6 +3170,15 @@ body.page-diagnostic .callout h2{
   font-size:clamp(26px, 3vw, 36px);
   color:var(--color-white);
   margin:0 0 var(--gap-sub-text);
+}
+
+/* Harmonisée avec .formats-section-title (32px), uniquement sur
+   formation.html — .formation-faq-title est partagée avec diagnostic.html
+   et développement.html. */
+body.page-formation .formation-faq-title,
+body.page-diagnostic .formation-faq-title,
+body.page-developpement .formation-faq-title{
+  font-size:32px;
 }
 
 .formation-faq-intro{
@@ -3443,6 +3562,13 @@ body.page-nous-rejoindre .final-cta p{
   letter-spacing:0.01em;
   color:var(--color-white);
   text-align:center;
+}
+
+/* Harmonisée avec .formats-section-title (32px), uniquement sur
+   formation.html — .logo-carousel-title est partagée avec diagnostic.html. */
+body.page-formation .logo-carousel-title,
+body.page-diagnostic .logo-carousel-title{
+  font-size:32px;
 }
 
 .logo-carousel-subtitle{
@@ -4085,6 +4211,10 @@ body.page-a-propos .page-header--wide{
   padding-top:130px;
 }
 
+body.page-a-propos .page-header--wide h1{
+  font-size:44px;
+}
+
 /* Force exactement 2 lignes (coupure au <br> du HTML), sans retour à la
    ligne intermédiaire indésirable ; sur mobile, l'espace manque pour tenir
    la 1ère ligne sur une seule ligne, on repasse alors en retour naturel. */
@@ -4101,6 +4231,10 @@ body.page-a-propos .page-header--wide{
 .page-header--wide p.hero-tagline--home,
 .page-header--wide .intro{
   color:var(--color-white);
+}
+
+.page-header--wide p.hero-tagline--home{
+  text-shadow:0 0 16px rgba(var(--color-primary-rgb),0.85), 0 0 40px rgba(var(--color-primary-rgb),0.5);
 }
 
 .method-intro--sm-title{
@@ -4120,6 +4254,7 @@ body.page-a-propos .page-header--wide{
 }
 
 .method-intro--sm-title h2{
+  font-family:var(--font-h1);
   font-size:32px;
   color:var(--color-white);
   margin-bottom:8px;
@@ -4182,6 +4317,7 @@ body.page-a-propos .page-header--wide{
 }
 
 .audience-section--accent-intro h2{
+  font-family:var(--font-h1);
   margin-bottom:8px;
   font-size:32px;
   color:var(--color-white);
@@ -4592,7 +4728,7 @@ body.page-a-propos .page-header--wide{
 }
 
 .stats-row-title h2{
-  font-family:var(--font-heading);
+  font-family:var(--font-h1);
   font-weight:700;
   font-size:32px;
   color:var(--color-white);
@@ -4896,7 +5032,7 @@ body.page-a-propos .page-header--wide{
 }
 
 .team-group-title{
-  font-family:var(--font-heading);
+  font-family:var(--font-h1);
   font-weight:700;
   font-size:32px;
   color:var(--color-white);
@@ -6378,6 +6514,16 @@ body.page-developpement .diag-intro h2{
   padding:var(--gap-header-hero) 24px var(--spacing-section-tight);
 }
 
+/* Le conteneur des pages cas d'usage (1100px) laisse une marge latérale plus
+   fine que sur les autres pages (900px) aux largeurs desktop intermédiaires :
+   on compensait auparavant par un padding-gauche asymétrique (contenu décalé
+   à droite, plus d'espace à gauche qu'à droite). On centre proprement à la
+   place, en augmentant la marge verticale au-dessus du hero pour passer sous
+   le logo d'angle fixe (112px de haut, jusqu'à 132px depuis le haut). */
+@media (min-width:900px){
+  .uc-hero{padding-top:150px;}
+}
+
 .uc-hero-inner{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -6403,18 +6549,9 @@ body.page-developpement .diag-intro h2{
   text-align:left;
   text-wrap:balance;
   animation:fadeInUp 0.6s ease both 0.12s;
-}
-
-/* Dégagement horizontal du logo d'angle fixe (position:fixed, top:20px/left:32px,
-   voir design_system.md) : le hero étant le premier contenu de page (même bande
-   verticale que le logo), on décale la colonne de texte pour ne jamais passer
-   sous le logo, aux mêmes paliers que ceux déjà utilisés pour sa taille. */
-@media (min-width:900px) and (max-width:1299px){
-  .uc-hero-content{padding-left:110px;}
-}
-
-@media (min-width:1300px){
-  .uc-hero-content{padding-left:90px;}
+  /* Restaure la taille d'origine de .page-title (titre blanc, pas concerné
+     par l'harmonisation à 44px des titres bleus). */
+  font-size:clamp(26px, 3.6vw, 42px);
 }
 
 .uc-hero-desc{
@@ -6423,7 +6560,7 @@ body.page-developpement .diag-intro h2{
   line-height:1.8;
   color:var(--uc-body);
   margin:0;
-  text-align:center;
+  text-align:left;
   animation:fadeInUp 0.6s ease both 0.24s;
 }
 
@@ -6672,18 +6809,6 @@ body.page-developpement .diag-intro h2{
   padding:0 24px;
 }
 
-/* Même décalage gauche que .uc-hero-content (dégagement du logo d'angle fixe,
-   voir plus haut) : garantit que le bord gauche des sections (icône, titre,
-   encadré) tombe exactement sur le même axe vertical que la colonne de texte
-   du hero, à toutes les largeurs d'écran. */
-@media (min-width:900px) and (max-width:1299px){
-  .uc-section{padding-left:134px;}
-}
-
-@media (min-width:1300px){
-  .uc-section{padding-left:114px;}
-}
-
 /* Espacement renforcé avant les grandes parties (mêmes valeurs/paliers que
    .rd-section--gap-lg sur la page R&D) : sépare plus nettement chaque grande
    partie du cas d'usage lors du défilement, sans créer de vide disproportionné. */
@@ -6728,6 +6853,7 @@ body.page-developpement .diag-intro h2{
   border-radius:var(--radius-sm);
   padding:13px 20px;
   white-space:nowrap;
+  box-shadow:0 0 30px rgba(var(--color-primary-rgb),0.65), 0 0 10px rgba(var(--color-primary-rgb),0.55);
 }
 
 .uc-flow-arrow{
@@ -9167,7 +9293,7 @@ body.page-nous-rejoindre .cards--sky .card-text{
 
 .funding-grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(4, 1fr);
   margin:var(--spacing-title-text) auto 0;
 }
 
@@ -9239,6 +9365,18 @@ body.page-nous-rejoindre .cards--sky .card-text{
   object-fit:cover;
 }
 
+/* Logo ENE : même fichier/recadrage que sur certifications.html
+   (.cert-logo-zoom-img), mis à l'échelle du cadre 96px de ce bloc. */
+.funding-logo--ene{
+  position:absolute;
+  width:137px;
+  height:137px;
+  left:-20px;
+  top:-23px;
+  margin:0;
+  object-fit:cover;
+}
+
 .funding-grid.is-inview .funding-logo{
   opacity:1;
   translate:0 0;
@@ -9247,6 +9385,7 @@ body.page-nous-rejoindre .cards--sky .card-text{
 .funding-grid.is-inview .funding-item:nth-child(1) .funding-logo{transition-delay:0ms, 0ms, 0s, 0s;}
 .funding-grid.is-inview .funding-item:nth-child(2) .funding-logo{transition-delay:150ms, 150ms, 0s, 0s;}
 .funding-grid.is-inview .funding-item:nth-child(3) .funding-logo{transition-delay:300ms, 300ms, 0s, 0s;}
+.funding-grid.is-inview .funding-item:nth-child(4) .funding-logo{transition-delay:450ms, 450ms, 0s, 0s;}
 
 .funding-item:hover .funding-logo{
   scale:1.05;
