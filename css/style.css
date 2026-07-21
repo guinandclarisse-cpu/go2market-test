@@ -10787,27 +10787,48 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     box-shadow:var(--shadow);
   }
 
-  /* ---------- 4. "Pourquoi nos clients nous font confiance" ---------- */
+  /* ---------- 4. "Pourquoi nos clients nous font confiance" : grille 2
+     colonnes x 2 lignes. CSS grid (plutôt que flex-wrap) car le nombre
+     de cartes est fixe (4) : chaque ligne obtient automatiquement des
+     colonnes de largeur identique et une hauteur de rangée uniforme
+     (align-items:stretch par défaut), même si le texte d'une carte est
+     plus long qu'une autre. */
   body.page-references .ref-trust-cards{
-    grid-template-columns:1fr;
-    row-gap:20px;
-  }
-
-  body.page-references .ref-trust-cards .card{
-    width:100%;
-    max-width:360px;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px 14px;
+    max-width:340px;
     margin:0 auto;
   }
 
+  body.page-references .ref-trust-cards .card{
+    width:auto;
+    max-width:none;
+    box-sizing:border-box;
+    padding:14px;
+    margin:0;
+  }
+
+  body.page-references .ref-trust-cards .card-subtitle{
+    white-space:normal;
+    font-size:12px;
+    margin-bottom:8px;
+  }
+
+  body.page-references .ref-trust-cards .card-text{
+    font-size:11px;
+    line-height:1.5;
+  }
+
   body.page-references .ref-card-icon{
-    width:56px;
-    height:56px;
-    margin-bottom:16px;
+    width:40px;
+    height:40px;
+    margin-bottom:10px;
   }
 
   body.page-references .ref-card-icon svg{
-    width:26px;
-    height:26px;
+    width:18px;
+    height:18px;
   }
 
   /* Empêche le survol lumineux (glow + lift) de rester "collé" après un
