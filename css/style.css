@@ -2293,6 +2293,23 @@ body.page-diagnostic .callout h2{
   font-family:var(--font-h1);
 }
 
+/* Titre "Le diagnostic est la deuxième étape du parcours" sur une seule
+   ligne : le conteneur de 820px est trop étroit à 32px, on l'élargit et on
+   empêche le retour à la ligne automatique, spécifiquement sur cette page. */
+body.page-diagnostic .callout{
+  max-width:960px;
+}
+
+body.page-diagnostic .callout h2{
+  white-space:nowrap;
+}
+
+@media (max-width:900px){
+  body.page-diagnostic .callout h2{
+    white-space:normal;
+  }
+}
+
 .callout p{
   font-family:var(--font-body);
   font-weight:400;
@@ -4005,25 +4022,30 @@ body.page-diagnostic .logo-carousel-title{
 }
 
 /* Étape active du parcours client (formation.html/diagnostic.html/
-   developpement.html) : le tracé de bordure ne se déclenche plus au survol
-   mais automatiquement à l'arrivée de la section dans le viewport, une
-   seule fois, via js/journey-trace-reveal.js (.journey-inview posé sur
-   .journey). Bordure/halo plus lumineux que le comportement hover d'origine,
-   transition propre à cette carte pour ne pas changer le tracé au survol
-   de .audience-card ailleurs sur le site. */
+   developpement.html) : plus de tracé de bordure animé ici — un halo
+   lumineux apparaît en fondu autour de la carte dès que la section entre
+   dans le viewport, une seule fois, via js/journey-trace-reveal.js
+   (.journey-inview posé sur .journey). Le tracé ::before reste utilisé tel
+   quel pour .audience-card ailleurs sur le site (survol). */
 .journey-card .trace-border::before{
-  filter:drop-shadow(0 0 8px rgba(var(--color-primary-rgb),0.95)) drop-shadow(0 0 26px rgba(var(--color-primary-rgb),0.7));
-  transition:--trace-progress 1.2s ease-out;
+  content:none;
 }
 
-.journey.journey-inview .trace-border::before{
-  --trace-progress:100;
+.journey-card .trace-border{
+  transition:box-shadow 2.4s ease-out;
+}
+
+.journey.journey-inview .journey-frame.trace-border{
+  box-shadow:var(--shadow-sm), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 22px rgba(var(--color-primary-rgb),1), 0 0 58px rgba(var(--color-primary-rgb),0.9), 0 0 110px rgba(var(--color-primary-rgb),0.6);
+}
+
+.journey.journey-inview .journey-visual--filled.trace-border{
+  box-shadow:var(--shadow-sm), 0 0 22px rgba(var(--color-primary-rgb),1), 0 0 58px rgba(var(--color-primary-rgb),0.9), 0 0 110px rgba(var(--color-primary-rgb),0.6);
 }
 
 @media (prefers-reduced-motion:reduce){
-  .journey-card .trace-border::before{
+  .journey-card .trace-border{
     transition:none;
-    --trace-progress:100;
   }
 }
 
@@ -10543,4 +10565,214 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
 .ref-card-icon svg{
   width:24px;
   height:24px;
+}
+
+/* ===================================================================
+   Page Références — correctifs MOBILE UNIQUEMENT (≤768px)
+   Tout ce bloc est scopé à body.page-references + @media(max-width:768px)
+   afin de ne jamais toucher la version desktop (conservée telle quelle)
+   ni les autres pages qui partagent .card/.cards/.final-cta/.cta-button.
+   Chaque règle est préfixée "body.page-references" pour gagner la
+   cascade face aux règles partagées sans dépendre de l'ordre du fichier.
+   =================================================================== */
+@media (max-width:768px){
+
+  /* ---------- 1. Structure générale ---------- */
+  body.page-references{
+    overflow-x:hidden;
+  }
+
+  body.page-references .ref-page{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+  body.page-references *{
+    box-sizing:border-box;
+  }
+
+  body.page-references .ref-section{
+    width:100%;
+    max-width:100%;
+    padding:0 20px;
+  }
+
+  body.page-references .ref-page .ref-section{
+    margin-bottom:40px;
+  }
+
+  body.page-references .section-gap-lg{
+    margin-top:40px;
+  }
+
+  body.page-references .ref-trust-section{
+    margin-top:40px;
+  }
+
+  /* ---------- 2. "Une expertise multisectorielle" ---------- */
+  body.page-references .ref-section-title{
+    font-size:clamp(2rem, 9vw, 3rem);
+    line-height:1.15;
+    text-align:center;
+    overflow-wrap:break-word;
+    word-break:break-word;
+  }
+
+  body.page-references .ref-section-intro{
+    max-width:90%;
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+
+  body.page-references .ref-tags-wrap{
+    display:block;
+    width:100%;
+  }
+
+  body.page-references .ref-filter-tags{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    overflow-x:visible;
+    max-width:100%;
+    padding:0;
+    margin:0;
+    gap:10px;
+  }
+
+  body.page-references .ref-filter-tags .ref-filter-btn{
+    flex:none;
+    white-space:normal;
+    text-align:center;
+    scroll-snap-align:none;
+  }
+
+  /* ---------- 3. Cartes entreprises (recto/verso) ---------- */
+  body.page-references .ref-cards-grid{
+    grid-template-columns:1fr;
+    row-gap:28px;
+    column-gap:0;
+    width:100%;
+    max-width:100%;
+    padding:0;
+  }
+
+  body.page-references .ref-card{
+    width:calc(100% - 40px);
+    max-width:380px;
+    height:290px;
+    margin:0 auto;
+  }
+
+  body.page-references .ref-card-face{
+    overflow:hidden;
+  }
+
+  body.page-references .ref-card-face--front{
+    padding:20px;
+  }
+
+  body.page-references .ref-card-face--front img{
+    width:auto;
+    height:auto;
+    max-width:75%;
+    max-height:65%;
+    object-fit:contain;
+    margin:0 auto;
+  }
+
+  body.page-references .ref-card-face--back{
+    padding:24px 20px;
+    justify-content:center;
+  }
+
+  body.page-references .ref-card-label{
+    font-size:11px;
+    margin:0 0 3px;
+  }
+
+  body.page-references .ref-card-value{
+    font-size:13px;
+    line-height:1.35;
+    margin:0 0 10px;
+  }
+
+  body.page-references .ref-card-value:last-child{
+    margin-bottom:0;
+  }
+
+  body.page-references .ref-card-name{
+    font-size:20px;
+  }
+
+  /* Le retournement au clic/tap (.is-flipped, js/references-flip.js) est
+     déjà indépendant du survol : rien à changer côté JS. On neutralise
+     seulement le survol desktop qui ne doit pas s'activer au tap. */
+  body.page-references .ref-card:hover{
+    transform:none;
+  }
+
+  body.page-references .ref-card:hover .ref-card-face{
+    box-shadow:var(--shadow);
+  }
+
+  /* ---------- 4. "Pourquoi nos clients nous font confiance" ---------- */
+  body.page-references .ref-trust-cards{
+    grid-template-columns:1fr;
+    row-gap:20px;
+  }
+
+  body.page-references .ref-trust-cards .card{
+    width:100%;
+    max-width:360px;
+    margin:0 auto;
+  }
+
+  body.page-references .ref-card-icon{
+    width:56px;
+    height:56px;
+    margin-bottom:16px;
+  }
+
+  body.page-references .ref-card-icon svg{
+    width:26px;
+    height:26px;
+  }
+
+  /* Empêche le survol lumineux (glow + lift) de rester "collé" après un
+     tap tactile — .card:hover est partagé et non conditionné à
+     hover:hover ailleurs, donc on le neutralise ici pour cette page. */
+  body.page-references .ref-trust-cards .card:hover{
+    transform:none;
+    border-color:rgba(var(--color-primary-rgb),0.12);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
+  }
+
+  /* ---------- 5. Bandeau final ---------- */
+  body.page-references .final-cta{
+    padding:56px 20px;
+    margin-top:40px;
+  }
+
+  body.page-references .final-cta h2{
+    font-size:clamp(1.5rem, 7vw, 1.75rem);
+    overflow-wrap:break-word;
+  }
+
+  body.page-references .final-cta p{
+    max-width:90%;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  body.page-references .final-cta .cta-button{
+    width:auto;
+    max-width:100%;
+    padding:14px 24px;
+    white-space:normal;
+    text-align:center;
+    justify-content:center;
+  }
 }
