@@ -431,7 +431,7 @@ img{max-width:100%;}
   display:block;
   color:var(--color-white);
   text-decoration:none;
-  font-family:var(--font-body);
+  font-family:var(--font-h1);
   font-weight:500;
   font-size:13px;
   letter-spacing:0.04em;
@@ -497,7 +497,7 @@ img{max-width:100%;}
   display:block;
   color:var(--color-gray);
   text-decoration:none;
-  font-family:var(--font-body);
+  font-family:var(--font-h1);
   font-size:13px;
   font-weight:400;
   padding:10px 14px;
@@ -562,8 +562,8 @@ img{max-width:100%;}
     flex:none;
     height:38px;
     padding:0 18px;
-    background:rgba(var(--color-primary-rgb),0.14);
-    border:1px solid rgba(var(--color-primary-rgb),0.35);
+    background:var(--color-primary);
+    border:1px solid var(--color-primary);
     border-radius:var(--radius-pill);
     color:var(--color-white);
     font-family:var(--font-body);
@@ -571,12 +571,13 @@ img{max-width:100%;}
     font-size:13px;
     letter-spacing:0.04em;
     cursor:pointer;
+    box-shadow:0 0 16px rgba(var(--color-primary-rgb),0.45);
     transition:background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
 
   .nav-toggle[aria-expanded="true"]{
-    background:var(--color-primary);
-    border-color:var(--color-primary);
+    background:var(--color-primary-hover);
+    border-color:var(--color-primary-hover);
     color:var(--color-white);
   }
 }
