@@ -10897,3 +10897,42 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     line-height:1.2;
   }
 }
+
+/* ===================================================================
+   Titres principaux (H1 / Hero) — moins de retours à la ligne en
+   MOBILE UNIQUEMENT. Le titre reste centré (option retenue plutôt que
+   l'alignement à gauche) : on lui donne juste un peu plus de largeur
+   en resserrant légèrement le padding horizontal des conteneurs hero
+   partagés (24px/6% → 20px, marge toujours confortable), et on masque
+   les <br> placés à la main pour le rendu desktop afin que le texte se
+   recasse naturellement au meilleur endroit sur les petits écrans, au
+   lieu de forcer une coupure de phrase prématurée. Seuls padding et
+   <br> sont touchés : taille de police, typographie, couleurs et
+   effets restent ceux définis ailleurs (dont le bloc 31px ci-dessus).
+   La version desktop n'est pas modifiée (aucune règle existante
+   éditée, uniquement de nouvelles règles ajoutées sous ce media query).
+   =================================================================== */
+@media (max-width:768px){
+
+  .page-header,
+  .hero,
+  .page-hero,
+  .rd-hero,
+  .uc-hero,
+  .elig-hero,
+  .diag2-hero{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  .page-header h1 br,
+  .hero h1 br,
+  .page-hero h1 br,
+  .rd-hero-title br,
+  .uc-hero-title br,
+  .diag2-hero-title br,
+  .elig-title br,
+  .ref-hero-title br{
+    display:none;
+  }
+}
