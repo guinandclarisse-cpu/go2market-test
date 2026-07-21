@@ -9,7 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="page-references">
+
+<main class="ref-page">
 
 <div class="hero-veil-wrap">
 <span class="hero-veil" aria-hidden="true"></span>
@@ -54,16 +56,277 @@
   </ul>
 </nav>
 
-<header class="page-header">
-  <h1>Nos références</h1>
-  <p class="hero-tagline hero-tagline--home">Ils nous font confiance</p>
-  <p class="intro">
-    <span>Un aperçu des entreprises que nous accompagnons dans leurs projets Data &amp; IA.</span>
-  </p>
+<header class="page-header ref-hero">
+  <h1 class="ref-hero-title">Des entreprises qui nous font confiance</h1>
+  <p class="intro">Chaque référence illustre notre capacité à adapter nos accompagnements aux enjeux spécifiques de chaque secteur d'activité.</p>
 </header>
 
 <div class="hero-divider" aria-hidden="true"><span class="hero-divider-dot"></span></div>
 </div>
+
+<!-- SECTION — UNE EXPERTISE MULTISECTORIELLE -->
+<section class="ref-section">
+  <h2 class="ref-section-title">Une expertise multisectorielle</h2>
+  <p class="ref-section-intro">G2M accompagne des entreprises de toutes tailles, issues de secteurs d'activité variés, dans leurs enjeux Data &amp; IA.</p>
+  <div class="ref-tags-wrap">
+    <div class="ref-tags ref-filter-tags" role="group" aria-label="Filtrer les références par secteur">
+      <button type="button" class="ref-tag ref-filter-btn is-active" data-filter="all" aria-pressed="true">Tous les secteurs</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="construction-btp" aria-pressed="false">Construction &amp; BTP</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="industrie" aria-pressed="false">Industrie</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="ferroviaire" aria-pressed="false">Ferroviaire</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="formation-rh" aria-pressed="false">Formation &amp; RH</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="conseil" aria-pressed="false">Conseil</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="industrie-graphique" aria-pressed="false">Industrie graphique</button>
+      <button type="button" class="ref-tag ref-filter-btn" data-filter="sante" aria-pressed="false">Santé</button>
+    </div>
+    <span class="ref-tags-line" aria-hidden="true"></span>
+  </div>
+</section>
+
+<!-- SECTION — LES ENTREPRISES ACCOMPAGNÉES -->
+<section class="ref-section section-gap-lg">
+  <div class="ref-cards-grid">
+    <div class="ref-card" data-sector="construction-btp" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20VIZCAB%20-%20DEV.pdf.png" alt="Vizcab">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Construction</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Décarbonation du bâtiment</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Développement Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="construction-btp" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20QUALIECO%20-%20DEV.png" alt="Quali Eco">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Construction &amp; BTP</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Rénovation énergétique</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Développement Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="ferroviaire" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20HAULITY%20-%20DEV.png" alt="Haulity">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Ferroviaire</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Ingénierie ferroviaire</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Diagnostic Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="industrie-graphique" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20DIAGNOSTIC%20.png" alt="Concept &amp; Impression">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Industrie</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Impression industrielle</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Diagnostic Data &amp; IA • Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="formation-rh" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20DIAGNOSTIC%20WSE.png" alt="Wall Street English">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Formation</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Formation en anglais</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Diagnostic Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="formation-rh" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20DIAGNOSTIC%20GESTEMPLOI.png" alt="Gestemploi">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Ressources humaines</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Recrutement &amp; emploi</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Diagnostic Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="conseil" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/Carousel%20LOGO%20GST.png" alt="GST Conseil">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Conseil</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Conseil aux entreprises</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="ferroviaire" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/LOGO%20DIAGNOSTIC%20SDH.png" alt="SDH FER">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Ferroviaire</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Équipements ferroviaires</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Diagnostic Data &amp; IA • Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="industrie" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/Carousel%20LOGO.jpg" alt="Rexia">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Industrie</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Ingénierie industrielle</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="construction-btp" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/Carousel%20LOGO%20AMBR.png" alt="ABMR Menuiseries">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Construction &amp; BTP</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Menuiserie</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="construction-btp" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <img src="Logo%20carrousel/Carousel%20LOGO%20BOIVIN.webp" alt="Boivin Garde-Corps">
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Construction &amp; BTP</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Garde-corps &amp; menuiserie</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Formation IA</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ref-card" data-sector="sante" tabindex="0">
+      <div class="ref-card-inner">
+        <div class="ref-card-face ref-card-face--front">
+          <p class="ref-card-name">Estheservice</p>
+        </div>
+        <div class="ref-card-face ref-card-face--back">
+          <p class="ref-card-label">Secteur</p>
+          <p class="ref-card-value">Santé</p>
+          <p class="ref-card-label">Domaine</p>
+          <p class="ref-card-value">Chirurgie esthétique</p>
+          <p class="ref-card-label">Accompagnement réalisé</p>
+          <p class="ref-card-value">Développement Data &amp; IA</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION — POURQUOI NOS CLIENTS NOUS FONT CONFIANCE -->
+<section class="ref-section section-gap-lg ref-trust-section">
+  <h2 class="ref-section-title">Pourquoi nos clients nous font confiance</h2>
+
+  <div class="cards ref-trust-cards">
+    <article class="card">
+      <span class="ref-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 21v-7M4 10V3M12 21v-11M12 6V3M20 21v-5M20 12V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="4" cy="12" r="2" stroke="currentColor" stroke-width="1.8"></circle><circle cx="12" cy="8" r="2" stroke="currentColor" stroke-width="1.8"></circle><circle cx="20" cy="14" r="2" stroke="currentColor" stroke-width="1.8"></circle></svg>
+      </span>
+      <p class="card-subtitle"><strong>Accompagnement sur mesure</strong></p>
+      <p class="card-text">Diagnostic, développement ou formation : un parcours adapté à chaque besoin.</p>
+    </article>
+
+    <article class="card">
+      <span class="ref-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12l2 2 4-4M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </span>
+      <p class="card-subtitle"><strong>Une méthode éprouvée</strong></p>
+      <p class="card-text">Une approche structurée, du diagnostic à la mise en production des projets.</p>
+    </article>
+
+    <article class="card">
+      <span class="ref-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="1.8"></circle><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </span>
+      <p class="card-subtitle"><strong>Un partenaire de proximité</strong></p>
+      <p class="card-text">Un suivi humain et réactif, dans la durée, au-delà de la livraison du projet.</p>
+    </article>
+
+    <article class="card">
+      <span class="ref-card-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 15a5 5 0 100-10 5 5 0 000 10z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.5 13.5L7 21l5-2.5 5 2.5-1.5-7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+      </span>
+      <p class="card-subtitle"><strong>Dispositifs de financement</strong></p>
+      <p class="card-text">Nous vous accompagnons dans la mobilisation des aides disponibles lorsque votre projet est éligible.</p>
+    </article>
+  </div>
+</section>
+
+<!-- SECTION — CTA FINALE -->
+<section class="final-cta section-gap-lg">
+  <h2>Vous aussi, faites confiance à G2M</h2>
+  <p>Parlons de vos enjeux Data &amp; IA et construisons ensemble votre projet.</p>
+  <a class="cta-button" href="contact.html">Discutons de votre projet</a>
+</section>
+
+</main>
 
 <footer class="site-footer">
   <div class="footer-inner">
@@ -77,5 +340,8 @@
 </footer>
 
 <script src="js/mobile-nav.js" defer></script>
+<script src="js/references-flip.js" defer></script>
+<script src="js/ref-tags-line-reveal.js" defer></script>
+<script src="js/ref-sector-filter.js" defer></script>
 </body>
 </html>
