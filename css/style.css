@@ -10752,17 +10752,31 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     font-size:16px;
   }
 
+  /* Le verso est réaligné entièrement : contenu ancré en haut plutôt que
+     centré verticalement (justify-content:center faisait démarrer
+     "SECTEUR" à une hauteur différente d'une carte à l'autre selon que
+     le texte des valeurs tienne sur 1 ou 2 lignes), largeur pleine +
+     text-align:left explicite sur chaque ligne pour garantir un même
+     bord gauche partout, quel que soit le contenu. */
   body.page-references .ref-card-face--back{
     padding:16px 14px;
-    justify-content:center;
+    align-items:flex-start;
+    justify-content:flex-start;
   }
 
   body.page-references .ref-card-label{
+    width:100%;
+    box-sizing:border-box;
+    text-align:left;
+    color:var(--color-dark);
     font-size:9px;
     margin:0 0 2px;
   }
 
   body.page-references .ref-card-value{
+    width:100%;
+    box-sizing:border-box;
+    text-align:left;
     font-size:11px;
     line-height:1.3;
     margin:0 0 8px;
