@@ -5353,6 +5353,37 @@ body.page-a-propos .page-header--wide h1{
   .stats-band-item:hover{transform:none;}
 }
 
+/* ---------- Chiffres clés (accueil) : les 3 indicateurs sur une seule
+   ligne en MOBILE UNIQUEMENT (≤768px), au lieu de l'empilement vertical
+   hérité des règles ≤900px/≤520px ci-dessus. Scopé à body.page-home
+   (page unique utilisant .stats-band-grid) + spécificité renforcée
+   pour gagner sur ces règles existantes. Typographie, couleurs, halo
+   au survol, transitions et logique des compteurs (js/stats-band-
+   counter.js) restent inchangés — seules tailles et espacements
+   changent. Desktop non modifié : rien ici ne touche aux règles
+   au-delà de 768px. */
+@media (max-width:768px){
+  body.page-home .stats-band-grid{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    column-gap:10px;
+    row-gap:0;
+  }
+
+  body.page-home .stats-band-item{
+    padding:6px 6px;
+  }
+
+  body.page-home .stats-band-item .stat-number{
+    font-size:clamp(20px, 7vw, 26px);
+    margin:0 0 6px;
+  }
+
+  body.page-home .stats-band-item .stat-label{
+    font-size:10.5px;
+    line-height:1.35;
+  }
+}
+
 /* ===================================================================
    Développement — bandeau intro, expertises, méthodologie, gages de confiance
    (developpement.html)
