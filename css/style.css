@@ -9361,6 +9361,31 @@ body.page-nous-rejoindre .cards--sky .card-text{
   }
 }
 
+/* Conserve le schéma circulaire SVG sur mobile au lieu de basculer sur
+   la liste verticale ci-dessus (accueil uniquement). Le SVG a un
+   viewBox 900x900 en unités proportionnelles : il se réduit déjà
+   naturellement avec sa largeur CSS (traits, points, cercle central
+   tous mis à l'échelle ensemble) — seuls les libellés sont agrandis
+   en unités SVG pour rester lisibles à petite taille. Fond, couleurs,
+   halo, tracés, cercle central et animations existantes
+   (js/sector-network-reveal.js, .is-inview) restent strictement les
+   mêmes ; rien n'est modifié au-delà de 820px (desktop inchangé). */
+@media (max-width:820px){
+  body.page-home .sector-network-svg{
+    display:block;
+    width:94%;
+  }
+
+  body.page-home .sector-network-mobile-center,
+  body.page-home .sector-network-mobile{
+    display:none;
+  }
+
+  body.page-home .network-label{
+    font-size:18px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce){
   .network-line,
   .network-dot,
