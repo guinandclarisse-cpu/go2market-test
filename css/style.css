@@ -10705,21 +10705,29 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     scroll-snap-align:none;
   }
 
-  /* ---------- 3. Cartes entreprises (recto/verso) ---------- */
+  /* ---------- 3. Cartes entreprises (recto/verso) : 2 cartes par
+     ligne, largeur identique, dernière carte impaire centrée
+     automatiquement (flex-wrap + justify-content:center, sans
+     dépendre de la parité — même technique que les grilles 2 colonnes
+     des pages Cas d'usage). ---------- */
   body.page-references .ref-cards-grid{
-    grid-template-columns:1fr;
-    row-gap:28px;
-    column-gap:0;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    row-gap:20px;
+    column-gap:14px;
     width:100%;
     max-width:100%;
     padding:0;
   }
 
   body.page-references .ref-card{
-    width:calc(100% - 40px);
-    max-width:380px;
-    height:290px;
-    margin:0 auto;
+    flex:0 0 calc(50% - 7px);
+    width:calc(50% - 7px);
+    max-width:180px;
+    box-sizing:border-box;
+    height:240px;
+    margin:0;
   }
 
   body.page-references .ref-card-face{
@@ -10727,7 +10735,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   body.page-references .ref-card-face--front{
-    padding:20px;
+    padding:14px;
   }
 
   body.page-references .ref-card-face--front img{
@@ -10739,20 +10747,24 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     margin:0 auto;
   }
 
+  body.page-references .ref-card-name{
+    font-size:16px;
+  }
+
   body.page-references .ref-card-face--back{
-    padding:24px 20px;
+    padding:16px 14px;
     justify-content:center;
   }
 
   body.page-references .ref-card-label{
-    font-size:11px;
-    margin:0 0 3px;
+    font-size:9px;
+    margin:0 0 2px;
   }
 
   body.page-references .ref-card-value{
-    font-size:13px;
-    line-height:1.35;
-    margin:0 0 10px;
+    font-size:11px;
+    line-height:1.3;
+    margin:0 0 8px;
   }
 
   body.page-references .ref-card-value:last-child{
