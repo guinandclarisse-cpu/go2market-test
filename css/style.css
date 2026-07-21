@@ -10958,6 +10958,10 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     align-items:stretch;
     justify-content:center;
     gap:12px;
+    /* Numérotation des étapes (badge ci-dessous), dans l'ordre du DOM =
+       ordre de lecture gauche→droite puis ligne suivante en grille 2
+       colonnes ; .uc-flow-arrow (masquée) n'est pas comptée. */
+    counter-reset:uc-flow-step;
   }
 
   body.page-cas-usage .uc-flow .uc-flow-arrow{
@@ -10965,6 +10969,8 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   body.page-cas-usage .uc-flow-step{
+    position:relative;
+    counter-increment:uc-flow-step;
     flex:0 0 calc(50% - 6px);
     box-sizing:border-box;
     display:flex;
@@ -10975,6 +10981,29 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     font-size:12.5px;
     line-height:1.35;
     padding:12px 12px;
+  }
+
+  /* Petit badge numéroté discret, superposé au coin supérieur gauche de
+     chaque encadré, pour rendre l'ordre des étapes évident en grille 2
+     colonnes — ne modifie ni le fond, ni la bordure, ni le halo de
+     l'encadré lui-même. */
+  body.page-cas-usage .uc-flow-step::before{
+    content:counter(uc-flow-step);
+    position:absolute;
+    top:-8px;
+    left:-8px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:var(--uc-ring);
+    color:var(--uc-bg);
+    font-family:var(--font-heading);
+    font-weight:700;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 0 0 2px var(--uc-bg), 0 0 8px rgba(var(--color-primary-rgb),0.6);
   }
 
   /* ---------- 2. "Les expertises techniques utilisées"
@@ -11142,7 +11171,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     gap:8px;
   }
 
-  body.page-cas-usage .uc-synthesis-row > :nth-child(2n):not(:last-child)::after{
+  body.page-cas-usage .uc-synthesis-row > :nth-child(2n):not(:last-child):not(:nth-child(2))::after{
     content:"↓";
     position:absolute;
     left:50%;
