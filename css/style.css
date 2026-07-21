@@ -10826,3 +10826,74 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     text-align-last:left;
   }
 }
+
+/* ===================================================================
+   Titres principaux (H1 / Hero) — réduits en MOBILE UNIQUEMENT sur
+   toutes les pages du site. Seuls font-size et line-height sont
+   modifiés : police, graisse, couleur, alignement et effets lumineux
+   restent ceux de chaque page (aucune de ces propriétés n'est touchée
+   ci-dessous). Chaque sélecteur reprend celui de la règle desktop
+   correspondante, à spécificité égale ou supérieure, afin de gagner la
+   cascade sans dépendre d'!important ; ce bloc étant en toute fin de
+   fichier, les égalités de spécificité sont tranchées en sa faveur.
+   La version desktop n'est pas modifiée (aucune règle existante n'est
+   éditée, uniquement de nouvelles règles ajoutées sous ce media query).
+   =================================================================== */
+@media (max-width:768px){
+
+  /* Filet de sécurité pour tout h1 sans classe dédiée (expertise-data-ia,
+     expertise-metier-ia, expertise-technique, formation-initiation-ia,
+     page_template). */
+  h1{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Composant partagé .page-title / .page-title-sm : a-propos, approche,
+     cas-usages, certifications, contact, formation, diagnostic
+     (.diag2-hero-title), R&D (.rd-hero-title), page_template. */
+  .page-title,
+  .page-title-sm{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Pages avec un override desktop dédié à .page-title-sm (technique
+     "sur une seule ligne" / nowrap plein écran) : sans ces lignes, le
+     31px ci-dessus serait battu par leur règle plus spécifique. */
+  body.page-contact .page-title-sm,
+  body.page-partenaires .page-title-sm,
+  body.page-nous-rejoindre .page-title-sm,
+  body.page-developpement .page-title-sm{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Références. */
+  .ref-hero-title{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Conditions d'éligibilité. */
+  .elig-title{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Cas d'usage (cas-usage-*.html). */
+  .uc-hero-title{
+    font-size:31px;
+    line-height:1.2;
+  }
+
+  /* Accueil (.hero), et pages avec .page-hero (expertises, réalisations,
+     mentions légales, services-ia — cette dernière déjà responsive via
+     clamp() mais alignée ici sur la même taille que les autres). */
+  .hero-title-text,
+  .page-hero:not(.page-hero--services) .hero-title-text,
+  .hero .hero-title-text{
+    font-size:31px;
+    line-height:1.2;
+  }
+}
