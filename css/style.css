@@ -10936,3 +10936,220 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     display:none;
   }
 }
+
+/* ===================================================================
+   Pages "Cas d'usage" (5 pages, body.page-cas-usage) — refonte de 4
+   sections en MOBILE UNIQUEMENT (≤768px). Purement additif : aucune
+   règle existante n'est éditée, tout passe par des sélecteurs plus
+   spécifiques (préfixe body.page-cas-usage) qui gagnent la cascade
+   sans toucher au rendu desktop ni aux autres pages du site.
+   =================================================================== */
+@media (max-width:768px){
+
+  /* ---------- 1. "Fonctionnement de l'outil" (.uc-flow) : grille 2
+     colonnes, flèches masquées (remplacées par la disposition en
+     grille elle-même), dernier encadré impair centré automatiquement
+     grâce à flex-wrap + justify-content:center (aucun besoin de
+     connaître la parité à l'avance). ---------- */
+  body.page-cas-usage .uc-flow{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:stretch;
+    justify-content:center;
+    gap:12px;
+  }
+
+  body.page-cas-usage .uc-flow .uc-flow-arrow{
+    display:none;
+  }
+
+  body.page-cas-usage .uc-flow-step{
+    flex:0 0 calc(50% - 6px);
+    box-sizing:border-box;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    white-space:normal;
+    text-align:center;
+    font-size:12.5px;
+    line-height:1.35;
+    padding:12px 12px;
+  }
+
+  /* ---------- 2. "Les expertises techniques utilisées"
+     (.uc-expertise-diagram) : on conserve le schéma en réseau (nœuds
+     positionnés autour du bloc central + lignes SVG), au lieu du
+     repli "cercle puis liste verticale" hérité de la règle desktop
+     @media(max-width:900px). Tout est mis à l'échelle pour rester
+     lisible et compact sur petit écran. ---------- */
+  body.page-cas-usage .uc-expertise-diagram{
+    display:block;
+    flex-direction:row;
+    max-width:100%;
+    aspect-ratio:340/430;
+    gap:0;
+  }
+
+  body.page-cas-usage .uc-expertise-diagram--5{
+    aspect-ratio:340/520;
+  }
+
+  body.page-cas-usage .uc-expertise-lines{
+    display:block;
+  }
+
+  /* .uc-expertise-center et .uc-expertise-node reprennent tous les deux
+     top/left en % + transform:translate(-50%,-50%) pour se centrer sur
+     leur point d'ancrage — l'ancienne règle desktop @media(max-width:900px)
+     remet "transform:none" (spécificité égale, définie avant ce bloc) ;
+     on la neutralise ici avec une sélection plus précise. */
+  body.page-cas-usage .uc-expertise-diagram .uc-expertise-center,
+  body.page-cas-usage .uc-expertise-diagram .uc-expertise-node{
+    transform:translate(-50%, -50%);
+  }
+
+  body.page-cas-usage .uc-expertise-center{
+    position:absolute;
+    width:34%;
+    padding:6px;
+    /* Encadré carré aux coins arrondis, à la place du cercle desktop. */
+    border-radius:var(--radius);
+    aspect-ratio:1/1;
+  }
+
+  body.page-cas-usage .uc-expertise-diagram--5 .uc-expertise-center{
+    top:52%;
+  }
+
+  body.page-cas-usage .uc-expertise-center span{
+    font-size:11px;
+    line-height:1.2;
+  }
+
+  body.page-cas-usage .uc-expertise-node{
+    position:absolute;
+    width:38%;
+    max-width:none;
+    gap:6px;
+    padding:8px 9px;
+    border-radius:var(--radius-sm);
+  }
+
+  body.page-cas-usage .uc-expertise-diagram--3 .uc-expertise-node{
+    width:36%;
+  }
+
+  body.page-cas-usage .uc-expertise-diagram--5 .uc-expertise-node{
+    width:38%;
+  }
+
+  /* Resserre les nœuds latéraux du variant à 5 (--right/--left dépassaient
+     du cadre à 81%/19% une fois la largeur mobile appliquée). */
+  body.page-cas-usage .uc-expertise-diagram--5 .uc-expertise-node--right{
+    left:76%;
+  }
+
+  body.page-cas-usage .uc-expertise-diagram--5 .uc-expertise-node--left{
+    left:24%;
+  }
+
+  body.page-cas-usage .uc-expertise-node span{
+    font-size:9.5px;
+    line-height:1.25;
+  }
+
+  body.page-cas-usage .uc-expertise-icon{
+    width:24px;
+    height:24px;
+    flex:none;
+  }
+
+  body.page-cas-usage .uc-expertise-icon::after{
+    width:8px;
+    height:8px;
+  }
+
+  /* ---------- 3. "Les bénéfices pour le client" (.uc-stats) : grille
+     2 colonnes, dernier encadré impair centré à largeur identique aux
+     autres (même technique flex-wrap que la section 1). ---------- */
+  body.page-cas-usage .uc-stats,
+  body.page-cas-usage .uc-stats.uc-stats--3{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:16px;
+  }
+
+  body.page-cas-usage .uc-stat-card{
+    flex:0 0 calc(50% - 8px);
+    box-sizing:border-box;
+    padding:18px 16px;
+  }
+
+  body.page-cas-usage .uc-stat-number{
+    font-size:20px;
+    margin-bottom:8px;
+  }
+
+  body.page-cas-usage .uc-stat-text{
+    font-size:12.5px;
+    line-height:1.5;
+  }
+
+  /* ---------- 4. "Synthèse" (.uc-synthesis-row) : 2 encadrés par
+     ligne, flèche horizontale conservée entre les deux encadrés d'une
+     même ligne, connecteur vertical ajouté entre les lignes (généré
+     après chaque 2e élément, sauf le tout dernier). ---------- */
+  body.page-cas-usage .uc-synthesis-row{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    justify-content:center;
+    align-items:stretch;
+    gap:36px 12px;
+    margin-bottom:24px;
+  }
+
+  body.page-cas-usage .uc-synthesis-row > .uc-synthesis-node,
+  body.page-cas-usage .uc-synthesis-row > .uc-synthesis-step{
+    position:relative;
+    flex:0 0 auto;
+    width:calc(50% - 6px);
+    box-sizing:border-box;
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    justify-content:center;
+  }
+
+  body.page-cas-usage .uc-synthesis-node{
+    flex:1;
+    white-space:normal;
+    text-align:center;
+    font-size:11.5px;
+    line-height:1.35;
+    padding:11px 12px;
+  }
+
+  body.page-cas-usage .uc-synthesis-row .uc-flow-arrow{
+    transform:none;
+    flex:none;
+    font-size:16px;
+  }
+
+  body.page-cas-usage .uc-synthesis-step{
+    gap:8px;
+  }
+
+  body.page-cas-usage .uc-synthesis-row > :nth-child(2n):not(:last-child)::after{
+    content:"↓";
+    position:absolute;
+    left:50%;
+    bottom:-26px;
+    transform:translateX(-50%);
+    color:var(--uc-ring);
+    font-size:16px;
+    line-height:1;
+  }
+}
