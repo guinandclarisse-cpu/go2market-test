@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=18">
+<script src="https://cdn.jsdelivr.net/gh/altcha-org/altcha/dist/altcha.min.js" type="module"></script>
 </head>
 <body class="page-contact">
 
@@ -65,13 +66,11 @@
 </div>
 
 <section class="contact-section">
-  <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-    <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+  <form class="contact-form" id="contact-form" action="https://api.staticforms.dev/submit" method="POST">
+    <input type="hidden" name="apiKey" value="sf_8f3344fb775a719a73d80bb4">
     <input type="hidden" name="subject" value="Nouvelle demande de contact – Site G2M">
-    <input type="hidden" name="from_name" value="Formulaire de contact — Site G2M">
-    <input type="hidden" name="replyto" id="contact-replyto" value="">
     <input type="hidden" name="date_envoi" id="contact-date" value="">
-    <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+    <input type="text" name="honeypot" style="display:none" tabindex="-1" autocomplete="off">
 
     <div class="form-row">
       <div class="form-field">
@@ -101,6 +100,16 @@
     </div>
 
     <p class="form-note">* Champs obligatoires</p>
+
+    <div class="contact-altcha">
+      <altcha-widget
+        challengeurl="https://www.staticforms.dev/api/altcha/challenge?apiKey=sf_8f3344fb775a719a73d80bb4"
+        name="altchaToken"
+        hidefooter="true"
+        auto="onfocus">
+      </altcha-widget>
+    </div>
+
     <button type="submit" class="cta-button" id="contact-submit">Envoyer le message</button>
   </form>
 
@@ -110,7 +119,7 @@
   </div>
 
   <div class="contact-error" id="contact-error" hidden>
-    <p>Votre message n'a pas pu être envoyé en raison d'une erreur technique. Merci de réessayer dans quelques instants.</p>
+    <p id="contact-error-text">Votre message n'a pas pu être envoyé en raison d'une erreur technique. Merci de réessayer dans quelques instants.</p>
   </div>
 </section>
 
@@ -119,43 +128,78 @@
   var form = document.getElementById('contact-form');
   var confirmation = document.getElementById('contact-confirmation');
   var errorBox = document.getElementById('contact-error');
+  var errorText = document.getElementById('contact-error-text');
   var submitBtn = document.getElementById('contact-submit');
-  var replytoField = document.getElementById('contact-replyto');
   var dateField = document.getElementById('contact-date');
+  var altchaWidget = form.querySelector('altcha-widget');
   if(!form) return;
 
   var submitLabel = submitBtn.textContent;
+  var defaultError = errorText.textContent;
+  var altchaReady = !altchaWidget;
+
+  if(altchaWidget){
+    submitBtn.disabled = true;
+    altchaWidget.addEventListener('statechange', function(event){
+      altchaReady = !!(event.detail && event.detail.state === 'verified');
+      if(window.location.protocol !== 'file:'){
+        submitBtn.disabled = !altchaReady;
+      }
+    });
+  }
+
+  if(window.location.protocol === 'file:'){
+    errorText.textContent = 'Le formulaire ne peut pas être testé en ouvrant directement le fichier HTML. Utilisez un serveur local (Live Server, python -m http.server, etc.) ou testez sur le site en ligne.';
+    errorBox.hidden = false;
+    submitBtn.disabled = true;
+    return;
+  }
+
+  function showError(message){
+    errorText.textContent = message || defaultError;
+    errorBox.hidden = false;
+    submitBtn.disabled = altchaWidget ? !altchaReady : false;
+    submitBtn.textContent = submitLabel;
+  }
 
   form.addEventListener('submit', function(event){
     event.preventDefault();
+
+    if(altchaWidget && !altchaReady){
+      showError('Vérification anti-spam en cours. Patientez quelques secondes, puis réessayez.');
+      return;
+    }
 
     errorBox.hidden = true;
     submitBtn.disabled = true;
     submitBtn.textContent = 'Envoi en cours…';
 
-    replytoField.value = document.getElementById('contact-email').value;
     dateField.value = new Date().toLocaleString('fr-FR', {
       dateStyle: 'short',
       timeStyle: 'short',
       timeZone: 'Europe/Paris'
     });
 
-    var payload = {};
-    new FormData(form).forEach(function(value, key){ payload[key] = value; });
-
-    fetch('https://api.web3forms.com/submit', {
+    fetch('https://api.staticforms.dev/submit', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify(payload)
+      body: new FormData(form)
     }).then(function(response){
-      return response.json().then(function(json){
-        return { ok: response.ok && json.success, json: json };
+      return response.text().then(function(text){
+        var json = null;
+        try { json = text ? JSON.parse(text) : null; } catch (e) {}
+        return { ok: response.ok && json && json.success, json: json, status: response.status };
       });
     }).then(function(result){
-      if(!result.ok){ throw new Error(result.json && result.json.message ? result.json.message : 'Envoi impossible'); }
+      if(!result.ok){
+        var apiMessage = result.json && (result.json.error || result.json.message);
+        if(result.status === 403 && result.json && result.json.code === 'captcha_required'){
+          throw new Error('La vérification anti-spam n\'a pas abouti. Rechargez la page et réessayez.');
+        }
+        if(result.status === 403 && apiMessage && apiMessage.indexOf('origin domain') !== -1){
+          throw new Error('Envoi refusé : le domaine d\'origine n\'est pas autorisé. Ajoutez ce domaine dans Static Forms (Domain restriction) ou activez « Allow localhost » pour les tests locaux.');
+        }
+        throw new Error(apiMessage || 'Envoi impossible');
+      }
 
       form.reset();
       form.hidden = true;
@@ -163,10 +207,8 @@
       setTimeout(function(){
         window.location.href = 'index.html';
       }, 4000);
-    }).catch(function(){
-      submitBtn.disabled = false;
-      submitBtn.textContent = submitLabel;
-      errorBox.hidden = false;
+    }).catch(function(error){
+      showError(error && error.message ? error.message : defaultError);
     });
   });
 })();

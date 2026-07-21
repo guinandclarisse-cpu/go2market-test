@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=18">
+<link rel="stylesheet" href="css/progressive-animations.css">
 </head>
 <body class="page-developpement">
 
@@ -285,14 +286,6 @@
     <p class="milestone-sub">Produit final</p>
   </div>
   <div class="milestone-connector milestone-connector--loop">
-    <svg class="milestone-loop-arrow" viewBox="0 0 100 44" preserveAspectRatio="none" overflow="visible" aria-hidden="true">
-      <defs>
-        <marker id="milestone-loop-arrowhead" markerUnits="userSpaceOnUse" markerWidth="11" markerHeight="11" refX="5.5" refY="5.5" orient="auto-start-reverse">
-          <path d="M1,1 L10,5.5 L1,10 Z"/>
-        </marker>
-      </defs>
-      <path class="milestone-loop-path" d="M94,40 C 74,4 26,4 0,40" marker-end="url(#milestone-loop-arrowhead)"/>
-    </svg>
   </div>
   <div class="milestone">
     <div class="milestone-circle"><span class="milestone-num">5</span></div>
@@ -431,75 +424,75 @@
     <p class="formation-faq-intro">Vous avez des questions sur la partie développement sur mesure ? Retrouvez ici les réponses aux interrogations les plus fréquentes pour vous aider à mieux comprendre notre démarche.</p>
 
     <div class="faq-list">
-      <div class="faq-item">
-        <button type="button" class="faq-question" aria-expanded="false">
+      <details class="faq-item">
+        <summary class="faq-question">
           <span class="faq-question-text">À quels types d'entreprises s'adresse le développement sur mesure ?</span>
           <span class="faq-chevron" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </span>
-        </button>
+        </summary>
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>Le développement sur mesure s'adresse aux entreprises de toutes tailles souhaitant répondre à une problématique métier spécifique, automatiser certains processus ou exploiter davantage leurs données grâce à une solution Data &amp; IA adaptée à leur activité.</p>
           </div>
         </div>
-      </div>
+      </details>
 
-      <div class="faq-item">
-        <button type="button" class="faq-question" aria-expanded="false">
+      <details class="faq-item">
+        <summary class="faq-question">
           <span class="faq-question-text">Comment savoir si mon projet Data &amp; IA est réalisable ?</span>
           <span class="faq-chevron" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </span>
-        </button>
+        </summary>
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>Avant d'engager un développement complet, G2M étudie votre besoin, vos objectifs, vos contraintes ainsi que la faisabilité technique du projet. Cette première analyse permet de définir une approche adaptée et de s'assurer que la solution envisagée répond à un besoin concret.</p>
           </div>
         </div>
-      </div>
+      </details>
 
-      <div class="faq-item">
-        <button type="button" class="faq-question" aria-expanded="false">
+      <details class="faq-item">
+        <summary class="faq-question">
           <span class="faq-question-text">Combien de temps faut-il pour développer une solution Data &amp; IA sur mesure ?</span>
           <span class="faq-chevron" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </span>
-        </button>
+        </summary>
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>La durée d'un projet dépend de sa complexité, des fonctionnalités attendues, des données disponibles et du niveau d'intégration nécessaire. Un calendrier prévisionnel est défini avec vous en fonction du périmètre et des objectifs du projet.</p>
           </div>
         </div>
-      </div>
+      </details>
 
-      <div class="faq-item">
-        <button type="button" class="faq-question" aria-expanded="false">
+      <details class="faq-item">
+        <summary class="faq-question">
           <span class="faq-question-text">Quel est le coût d'un développement Data &amp; IA sur mesure ?</span>
           <span class="faq-chevron" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </span>
-        </button>
+        </summary>
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>Le coût varie selon les besoins de votre entreprise, la complexité de la solution, les fonctionnalités à développer et les technologies mobilisées. Une estimation personnalisée est réalisée après l'analyse du projet et la définition de son périmètre.</p>
           </div>
         </div>
-      </div>
+      </details>
 
-      <div class="faq-item">
-        <button type="button" class="faq-question" aria-expanded="false">
+      <details class="faq-item">
+        <summary class="faq-question">
           <span class="faq-question-text">Serons-nous accompagnés dans la prise en main de la solution ?</span>
           <span class="faq-chevron" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
           </span>
-        </button>
+        </summary>
         <div class="faq-answer">
           <div class="faq-answer-inner">
             <p>Oui. G2M accompagne vos équipes afin de faciliter la prise en main et l'intégration de la solution dans leurs usages quotidiens. L'objectif est de favoriser son adoption et de permettre une utilisation adaptée aux besoins de votre entreprise.</p>
           </div>
         </div>
-      </div>
+      </details>
     </div>
   </div>
 </section>

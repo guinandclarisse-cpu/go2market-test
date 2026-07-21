@@ -3169,8 +3169,8 @@ body.page-diagnostic .callout h2{
 }
 
 /* ===================================================================
-   FAQ Formation (formation.html) — accordéon questions/réponses,
-   juste avant le bandeau CTA final. Voir js/formation-faq.js.
+   FAQ (formation, diagnostic, developpement) — accordéon natif
+   <details>/<summary>, sans JavaScript.
    =================================================================== */
 .formation-faq{
   max-width:1100px;
@@ -3255,6 +3255,7 @@ body.page-developpement .formation-faq-title{
 }
 
 .faq-item{
+  display:block;
   background:rgba(var(--color-surface-soft-rgb),0.6);
   border:1px solid rgba(var(--color-primary-rgb),0.22);
   border-radius:var(--radius);
@@ -3263,7 +3264,7 @@ body.page-developpement .formation-faq-title{
 }
 
 .faq-item:hover,
-.faq-item.is-open{
+.faq-item[open]{
   border-color:rgba(var(--color-primary-rgb),0.42);
 }
 
@@ -3278,12 +3279,17 @@ body.page-developpement .formation-faq-title{
   border:none;
   margin:0;
   cursor:pointer;
+  list-style:none;
   font-family:var(--font-heading);
   font-weight:600;
   font-size:17px;
   line-height:1.5;
   color:var(--color-white);
   text-align:left;
+}
+
+.faq-question::-webkit-details-marker{
+  display:none;
 }
 
 .faq-question:focus-visible{
@@ -3308,14 +3314,12 @@ body.page-developpement .formation-faq-title{
   display:block;
 }
 
-.faq-item.is-open .faq-chevron{
+.faq-item[open] .faq-chevron{
   transform:rotate(180deg);
 }
 
 .faq-answer{
-  max-height:0;
   overflow:hidden;
-  transition:max-height 0.35s ease;
 }
 
 .faq-answer-inner{
@@ -3389,7 +3393,6 @@ body.page-developpement .formation-faq-title{
 }
 
 @media (prefers-reduced-motion:reduce){
-  .faq-answer{transition:none;}
   .faq-chevron{transition:none;}
 }
 
@@ -6301,6 +6304,20 @@ body.page-developpement .diag-intro h2{
   font-size:13px;
   color:var(--color-gray);
   margin:0;
+}
+
+.contact-altcha{
+  display:flex;
+  justify-content:center;
+}
+
+.contact-altcha altcha-widget{
+  --altcha-color-border:rgba(var(--color-primary-rgb),0.28);
+  --altcha-color-border-focus:var(--color-primary);
+  --altcha-color-text:var(--color-gray-light);
+  --altcha-color-base:rgba(var(--color-surface-rgb),0.6);
+  width:100%;
+  max-width:420px;
 }
 
 .contact-form .cta-button{

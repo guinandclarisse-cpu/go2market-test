@@ -37,6 +37,7 @@
     var span = el.querySelector('.stat-counter');
     if (!span) return;
 
+    span.textContent = formatValue(0, decimals);
     var start = null;
 
     function step(timestamp) {
