@@ -11377,3 +11377,25 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     justify-content:center;
   }
 }
+
+/* ===================================================================
+   "Nos cas d'usage IA" (cas-usages.html) — accroche introductive sous
+   le titre : trop de retours à la ligne en MOBILE UNIQUEMENT (≤768px).
+   Les <br> de chaque <span> sont calibrés pour la largeur desktop
+   (1300px, cf. body.page-cas-usages .page-header .intro ci-dessus) ;
+   sur mobile, ils coupent des phrases déjà bien plus courtes que
+   l'espace disponible. Même correctif que pour les H1 : on masque ces
+   <br> pour laisser le texte se recasser naturellement, et on réduit
+   légèrement la police pour des lignes plus longues et plus fluides.
+   Contenu, alignement justifié et reste de la page inchangés.
+   =================================================================== */
+@media (max-width:768px){
+  body.page-cas-usages .page-header .intro br{
+    display:none;
+  }
+
+  body.page-cas-usages .page-header .intro{
+    font-size:15px;
+    line-height:1.75;
+  }
+}
