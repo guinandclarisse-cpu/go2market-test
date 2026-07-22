@@ -4844,7 +4844,7 @@ body.page-a-propos .page-header--wide h1{
 }
 
 @media (max-width:420px){
-  .stats-row{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:repeat(2, 1fr);}
 }
 
 .stat-number{
@@ -11397,5 +11397,102 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   body.page-cas-usages .page-header .intro{
     font-size:15px;
     line-height:1.75;
+  }
+}
+
+/* ===================================================================
+   "À propos de G2M" (a-propos.html) — MOBILE UNIQUEMENT (≤768px).
+   Purement additif, scopé à body.page-a-propos. Aucun texte, fond,
+   couleur, bordure ou animation existante n'est modifié — uniquement
+   tailles et dispositions. Desktop non modifié.
+   =================================================================== */
+@media (max-width:768px){
+
+  /* ---------- 1. Titres du hero ----------
+     body.page-a-propos .page-header--wide h1 (0,2,2) est plus
+     spécifique que la réduction mobile sitewide .page-title-sm
+     (0,1,0) et l'emporterait sinon, gardant le h1 à 44px sur mobile.
+     Même sélecteur ici, réécrit après dans le fichier, pour gagner. */
+  body.page-a-propos .page-header--wide h1{
+    font-size:28px;
+    line-height:1.25;
+  }
+
+  body.page-a-propos .hero-tagline--home{
+    font-size:19px;
+  }
+
+  /* ---------- 2. Bande blanche des chiffres clés (.stats-row) ----------
+     Grille 2x2 conservée jusqu'aux plus petits écrans (au lieu du
+     repli 1 colonne existant sous 420px, cf. règle ≤420px ci-dessus
+     dans le fichier). Le rotator "établissements" (.stat-rotator,
+     js/stat-rotator.js) n'est pas touché : il s'intègre simplement
+     dans la 3e cellule de la grille comme les 3 autres. */
+  .stats-row{
+    padding:48px 16px;
+    row-gap:32px;
+  }
+
+  .stat-number{
+    font-size:clamp(28px, 9vw, 34px);
+  }
+
+  .stat-rotator-item{
+    font-size:clamp(16px, 5vw, 20px);
+  }
+
+  .stat-rotator-item--long{
+    font-size:clamp(14px, 4.5vw, 18px);
+  }
+
+  .stat-label{
+    font-size:10.5px;
+  }
+
+  /* ---------- 3 & 4. Cartes profils (équipe + comité scientifique)
+     .team-grid/.team-card sont partagées à l'identique par les deux
+     sections (aucune classe ne les distingue) : ce bloc s'applique
+     donc uniformément aux deux, comme demandé. 2 cartes par ligne,
+     largeur identique, dernière carte impaire centrée automatiquement
+     (flex-wrap + justify-content:center déjà en place, comportement
+     par défaut de .team-grid — inchangé). Hauteur repassée en auto
+     (elle était fixe à 380px, pensée pour 1 carte pleine largeur) pour
+     éviter tout débordement de contenu à la largeur plus étroite. */
+  .team-grid{
+    gap:64px 12px;
+  }
+
+  .team-card{
+    --team-photo-size:92px;
+    flex:0 0 calc(50% - 6px);
+    width:calc(50% - 6px);
+    max-width:172px;
+    height:auto;
+    min-height:280px;
+    padding:calc(var(--team-photo-size) / 2 + 10px) 12px 16px;
+  }
+
+  .team-name{
+    font-size:14px;
+  }
+
+  .team-role{
+    font-size:10px;
+    white-space:normal;
+  }
+
+  .team-divider{
+    margin-top:8px;
+    margin-bottom:8px;
+  }
+
+  .team-expertise{
+    font-size:10.5px;
+    line-height:1.45;
+    max-width:100%;
+  }
+
+  .team-link{
+    font-size:10.5px;
   }
 }
