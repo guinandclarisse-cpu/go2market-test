@@ -11496,4 +11496,22 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   .team-link{
     font-size:10.5px;
   }
+
+  /* ---------- Section "Notre équipe" uniquement (4 premières cartes) :
+     hauteur uniforme + lien LinkedIn aligné en bas.
+     :first-of-type cible le 1er .team-grid (équipe) sans toucher au 2e
+     (comité scientifique, exclu). :nth-child(-n+4) exclut la 5e carte
+     (Hubert Wadin, sans lien LinkedIn). Hauteur fixe calculée pour
+     couvrir le contenu le plus long (Pascal Pierron) jusqu'à 320px de
+     large, avec marge de sécurité — n'entraîne donc aucune coupe de
+     texte. .team-card-body est déjà flex column (règle de base) ;
+     margin-top:auto sur .team-link suffit à le repousser en bas. */
+  body.page-a-propos .team-grid:first-of-type .team-card:nth-child(-n+4){
+    height:440px;
+    min-height:440px;
+  }
+
+  body.page-a-propos .team-grid:first-of-type .team-card:nth-child(-n+4) .team-link{
+    margin-top:auto;
+  }
 }
