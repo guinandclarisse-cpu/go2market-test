@@ -7,14 +7,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=18">
+<link rel="stylesheet" href="css/style.css?v=22">
 <link rel="stylesheet" href="css/progressive-animations.css">
 </head>
 <body class="page-home">
 
-<a href="#" class="chatbot-button" aria-label="Ouvrir le chatbot">
-  <img src="images/Logo_Chatbot_skyblue.png" alt="Assistant chatbot">
-</a>
+<button type="button" class="chatbot-button" id="chatbot-toggle" aria-label="Ouvrir le chatbot" aria-expanded="false" aria-controls="chatbot-panel">
+  <img src="images/Logo_Chatbot_skyblue.png" alt="" aria-hidden="true">
+</button>
+
+<div class="chatbot-panel" id="chatbot-panel" hidden>
+  <div class="chatbot-panel-header">
+    <span class="chatbot-panel-title">Assistant G2M</span>
+    <button type="button" class="chatbot-panel-close" id="chatbot-close" aria-label="Fermer le chatbot">×</button>
+  </div>
+  <iframe
+    class="chatbot-frame"
+    id="chatbot-frame"
+    title="Assistant chatbot G2M"
+    allow="microphone"
+    loading="lazy"
+  ></iframe>
+</div>
 
 <div class="hero-veil-wrap">
 <span class="hero-veil" aria-hidden="true"></span>
@@ -372,6 +386,7 @@
 <script src="js/stats-band-counter.js" defer></script>
 <script src="js/funding-band-reveal.js" defer></script>
 <script src="js/sector-network-reveal.js" defer></script>
+<script src="js/chatbot-panel.js" defer></script>
 <script src="js/mobile-nav.js" defer></script>
 </body>
 </html>

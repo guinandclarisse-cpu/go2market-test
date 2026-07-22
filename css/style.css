@@ -6467,7 +6467,10 @@ body.page-developpement .diag-intro h2{
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  border: none;
   border-radius: 50%;
+  cursor: pointer;
   text-decoration: none;
   background: transparent;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
@@ -6480,11 +6483,92 @@ body.page-developpement .diag-intro h2{
   object-fit: cover;
   border-radius: 50%;
   display: block;
+  pointer-events: none;
 }
 
 .chatbot-button:hover {
   transform: scale(1.08);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.chatbot-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 4px;
+}
+
+.chatbot-panel {
+  position: fixed;
+  bottom: 140px;
+  right: 24px;
+  width: min(560px, calc(100vw - 32px));
+  height: min(720px, calc(100vh - 160px));
+  z-index: 9998;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.28);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45), 0 0 24px rgba(var(--color-primary-rgb), 0.12);
+}
+
+.chatbot-panel[hidden] {
+  display: none;
+}
+
+.chatbot-panel-header {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px 12px 18px;
+  background: rgba(var(--color-surface-soft-rgb), 0.95);
+  border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.22);
+}
+
+.chatbot-panel-title {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--color-white);
+}
+
+.chatbot-panel-close {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-white);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.chatbot-panel-close:hover {
+  background: rgba(var(--color-primary-rgb), 0.18);
+  color: var(--color-primary);
+}
+
+.chatbot-panel-close:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.chatbot-frame {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  border: 0;
+  background: var(--color-dark);
 }
 
 /* ===================================================================
@@ -6603,6 +6687,14 @@ body.page-developpement .diag-intro h2{
     right: 16px;
     width: 54px;
     height: 54px;
+  }
+
+  .chatbot-panel {
+    bottom: 84px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    height: min(80vh, calc(100vh - 100px));
   }
 }
 
