@@ -11498,17 +11498,19 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   /* ---------- Section "Notre équipe" uniquement (4 premières cartes) :
-     hauteur uniforme + lien LinkedIn aligné en bas.
+     hauteur compacte, déterminée par ligne (pas une hauteur fixe globale).
      :first-of-type cible le 1er .team-grid (équipe) sans toucher au 2e
-     (comité scientifique, exclu). :nth-child(-n+4) exclut la 5e carte
-     (Hubert Wadin, sans lien LinkedIn). Hauteur fixe calculée pour
-     couvrir le contenu le plus long (Pascal Pierron) jusqu'à 320px de
-     large, avec marge de sécurité — n'entraîne donc aucune coupe de
-     texte. .team-card-body est déjà flex column (règle de base) ;
-     margin-top:auto sur .team-link suffit à le repousser en bas. */
-  body.page-a-propos .team-grid:first-of-type .team-card:nth-child(-n+4){
-    height:440px;
-    min-height:440px;
+     (comité scientifique, exclu). align-items:stretch remplace le
+     flex-start par défaut : chaque ligne du flex-wrap étire ses cartes
+     à la hauteur de son propre contenu le plus long, sans espace vide
+     superflu ; la carte solo de la 3e ligne (Hubert Wadin, pas de
+     nth-child(-n+4)) garde sa hauteur naturelle car seule sur sa ligne.
+     .team-card garde height:auto (règle de base ci-dessus) pour laisser
+     le stretch agir. .team-card-body est déjà flex column (règle de
+     base) ; margin-top:auto sur .team-link suffit à le repousser en
+     bas de la hauteur étirée. */
+  body.page-a-propos .team-grid:first-of-type{
+    align-items:stretch;
   }
 
   body.page-a-propos .team-grid:first-of-type .team-card:nth-child(-n+4) .team-link{
