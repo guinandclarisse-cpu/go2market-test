@@ -3879,6 +3879,34 @@ body.page-diagnostic .logo-carousel-title{
   .partners-tier{margin-bottom:140px;}
 }
 
+/* Partenaires (mobile uniquement) — les paliers à 2 logos ("Nos
+   partenaires", "Notre réseau") passent en 2 colonnes côte à côte au
+   lieu de s'empiler en pleine largeur, pour mieux exploiter l'espace
+   horizontal. Le palier à un seul logo (.partners-tier-logos--single,
+   "Nos engagements") garde son comportement centré existant, exclu via
+   :not(). Taille des logos/cartes, styles et effets (.partner-logo,
+   .partner-logo-link) non touchés : seule la disposition change.
+   Desktop (>768px) inchangé. */
+@media (max-width:768px){
+  body.page-partenaires .partners-tier-logos:not(.partners-tier-logos--single){
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  body.page-partenaires .partners-tier-logos:not(.partners-tier-logos--single) .partner-item{
+    width:100%;
+    max-width:none;
+  }
+
+  /* Carte unique ("Nos engagements") : même largeur qu'une colonne des
+     paliers à 2 logos ci-dessus (au lieu du max-width:290px hérité,
+     trop grand en comparaison), centrée seule sur la ligne. */
+  body.page-partenaires .partners-tier-logos--single .partner-item{
+    width:calc((100% - var(--spacing-cards)) / 2);
+    max-width:none;
+  }
+}
+
 .card-logo{
   display:block;
   height:64px;
@@ -4455,6 +4483,7 @@ body.page-a-propos .page-header--wide h1{
   color:var(--color-white);
   text-align:left;
   margin:0 0 12px;
+  transition:color 0.7s ease;
 }
 
 .values-frieze-text{
@@ -4504,8 +4533,16 @@ body.page-a-propos .page-header--wide h1{
   pointer-events:none;
 }
 
-.values-frieze-item:hover .value-icon-frame::before{
+/* Se déclenche à l'entrée dans le viewport (chaque valeur observée
+   individuellement, voir js/values-frieze-reveal.js) et non plus au
+   survol : la bordure se dessine une fois puis reste dans son état
+   final, en même temps que le titre passe au bleu ciel ci-dessous. */
+.values-frieze-item.is-inview .value-icon-frame::before{
   --ring-angle:360deg;
+}
+
+.values-frieze-item.is-inview .values-frieze-title{
+  color:var(--color-primary);
 }
 
 /* Les 3 logos (Engagement / Compétences / Sens du résultat) partagent
@@ -4621,6 +4658,16 @@ body.page-a-propos .page-header--wide h1{
     clip-path:inset(0 0% 0 0);
     transition:none;
   }
+
+  .value-icon-frame::before{
+    --ring-angle:360deg;
+    transition:none;
+  }
+
+  .values-frieze-title{
+    color:var(--color-primary);
+    transition:none;
+  }
 }
 
 /* Bordure animée qui se "dessine" en cercle au survol (a-propos.html, developpement.html) */
@@ -4688,11 +4735,15 @@ body.page-a-propos .page-header--wide h1{
   padding-left:24px;
   color:var(--color-white);
   font-weight:500;
+  text-align:justify;
+  text-align-last:left;
 }
 
 .card--full.card--border-draw .g2m-list li{
   color:var(--color-white);
   font-weight:500;
+  text-align:justify;
+  text-align-last:left;
 }
 
 .card--full.card--border-draw .card-text + .g2m-list{
@@ -8908,6 +8959,22 @@ body.page-nous-rejoindre .cards--sky .card-text{
   text-align:justify;
 }
 
+/* Icône, titre et texte centrés sur un même axe vertical, spécifique à
+   approche.html ("Les piliers de notre accompagnement") — ne touche pas
+   nous-rejoindre.html ci-dessus, qui garde son propre alignement.
+   .appr-icon reste scopé à .cards--sky ici pour ne pas affecter les
+   autres usages de cette classe sur la page (points de la timeline
+   .appr-timeline-dot, alignement différent). */
+body.page-approche .cards--sky .appr-icon{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+body.page-approche .cards--sky .card-subtitle,
+body.page-approche .cards--sky .card-text{
+  text-align:center;
+}
+
 /* Apparition au scroll des 3 cartes bleu ciel (approche.html) — même
    convention IntersectionObserver → .is-inview (une seule fois) que
    .diag2-steps-list / .formation-network / .appr-pills-wrap, ici sur la
@@ -10193,18 +10260,28 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   box-shadow:0 0 20px rgba(var(--color-primary-rgb),0.5);
 }
 
+/* Icône des 4 cartes "Notre savoir-faire" (a-propos.html) : cercle blanc
+   identique sur les 4 cartes quel que soit le cadrage/format d'origine
+   de chaque PNG (object-fit:contain + fond blanc commun). Le fond des
+   fichiers sources est déjà en gris très clair (#F7F7F7) : avec un
+   contain sans rognage, il se fond visuellement dans le disque blanc. */
 .sf-card-icon{
   display:block;
-  width:32px;
-  height:32px;
+  width:64px;
+  height:64px;
   margin:0 auto 16px;
-  color:var(--color-white);
+  border-radius:50%;
+  background-color:var(--color-white);
+  object-fit:contain;
+  object-position:center;
 }
 
-.sf-card-icon svg{
-  width:100%;
-  height:100%;
-  display:block;
+@media (max-width:768px){
+  .sf-card-icon{
+    width:52px;
+    height:52px;
+    margin-bottom:12px;
+  }
 }
 
 .sf-cards .sf-card-title{
@@ -10217,6 +10294,16 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
 .sf-cards .card-text{
   color:var(--color-white);
   text-align:center;
+}
+
+/* Notre savoir-faire (a-propos.html, mobile uniquement) : paragraphes
+   descriptifs justifiés pour un rendu plus homogène, titres (.sf-card-
+   title ci-dessus) inchangés/centrés. Desktop non touché. */
+@media (max-width:768px){
+  body.page-a-propos .sf-cards .card-text{
+    text-align:justify;
+    text-align-last:left;
+  }
 }
 
 .sf-card-link{
@@ -11647,32 +11734,30 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   .team-expertise{
-    font-size:10.5px;
+    font-size:9.5px;
     line-height:1.45;
     max-width:100%;
+    text-align:justify;
+    text-align-last:left;
   }
 
   .team-link{
     font-size:10.5px;
   }
 
-  /* ---------- Section "Notre équipe" uniquement (4 premières cartes) :
-     hauteur compacte, déterminée par ligne (pas une hauteur fixe globale).
-     :first-of-type cible le 1er .team-grid (équipe) sans toucher au 2e
-     (comité scientifique, exclu). align-items:stretch remplace le
-     flex-start par défaut : chaque ligne du flex-wrap étire ses cartes
-     à la hauteur de son propre contenu le plus long, sans espace vide
-     superflu ; la carte solo de la 3e ligne (Hubert Wadin, pas de
-     nth-child(-n+4)) garde sa hauteur naturelle car seule sur sa ligne.
-     .team-card garde height:auto (règle de base ci-dessus) pour laisser
-     le stretch agir. .team-card-body est déjà flex column (règle de
-     base) ; margin-top:auto sur .team-link suffit à le repousser en
-     bas de la hauteur étirée. */
-  body.page-a-propos .team-grid:first-of-type{
+  /* ---------- Cartes profils (équipe + comité scientifique) : hauteur
+     compacte, déterminée par ligne (pas une hauteur fixe globale), sur
+     les deux .team-grid. align-items:stretch remplace le flex-start
+     par défaut : chaque ligne du flex-wrap étire ses cartes à la
+     hauteur de son propre contenu le plus long, sans espace vide
+     superflu ; une carte seule sur sa ligne (Hubert Wadin, Mehdi) garde
+     sa hauteur naturelle, rien à étirer. .team-card garde height:auto
+     (règle de base ci-dessus) pour laisser le stretch agir. Le lien
+     LinkedIn (quand il existe) est ainsi systématiquement repoussé en
+     bas de la hauteur étirée, à la même position sur toute une ligne,
+     via le margin-top:auto déjà présent sur .team-link (règle de base,
+     ligne ~5115). */
+  body.page-a-propos .team-grid{
     align-items:stretch;
-  }
-
-  body.page-a-propos .team-grid:first-of-type .team-card:nth-child(-n+4) .team-link{
-    margin-top:auto;
   }
 }
