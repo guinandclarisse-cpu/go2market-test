@@ -11419,8 +11419,9 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   body.page-a-propos .hero-tagline--home{
-    font-size:12.5px;
-    white-space:nowrap;
+    font-size:20px;
+    line-height:1.35;
+    margin-bottom:28px;
   }
 
   /* ---------- 2. Bande blanche des chiffres clés (.stats-row) ----------
