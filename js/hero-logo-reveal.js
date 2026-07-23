@@ -68,9 +68,9 @@
         x: sx, y: sy,
         r: rand(1.1, 2.6),
         color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        appearAt: rand(0, 550),
-        convergeAt: rand(1800, 2300),
-        convergeDur: rand(1500, 2200),
+        appearAt: rand(0, 470),
+        convergeAt: rand(1530, 1955),
+        convergeDur: rand(1275, 1870),
         opacity: 0,
         ambient: i < AMBIENT_COUNT,
         ambientPhase: rand(0, Math.PI * 2),
@@ -93,8 +93,8 @@
 
   function easeInOutSine(t) { return -(Math.cos(Math.PI * t) - 1) / 2; }
 
-  var FADE_START = 6000;
-  var FADE_DUR = 750;
+  var FADE_START = 5100;
+  var FADE_DUR = 640;
   var AMBIENT_START = FADE_START + FADE_DUR;
 
   function drawBuilding(elapsed) {
@@ -197,10 +197,10 @@
   function play() {
     requestAnimationFrame(loop);
 
-    setTimeout(function () { root.classList.add('is-building'); }, 3000);
-    setTimeout(function () { root.classList.add('is-spark-two'); }, 5400);
-    setTimeout(function () { root.classList.add('is-spark-text'); }, 5700);
-    setTimeout(function () { root.classList.add('is-revealed'); }, 6000);
+    setTimeout(function () { root.classList.add('is-building'); }, 2550);
+    setTimeout(function () { root.classList.add('is-spark-two'); }, 4590);
+    setTimeout(function () { root.classList.add('is-spark-text'); }, 4845);
+    setTimeout(function () { root.classList.add('is-revealed'); }, 5100);
   }
 
   if (!('IntersectionObserver' in window)) {

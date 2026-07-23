@@ -49,12 +49,12 @@
   /* Espacements — voir "Guide des espacements" (palier Desktop ≥1600px) */
   --gap-header-hero:130px;        /* Header → Hero */
   --hero-pb:64px;                 /* Hero : padding-bottom (texte → cartes) */
-  --gap-title-sub:24px;           /* Titre → sous-titre */
+  --gap-title-sub:28px;           /* Titre → sous-titre */
   --gap-sub-text:20px;            /* Sous-titre → texte */
   --gap-text-button:32px;         /* Texte → bouton */
   --spacing-section:96px;         /* Section → section */
   --spacing-section-tight:72px;   /* Sections très liées */
-  --gap-title-intro:24px;         /* Titre de section → introduction */
+  --gap-title-intro:28px;         /* Titre de section → introduction */
   --spacing-title-text:40px;      /* Introduction → contenu */
   --card-title-gap:16px;          /* Carte : titre → texte */
   --card-button-gap:24px;         /* Carte : texte → bouton */
@@ -76,12 +76,12 @@
   :root{
     --gap-header-hero:108px;
     --hero-pb:56px;
-    --gap-title-sub:20px;
+    --gap-title-sub:24px;
     --gap-sub-text:16px;
     --gap-text-button:28px;
     --spacing-section:80px;
     --spacing-section-tight:60px;
-    --gap-title-intro:20px;
+    --gap-title-intro:24px;
     --spacing-title-text:32px;
     --card-title-gap:12px;
     --card-button-gap:20px;
@@ -94,12 +94,12 @@
   :root{
     --gap-header-hero:97px;
     --hero-pb:48px;
-    --gap-title-sub:16px;
+    --gap-title-sub:20px;
     --gap-sub-text:14px;
     --gap-text-button:24px;
     --spacing-section:64px;
     --spacing-section-tight:48px;
-    --gap-title-intro:16px;
+    --gap-title-intro:20px;
     --spacing-title-text:28px;
     --card-title-gap:12px;
     --card-button-gap:16px;
@@ -112,12 +112,12 @@
   :root{
     --gap-header-hero:87px;
     --hero-pb:40px;
-    --gap-title-sub:16px;
+    --gap-title-sub:26px;
     --gap-sub-text:12px;
     --gap-text-button:20px;
     --spacing-section:56px;
     --spacing-section-tight:44px;
-    --gap-title-intro:16px;
+    --gap-title-intro:26px;
     --spacing-title-text:24px;
     --card-title-gap:12px;
     --card-button-gap:16px;
@@ -229,6 +229,24 @@ body::after{
     height:auto;
     background-attachment:scroll;
   }
+
+  /* Image de fond dédiée mobile (images/Image_fond_mobile.png, format
+     portrait 941x1672). En desktop, body::before utilise background-size:
+     cover sur une boîte qui couvre toute la hauteur de page : sur mobile,
+     cette même boîte est beaucoup plus haute que large (souvent 5000px+
+     de haut pour quelques centaines de px de large), donc "cover" forçait
+     un agrandissement massif de l'image bien au-delà de sa résolution
+     native, d'où l'effet de zoom/flou observé. On utilise ici une image
+     conçue spécifiquement pour ce format, affichée à sa largeur naturelle
+     (background-size:100% auto, donc sans étirement ni recadrage) et
+     répétée verticalement (repeat-y) pour rester visible sur toute la
+     page, FAQ et CTA de fin de page compris — pas seulement en haut. */
+  body::before{
+    background-image:url("../images/Image_fond_mobile.png");
+    background-size:100% auto;
+    background-position:top center;
+    background-repeat:repeat-y;
+  }
 }
 
 /* Voile "hero" premium — composant générique réutilisable sur toutes les
@@ -303,7 +321,7 @@ h1, h2, h3, h4{
   margin:0;
 }
 
-h1{font-family:var(--font-h1); font-weight:700; font-size:44px;}
+h1{font-family:var(--font-h1); font-weight:700; font-size:40px;}
 h2, h3, h4{font-weight:600;}
 
 a{color:inherit;}
@@ -495,7 +513,7 @@ img{max-width:100%;}
 
 .dropdown a{
   display:block;
-  color:var(--color-gray);
+  color:var(--color-primary);
   text-decoration:none;
   font-family:var(--font-h1);
   font-size:13px;
@@ -551,7 +569,7 @@ img{max-width:100%;}
 
   .navbar-mobile-logo img{
     display:block;
-    height:30px;
+    height:36px;
     width:auto;
   }
 
@@ -708,7 +726,7 @@ img{max-width:100%;}
 
 .nav-panel .dropdown a{
   padding:12px 14px;
-  text-align:center;
+  text-align:left;
 }
 
 body.nav-open{
@@ -764,7 +782,7 @@ body.nav-open{
    (services-ia.html), dont le titre est blanc sur fond sombre et garde sa
    taille d'origine. */
 .page-hero:not(.page-hero--services) .hero-title-text{
-  font-size:44px;
+  font-size:40px;
 }
 
 .hero .hero-title-text{
@@ -877,12 +895,12 @@ body.nav-open{
 }
 
 .hero-logo-reveal.is-building .hlr-ring-circle{
-  transition:stroke-dashoffset 2.3s cubic-bezier(0.65,0,0.35,1);
+  transition:stroke-dashoffset 1.95s cubic-bezier(0.65,0,0.35,1);
   stroke-dashoffset:0;
 }
 
 .hero-logo-reveal.is-revealed .hlr-ring-circle{
-  transition:opacity 1.2s ease;
+  transition:opacity 1s ease;
   opacity:0;
 }
 
@@ -907,7 +925,7 @@ body.nav-open{
 }
 
 .hero-logo-reveal.is-building .hero-logo-reveal-img{
-  transition:clip-path 2.7s cubic-bezier(0.4,0,0.2,1);
+  transition:clip-path 2.3s cubic-bezier(0.4,0,0.2,1);
   clip-path:circle(100% at 50% 50%);
 }
 
@@ -939,11 +957,11 @@ body.nav-open{
 }
 
 .hero-logo-reveal.is-spark-two .hlr-spark--two{
-  animation:hlrSpark 0.7s ease-out both;
+  animation:hlrSpark 0.6s ease-out both;
 }
 
 .hero-logo-reveal.is-spark-text .hlr-spark--text{
-  animation:hlrSparkText 0.8s ease-out both;
+  animation:hlrSparkText 0.7s ease-out both;
 }
 
 @keyframes hlrSpark{
@@ -1004,22 +1022,36 @@ body.nav-open{
 .page-title{
   font-family:var(--font-h1);
   font-weight:700;
-  font-size:44px;
+  font-size:40px;
   line-height:1.3;
   letter-spacing:0.01em;
+}
+
+/* Retour à la ligne forcé du h1 de a-propos.html, mobile uniquement
+   (voir le bloc body.page-a-propos plus bas dans le fichier) : masqué
+   par défaut pour ne jamais affecter le desktop. */
+h1 br.ap-hero-break-mobile{
+  display:none;
+}
+
+/* Retour à la ligne forcé du h2 "Pourquoi nos clients nous font confiance"
+   (references.html), mobile uniquement : masqué par défaut pour ne jamais
+   affecter le desktop. */
+h2 br.ref-trust-title-break-mobile{
+  display:none;
 }
 
 /* Variante taille réduite : même taille que le titre de "À propos de G2M",
    appliquée en plus (ou à la place) de .page-title / de la classe de
    contexte de chaque page sur le même élément h1. */
 .page-title-sm{
-  font-size:44px;
+  font-size:40px;
 }
 
 /* Titre de contact.html : 40px, distinct de la taille standard 44px des
    autres titres bleus du site. */
 body.page-contact .page-title-sm{
-  font-size:40px;
+  font-size:36px;
 }
 
 /* Titre de partenaires.html, coupé en 2 lignes précises via <br> dans le
@@ -1032,7 +1064,7 @@ body.page-contact .page-title-sm{
    on repasse en retour à la ligne normal plutôt que de forcer un
    débordement horizontal. */
 body.page-partenaires .page-title-sm{
-  font-size:44px;
+  font-size:40px;
   white-space:nowrap;
   width:100vw;
   max-width:100vw;
@@ -1055,7 +1087,7 @@ body.page-partenaires .page-title-sm{
    via <br>, dont chaque ligne dépasse la largeur du conteneur de 900px
    à 44px. */
 body.page-nous-rejoindre .page-title-sm{
-  font-size:44px;
+  font-size:40px;
   white-space:nowrap;
   width:100vw;
   max-width:100vw;
@@ -1078,7 +1110,7 @@ body.page-nous-rejoindre .page-title-sm{
    en 2 lignes précises via <br>, dont la 1re ligne dépasse la largeur du
    conteneur de 900px à 44px et se recassait sur une 3e ligne. */
 body.page-developpement .page-title-sm{
-  font-size:44px;
+  font-size:40px;
   white-space:nowrap;
   width:100vw;
   max-width:100vw;
@@ -1129,7 +1161,7 @@ body.page-formation-initiation-ia .page-header h1{
 .page-header .intro{
   font-family:var(--font-body);
   font-weight:400;
-  font-size:17px;
+  font-size:15px;
   line-height:1.8;
   color:var(--text-on-dark);
   max-width:760px;
@@ -2978,7 +3010,7 @@ body.page-diagnostic .callout h2{
 .elig-title{
   margin:24px 0 0;
   color:var(--title-color);
-  font-size:44px;
+  font-size:40px;
 }
 
 .elig-h2{
@@ -3199,7 +3231,8 @@ body.page-diagnostic .callout h2{
   );
 }
 
-.formation-faq--blue-veil + .final-cta{
+.formation-faq--blue-veil + .final-cta,
+.formation-faq--blue-veil + .bottom-cta{
   margin-top:0;
 }
 
@@ -3234,7 +3267,8 @@ body.page-diagnostic .callout h2{
    et développement.html. */
 body.page-formation .formation-faq-title,
 body.page-diagnostic .formation-faq-title,
-body.page-developpement .formation-faq-title{
+body.page-developpement .formation-faq-title,
+body.page-a-propos .formation-faq-title{
   font-size:32px;
 }
 
@@ -4307,7 +4341,7 @@ body.page-a-propos .page-header--wide{
 }
 
 body.page-a-propos .page-header--wide h1{
-  font-size:44px;
+  font-size:40px;
 }
 
 /* Force exactement 2 lignes (coupure au <br> du HTML), sans retour à la
@@ -4492,7 +4526,8 @@ body.page-a-propos .page-header--wide h1{
   font-size:16px;
   line-height:1.8;
   color:var(--text-on-dark);
-  text-align:left;
+  text-align:justify;
+  text-align-last:left;
   margin:0;
 }
 
@@ -4594,9 +4629,17 @@ body.page-a-propos .page-header--wide h1{
     gap:16px;
   }
 
-  .values-frieze-title,
-  .values-frieze-text{
+  .values-frieze-title{
     text-align:center;
+  }
+
+  /* Le titre reste centré (icône + titre empilés) mais le texte repasse
+     en justifié comme sur desktop : .values-frieze-item n'impose center
+     que via align-items (bloc centré horizontalement), la largeur du
+     paragraphe reste celle du conteneur donc le justify garde du sens. */
+  .values-frieze-text{
+    text-align:justify;
+    text-align-last:left;
   }
 }
 
@@ -4800,6 +4843,20 @@ body.page-a-propos .page-header--wide h1{
 
 @media (max-width:700px){
   .card--full.card--border-draw .card--full-media{max-width:100%; aspect-ratio:4/3;}
+}
+
+/* Halo lumineux bleu autour de la photo "Notre mission" (a-propos.html).
+   Le glow est porté par box-shadow plutôt que par un ::before/pseudo-élément
+   radial-gradient car .card--full-media a overflow:hidden (nécessaire pour
+   arrondir la photo, qui la remplit en position:absolute) : un pseudo-élément
+   enfant y serait rogné, alors que le box-shadow, lui, se peint hors de la
+   boîte et n'est pas affecté par overflow:hidden sur l'élément lui-même. */
+.card--full.card--border-draw .card--full-media--glow{
+  box-shadow:
+    var(--shadow-sm),
+    0 0 0 4px rgba(var(--color-primary-rgb),0.65),
+    0 0 60px 16px rgba(var(--color-primary-rgb),0.75),
+    0 0 150px 45px rgba(var(--color-primary-rgb),0.6);
 }
 
 /* Variante "sans encadré" (a-propos.html, blocs NOTRE MISSION / NOTRE
@@ -5104,7 +5161,7 @@ body.page-a-propos .page-header--wide h1{
 .team-expertise{
   font-family:var(--font-body);
   font-weight:400;
-  font-size:13px;
+  font-size:16px;
   line-height:1.6;
   color:var(--text-on-dark);
   text-align:center;
@@ -7502,6 +7559,17 @@ body.page-developpement .diag-intro h2{
   margin:0;
 }
 
+/* Saut de ligne desktop uniquement : 3 <br class="rd-break-desktop">
+   découpent le paragraphe après "(Crédit d'Impôt Innovation)", après
+   "G2M investit" et après "Cette démarche". Masqués en mobile pour
+   laisser tout le paragraphe se répartir librement selon la largeur de
+   l'écran, sans coupure artificielle. */
+@media (max-width:768px){
+  .rd-hero-lead br.rd-break-desktop{
+    display:none;
+  }
+}
+
 /* Image d'introduction du Laboratoire G2M : coins arrondis + ombre standard
    du site, halo bleu (charte) au survol avec léger zoom, transition douce
    dans la fourchette demandée (300-500ms). */
@@ -7639,7 +7707,7 @@ body.page-developpement .diag-intro h2{
 .rd-step-card{
   border:1px solid var(--rd-border-card);
   border-radius:var(--radius-lg);
-  background:rgba(var(--color-primary-rgb),0.55);
+  background:var(--color-primary);
   transition:border-color 0.4s ease, box-shadow 0.4s ease;
   perspective:1400px;
   aspect-ratio:1 / 1;
@@ -7884,6 +7952,8 @@ body.page-developpement .diag-intro h2{
   line-height:1.7;
   color:#2c3a42;
   margin:0;
+  text-align:justify;
+  text-align-last:left;
 }
 
 .rd-method-step-icon{
@@ -8332,6 +8402,43 @@ body.page-developpement .diag-intro h2{
   .rd-badges{grid-template-columns:1fr;}
   .rd-steps{grid-template-columns:1fr;}
   .rd-booster-logo{width:120px;}
+
+  /* Cartes bleues "Trois axes technologiques au cœur de nos travaux" :
+     réduites au minimum praticable (230px, carré conservé) plutôt que
+     pleine largeur. Taille choisie pour que le plus long texte au verso
+     (~216 caractères, .rd-flip-back p) tienne sans scroll une fois la
+     police et le padding resserrés — pas une réduction arbitraire. */
+  .rd-steps{
+    justify-items:center;
+  }
+
+  .rd-step-card{
+    width:290px;
+    max-width:100%;
+  }
+
+  .rd-flip-front,
+  .rd-flip-back{
+    padding:16px;
+  }
+
+  .rd-flip-back p{
+    font-size:13px;
+    line-height:1.5;
+  }
+
+  /* 5 encadrés "points clés" (.rd-badge) : point bleu en haut à gauche
+     (au lieu d'aligné au centre à côté du texte) et texte justifié en
+     dessous, plus lisible dans les encadrés pleine largeur du mobile. */
+  .rd-badge{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .rd-badge-text{
+    text-align:justify;
+    text-align-last:left;
+  }
 }
 
 /* ===================================================================
@@ -8440,6 +8547,22 @@ body.page-developpement .diag-intro h2{
   margin:0 0 10px;
 }
 
+/* Titre "Référencement ENE – Industrie du Futur" (4e certification) sur
+   une seule ligne, desktop uniquement (mobile a sa propre taille
+   harmonisée, gérée séparément dans le bloc @media max-width:600px).
+   À 32px il mesure ~614px de large pour une colonne de 600px (mesuré
+   dans le DOM) : très proche de tenir, donc une réduction minime (32 →
+   30px, ~2 % de marge) suffit, sans l'effet de rétrécissement marqué
+   qu'a nécessité le mobile pour ce même titre. Scopé à min-width:601px
+   pour ne jamais interférer avec la taille mobile (qui a une
+   spécificité plus faible et serait sinon écrasée par cette règle). */
+@media (min-width:601px){
+  .cert-row:nth-child(4) .cert-row-text h2{
+    font-size:30px;
+    white-space:nowrap;
+  }
+}
+
 .cert-row-eyebrow{
   font-family:var(--font-body);
   font-weight:500;
@@ -8503,9 +8626,97 @@ body.page-developpement .diag-intro h2{
   .cert-row-text{max-width:none;}
 }
 
+/* Mobile uniquement (≤600px) : texte à gauche / logo à droite sur une
+   même ligne (au lieu de l'empilement vertical hérité du palier ≤900px
+   ci-dessus), pour exploiter la largeur horizontale disponible. Le
+   conteneur du logo n'a plus de hauteur fixe : align-items:stretch sur
+   .cert-row lui donne la même hauteur que le bloc de texte (le plus
+   grand des deux), et max-height:100% + object-fit:contain sur l'image
+   la redimensionnent en conséquence — la hauteur du logo suit ainsi
+   naturellement celle du texte, quel que soit le nombre de lignes de
+   chaque certification (avec/sans eyebrow, avec/sans lien). Desktop et
+   palier tablette (600-900px) inchangés. */
 @media (max-width:600px){
-  .cert-list{padding:0 20px;}
-  .cert-row-logo{width:230px; height:146px;}
+  .cert-list{padding:0 22px;}
+
+  .cert-row{
+    flex-direction:row;
+    align-items:stretch;
+    justify-content:flex-start;
+    gap:28px;
+  }
+
+  /* .cert-row-text garde flex:1 1 auto (hérité) : sa largeur réelle est
+     donc "conteneur - logo - gap". La taille du logo (clamp ci-dessous,
+     118 à 140px selon la largeur d'écran) grandissant, le texte perd
+     mécaniquement l'espace correspondant, sans qu'il soit nécessaire de
+     lui fixer une largeur propre. clamp() plutôt qu'une taille fixe :
+     sur les téléphones les plus étroits (~320px), un logo fixé à 140px
+     réduisait le texte à ~90px de large (quasi illisible, 1-2 mots par
+     ligne) ; le plancher à 118px y ramène le logo à une taille proche
+     de l'ancienne (120px) tout en laissant les téléphones plus larges
+     (390px et plus) profiter du logo agrandi jusqu'à 140px. Le gap
+     (18 → 28px) resserre encore un peu le texte au profit d'un espace
+     plus net entre texte et logo, sans toucher à la taille du logo. */
+  .cert-row-text{
+    min-width:0;
+  }
+
+  /* Taille de titre harmonisée sur les 4 certifications (au lieu des
+     32px par défaut, hérités du desktop) : calibrée à l'origine pour
+     faire tenir "Crédit d'Impôt Innovation" sur une seule ligne (mesure
+     réelle DANS LE DOM — le texte doit rester descendant de
+     .cert-row-text pour hériter du bon font-family/weight, cf. le bug
+     du clone détaché qui mesurait la mauvaise police et sous-évaluait
+     sa largeur réelle), puis reprise pour les 3 autres titres afin
+     qu'ils soient tous au même corps. white-space:nowrap reste limité à
+     la 2e certification : c'est la seule dont on a vérifié qu'elle
+     tient sur une ligne à cette taille sur toute la plage mobile ;
+     "Référencement ENE – Industrie du Futur" (bien plus long) continue
+     de se répartir sur plusieurs lignes normalement. */
+  .cert-row-text h2{
+    font-size:clamp(8px, calc(6.28vw - 11.14px), 30px);
+  }
+
+  .cert-row:nth-child(2) .cert-row-text h2{
+    white-space:nowrap;
+  }
+
+  .cert-row-text p:not(.cert-row-eyebrow){
+    text-align:justify;
+    text-align-last:left;
+  }
+
+  .cert-row-logo{
+    align-self:stretch;
+    width:clamp(118px, 34vw, 140px);
+    height:auto;
+    padding:0;
+  }
+
+  .cert-row-logo img{
+    max-width:clamp(118px, 34vw, 140px);
+    max-height:100%;
+    width:auto;
+    height:auto;
+  }
+
+  /* Logo ENE (cadre rond recadré) : même largeur fluide que les 3 autres
+     logos ci-dessus. Recadrage exprimé en % (au lieu de px fixes) pour
+     rester proportionnel quelle que soit la taille résolue par le
+     clamp() — mêmes ratios que le cadrage desktop (229/160, -33/160,
+     -38/160). */
+  .cert-logo-zoom{
+    width:clamp(118px, 34vw, 140px);
+    height:clamp(118px, 34vw, 140px);
+  }
+
+  .cert-row-logo .cert-logo-zoom-img{
+    width:143.125%;
+    height:143.125%;
+    left:-20.625%;
+    top:-23.75%;
+  }
 }
 
 /* ===================================================================
@@ -9035,7 +9246,7 @@ body.page-approche .cards--sky .card-text{
 .trust-logos-track{
   display:flex;
   align-items:center;
-  gap:76px;
+  gap:110px;
   width:max-content;
   animation:logo-carousel-scroll 70s linear infinite;
 }
@@ -9063,12 +9274,12 @@ body.page-approche .cards--sky .card-text{
 }
 
 @media (max-width:1024px){
-  .trust-logos-track{gap:56px;}
+  .trust-logos-track{gap:80px;}
   .trust-logos-item{width:140px; height:76px; padding:8px;}
 }
 
 @media (max-width:767px){
-  .trust-logos-track{gap:40px;}
+  .trust-logos-track{gap:60px;}
   .trust-logos-item{width:110px; height:60px; padding:6px;}
 }
 
@@ -9242,7 +9453,7 @@ body.page-approche .cards--sky .card-text{
 .network-label{
   font-family:var(--font-body);
   font-weight:500;
-  font-size:16px;
+  font-size:18px;
   fill:var(--color-white);
   opacity:0;
   transform:translateY(8px);
@@ -9559,7 +9770,7 @@ body.page-approche .cards--sky .card-text{
   }
 
   body.page-home .network-label{
-    font-size:18px;
+    font-size:28px;
   }
 }
 
@@ -10260,26 +10471,23 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   box-shadow:0 0 20px rgba(var(--color-primary-rgb),0.5);
 }
 
-/* Icône des 4 cartes "Notre savoir-faire" (a-propos.html) : cercle blanc
-   identique sur les 4 cartes quel que soit le cadrage/format d'origine
-   de chaque PNG (object-fit:contain + fond blanc commun). Le fond des
-   fichiers sources est déjà en gris très clair (#F7F7F7) : avec un
-   contain sans rognage, il se fond visuellement dans le disque blanc. */
+/* Icône des 4 cartes "Notre savoir-faire" (a-propos.html) : les 4 PNG
+   sources ont été recolorés en bleu ciel avec fond transparent (traits
+   noirs -> bleu ciel, fond clair -> alpha 0), donc plus besoin de
+   disque de fond ni de cercle blanc pour masquer l'ancien fond clair. */
 .sf-card-icon{
   display:block;
-  width:64px;
-  height:64px;
+  width:130px;
+  height:130px;
   margin:0 auto 16px;
-  border-radius:50%;
-  background-color:var(--color-white);
   object-fit:contain;
   object-position:center;
 }
 
 @media (max-width:768px){
   .sf-card-icon{
-    width:52px;
-    height:52px;
+    width:140px;
+    height:140px;
     margin-bottom:12px;
   }
 }
@@ -10315,7 +10523,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   font-family:var(--font-body);
   font-weight:600;
   font-size:13px;
-  color:var(--color-primary);
+  color:var(--color-white);
   text-decoration:none;
   border-bottom:1px solid transparent;
   transition:color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
@@ -10339,6 +10547,20 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
 .sf-card-link:focus-visible::after{
   opacity:1;
   transform:translateX(0);
+}
+
+/* Lien de chaque carte (ex. "Voir notre service de formation") : la
+   flèche et le soulignement, pensés pour apparaître au survol
+   (inexistant au tactile), sont affichés en permanence sur mobile. */
+@media (max-width:768px){
+  .sf-card-link{
+    border-color:currentColor;
+  }
+
+  .sf-card-link::after{
+    opacity:1;
+    transform:translateX(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -10428,7 +10650,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
 .ref-hero-title{
   font-family:var(--font-h1);
   font-weight:700;
-  font-size:40px;
+  font-size:36px;
   line-height:1.3;
   letter-spacing:0.01em;
   color:var(--title-color);
@@ -10860,16 +11082,30 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   body.page-references .ref-trust-section{
-    margin-top:40px;
+    margin-top:96px;
   }
 
   /* ---------- 2. "Une expertise multisectorielle" ---------- */
+  /* Taille réduite pour un rendu plus équilibré en mobile ; partagée par
+     les deux titres de section de la page ("Une expertise multisectorielle"
+     et "Pourquoi nos clients nous font confiance" utilisent la même classe
+     .ref-section-title, donc une seule règle garantit une taille identique
+     aux deux). Le clamp est calé pour tenir sur une ligne à partir de
+     ~375px de large ; en dessous (ex. 320px) le titre peut repasser sur
+     deux lignes. */
   body.page-references .ref-section-title{
-    font-size:clamp(2rem, 9vw, 3rem);
-    line-height:1.15;
+    font-size:clamp(1.375rem, 6vw, 1.625rem);
+    line-height:1.25;
     text-align:center;
     overflow-wrap:break-word;
     word-break:break-word;
+  }
+
+  /* "Pourquoi nos clients nous font confiance" : retour à la ligne forcé
+     sur 2 lignes équilibrées via le <br class="ref-trust-title-break-mobile">
+     du HTML (masqué par défaut, affiché seulement ici). */
+  body.page-references h2 br.ref-trust-title-break-mobile{
+    display:inline;
   }
 
   body.page-references .ref-section-intro{
@@ -11017,6 +11253,9 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     box-sizing:border-box;
     padding:14px;
     margin:0;
+    border-width:1.5px;
+    border-color:rgba(var(--color-primary-rgb),0.55);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 16px rgba(var(--color-primary-rgb),0.5), 0 0 36px rgba(var(--color-primary-rgb),0.3);
   }
 
   body.page-references .ref-trust-cards .card-subtitle{
@@ -11028,6 +11267,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   body.page-references .ref-trust-cards .card-text{
     font-size:11px;
     line-height:1.5;
+    text-align:justify;
   }
 
   body.page-references .ref-card-icon{
@@ -11046,8 +11286,8 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
      hover:hover ailleurs, donc on le neutralise ici pour cette page. */
   body.page-references .ref-trust-cards .card:hover{
     transform:none;
-    border-color:rgba(var(--color-primary-rgb),0.12);
-    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04);
+    border-color:rgba(var(--color-primary-rgb),0.55);
+    box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,0.04), 0 0 16px rgba(var(--color-primary-rgb),0.5), 0 0 36px rgba(var(--color-primary-rgb),0.3);
   }
 
   /* ---------- 5. Bandeau final ---------- */
@@ -11124,6 +11364,29 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   .intro-banner-text p{
     text-align:justify;
     text-align-last:left;
+  }
+
+  /* Cas d'usage (cas-usages.html) : les 3 phrases du paragraphe
+     introductif ont chacune un retour à la ligne manuel (pensé pour un
+     rendu desktop en 2 lignes par phrase, cf. .intro--spaced). Masqué en
+     mobile pour laisser chaque phrase se répartir librement ; l'espace
+     est déjà présent avant chaque <br> dans le HTML, pas de mot collé. */
+  body.page-cas-usages .page-header .intro span br{
+    display:none;
+  }
+
+  /* Formation et Développement : les retours à la ligne manuels du
+     paragraphe d'introduction (pensés pour un rendu desktop précis, cf.
+     commentaires plus haut sur body.page-formation .page-header .intro)
+     sont masqués en mobile pour laisser le texte se répartir librement
+     selon la largeur de l'écran. Le <br> du h1 de developpement.html
+     (titre, pas le paragraphe) n'est pas concerné. */
+  body.page-formation .page-header .intro br{
+    display:none;
+  }
+
+  body.page-developpement .intro-banner-text p br{
+    display:none;
   }
 }
 
@@ -11234,6 +11497,17 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   .elig-title br,
   .ref-hero-title br{
     display:none;
+  }
+
+  /* .rd-hero-image (R&D) est un enfant direct de .hero-veil-wrap (sans
+     padding), pas de .rd-hero ci-dessus : son width:100% touchait donc
+     les bords de l'écran en mobile. Ce bloc, en toute fin de fichier,
+     gagne la cascade sur la règle de base (spécificité égale) sans
+     dépendre d'!important. */
+  .rd-hero-image{
+    width:calc(100% - 48px);
+    margin-left:auto;
+    margin-right:auto;
   }
 }
 
@@ -11424,6 +11698,7 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
 
   body.page-cas-usage .uc-stat-card{
     flex:0 0 calc(50% - 8px);
+    min-width:0;
     box-sizing:border-box;
     padding:18px 16px;
   }
@@ -11431,6 +11706,30 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   body.page-cas-usage .uc-stat-number{
     font-size:20px;
     margin-bottom:8px;
+  }
+
+  /* "~70min → 5min" (1er encadré, cas-usage-ferroviaire uniquement) :
+     white-space:nowrap (règle desktop, cf. .uc-stat-number plus haut)
+     force ce nombre à rester sur une ligne. Sur mobile, sa largeur
+     naturelle à 20px dépasse le flex-basis fixe (50% - 8px) partagé par
+     les 3 encadrés ; le min-width:auto par défaut des flex-items
+     l'emporte alors sur flex-shrink:0 et agrandit l'encadré au-delà des
+     deux autres, qui restent eux à leur largeur normale — l'un des 3
+     encadrés (parfois le 1er seul sur sa ligne, parfois un autre selon
+     la largeur d'écran) finit par ne plus correspondre aux deux autres.
+     Taille fluide calibrée par mesure réelle (largeur naturelle du
+     nombre vs largeur de contenu des encadrés non affectés, à
+     plusieurs largeurs d'écran, ~3 % de marge) pour que ce nombre
+     tienne toujours dans le même flex-basis que les deux autres
+     encadrés, sans jamais forcer sa largeur au-delà — donc sans jamais
+     affecter la hauteur des encadrés non plus. Plafonnée à 20px : au
+     largeur suffisante, elle correspond exactement à la taille normale
+     déjà utilisée par les 2 autres nombres/coches. Scopé à
+     .page-cas-usage-ferroviaire (classe ajoutée sur cette page) plutôt
+     qu'à .page-cas-usage (partagé par cas-usage-industrie-graphique,
+     dont les nombres sont courts et non concernés). */
+  body.page-cas-usage-ferroviaire .uc-stats--3 .uc-stat-card:first-child .uc-stat-number{
+    font-size:clamp(8px, calc(5.98vw - 8.55px), 20px);
   }
 
   body.page-cas-usage .uc-stat-text{
@@ -11657,10 +11956,22 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
      body.page-a-propos .page-header--wide h1 (0,2,2) est plus
      spécifique que la réduction mobile sitewide .page-title-sm
      (0,1,0) et l'emporterait sinon, gardant le h1 à 44px sur mobile.
-     Même sélecteur ici, réécrit après dans le fichier, pour gagner. */
+     Même sélecteur ici, réécrit après dans le fichier, pour gagner.
+     Police agrandie (28px -> 30px) tout en garantissant exactement 2
+     lignes via le <br class="ap-hero-break-mobile"> du HTML (masqué
+     par défaut, affiché seulement ici) au point de coupure le plus
+     équilibré ("...artificielle" / "au service..."), plutôt que de
+     compter sur un retour à la ligne naturel qui pourrait varier avec
+     la police. Mesuré pour tenir sur les largeurs mobiles courantes ;
+     un texte plus grand (34px testé) fait basculer sur 3 lignes dès
+     que l'écran devient un peu étroit. */
   body.page-a-propos .page-header--wide h1{
-    font-size:28px;
+    font-size:30px;
     line-height:1.25;
+  }
+
+  body.page-a-propos h1 br.ap-hero-break-mobile{
+    display:inline;
   }
 
   body.page-a-propos .hero-tagline--home{
@@ -11670,30 +11981,56 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   /* ---------- 2. Bande blanche des chiffres clés (.stats-row) ----------
-     Grille 2x2 conservée jusqu'aux plus petits écrans (au lieu du
-     repli 1 colonne existant sous 420px, cf. règle ≤420px ci-dessus
-     dans le fichier). Le rotator "établissements" (.stat-rotator,
-     js/stat-rotator.js) n'est pas touché : il s'intègre simplement
-     dans la 3e cellule de la grille comme les 3 autres. */
+     4 colonnes sur une seule ligne (au lieu de 1 par ligne) : les 4
+     indicateurs restent côte à côte comme sur desktop, avec des
+     colonnes resserrées et des polices réduites pour compenser la
+     largeur mobile. Le nom d'établissement le plus long ("École
+     nationale des Ponts et Chaussées") ne peut plus tenir sur une
+     seule ligne dans une colonne aussi étroite : on autorise le
+     retour à la ligne (au lieu du nowrap desktop) et on lui donne sa
+     propre taille, plus petite que "École Polytechnique"/"EPFL", pour
+     rester lisible. La hauteur de la zone valeur (nombre ou rotator)
+     reste commune aux 4 colonnes (cf. règle partagée .stats-row
+     .stat-number/.stat-rotator plus bas) afin de garder un rendu
+     homogène même quand ce nom passe sur 2-3 lignes. Les <br> manuels
+     des libellés sont conservés (les retirer coller les mots des deux
+     côtés du saut de ligne, aucun espace ne les sépare dans le HTML) ;
+     le texte de chaque moitié se recasse naturellement si la colonne
+     étroite l'exige. */
   .stats-row{
-    padding:48px 16px;
-    row-gap:32px;
+    grid-template-columns:repeat(4, 1fr);
+    padding:32px 4px;
+    row-gap:0;
+  }
+
+  .stats-row > div{
+    padding:0 4px;
+  }
+
+  .stats-row .stat-number,
+  .stat-rotator{
+    height:56px;
   }
 
   .stat-number{
-    font-size:clamp(28px, 9vw, 34px);
+    font-size:clamp(13px, 4.2vw, 19px);
   }
 
   .stat-rotator-item{
-    font-size:clamp(16px, 5vw, 20px);
+    font-size:clamp(10px, 3vw, 13px);
+    line-height:1.15;
+    white-space:normal;
+    padding:0 2px;
   }
 
   .stat-rotator-item--long{
-    font-size:clamp(14px, 4.5vw, 18px);
+    font-size:clamp(8.5px, 2.5vw, 11px);
+    line-height:1.1;
   }
 
   .stat-label{
-    font-size:10.5px;
+    font-size:8.5px;
+    line-height:1.3;
   }
 
   /* ---------- 3 & 4. Cartes profils (équipe + comité scientifique)
@@ -11715,7 +12052,6 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
     width:calc(50% - 6px);
     max-width:172px;
     height:auto;
-    min-height:280px;
     padding:calc(var(--team-photo-size) / 2 + 10px) 12px 16px;
   }
 
@@ -11734,11 +12070,10 @@ body.page-nous-rejoindre .final-cta.section-gap-lg{
   }
 
   .team-expertise{
-    font-size:9.5px;
+    font-size:12px;
     line-height:1.45;
     max-width:100%;
-    text-align:justify;
-    text-align-last:left;
+    text-align:center;
   }
 
   .team-link{
